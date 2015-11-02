@@ -1,0 +1,32 @@
+{
+  "name": "ecomm",
+  "version": "1.0.0",
+  "description": "Ecommerce platform",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leviross/ecomm.git"
+  },
+  "keywords": [
+    "ecommerce"
+  ],
+  "author": "Levi Ross",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leviross/ecomm/issues"
+  },
+  "homepage": "https://github.com/leviross/ecomm#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.14.1",
+    "cors": "^2.7.1",
+    "dotenv": "^1.2.0",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
+    "mongoose": "^4.2.3",
+    "passport-unique-token": "^0.1.3"
+  }
+}
