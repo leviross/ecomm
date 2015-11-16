@@ -39,25 +39,39 @@ body {
 }
 .navbar-default {
     /*background-color: #637F93;*/
-    border-color: #939393;
-    background-color: #90C3D4;
+    /*border-color: #939393;*/
+    background-color: #fff;
 }
 .navbar-nav > li > a {
     line-height: 70px;
     height: 70px;
     padding-top: 0;
 }
+
+.navbar-default .navbar-nav li a {
+  font-size: 17px;
+}
+
+.dropdown-menu > li > a {
+  color: #337ab7;
+}
+.navbar-header a img {
+  margin-top: 17px;
+}
 .navbar-default .navbar-brand {
     /*color: #FFF;*/
     /*text-shadow: 2px 2px 1px #ccc;*/
-    color: white;
+    color: #777777;
     line-height: 29px;
     font-size: 23px;
 }
-.navbar-default .navbar-nav li a {
-  color: #E82020;
-  /*line-height: 29px;*/
-  font-size: 17px;
+
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #007BB6;
+  background-color: #fff;
 }
 
 .nav-tabs > li.inactive > a,

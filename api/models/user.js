@@ -6,15 +6,13 @@ var UserModel = new mongoose.Schema({
 	FirstName: String, 
 	LastName: String,
 	Email: String, 
-	Password: String,
-	Token: Object
+	Password: String
 }, { collection: 'user'} );
 
 UserModel.set('toJSON', {
 	transform: function(doc, ret, options){
 		var retJson = {
 			Email: ret.Email,
-			Token: ret.Token,
 			FirstName: ret.FirstName,
 			LastName: ret.LastName,
 			_id: ret._id

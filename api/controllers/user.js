@@ -43,17 +43,10 @@ exports.Login = function(req, res, next){
 		}else if(!isValidPassword(user, req.body.Password)){
 			res.json({Login: false});
 			console.log("Wrong password");
-		}else {
-			
-
-			var token = jwt.sign(user, tokenSecret, {expiresIn: 1}); // expires in 1 week expressed in seconds
-			user.Token = "";
-			user.save(function(error, tokenedUser){
-				if(error) { console.log("Error Saving User Token\n", error); }
-				console.log("Generated Token\n", token);
-				res.json(token);
-				console.log("Successfully logged in.");
-			});
+		}else{
+			var token = jwt.sign({UserId: user._id}, tokenSecret, {expiresIn: 604800}); // expires in 1 week expressed in seconds
+			res.json(token);
+			console.log("Successfully logged in.");
 		}
 	});
 }

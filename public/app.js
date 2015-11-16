@@ -4,10 +4,11 @@ var app = angular.module('EcommApp', ['ngRoute', 'ngResource', 'ui.bootstrap', '
 app.config(['$routeProvider', function ($routeProvider) {
 
 
-    $routeProvider.when("/dashboard", {
-        templateUrl: "views/dashboard.html"
+    $routeProvider.when("/homepage", {
+        templateUrl: "views/homepage.html",
+        controller: 'HomePageController'
     }).otherwise({
-      redirectTo: '/dashboard/'
+      redirectTo: '/homepage/'
   });
 
 }]);    

@@ -9,18 +9,16 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a href="#" ng-click="GoToDashBoard()"><img src="./images/small_logo2.png" /></a>
+				<a href="#" ng-click="GoToDashBoard()"><img src="./images/trailz_logo_small.png" /></a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="margin-left:100px">
 				<ul class="nav navbar-nav">
 					<li class="dropdown">
-						<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Records <span class="caret"></span></a>
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Brands <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li ng-click="NewRecord()"><a href="">New</a></li>
-							<li ng-click="SearchRecord()"><a href="">Search</a></li>
-							<li ng-show="RecordNo" ng-click="NewRelatedRec()"><a href="">New Related</a></li>
+							<li ng-repeat="brand in Brands" ng-click="SelectBrand(brand)"><a href="">{{brand.Name}}</a></li>
 						</ul>
 					</li>
 				</ul>

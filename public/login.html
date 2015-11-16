@@ -120,7 +120,7 @@
                 .success(function(user){
                     console.log("New Created User Object\n", user);
                     if(user){
-                        var url = 'http://' +location.host + '/#/dashboard';
+                        var url = 'http://' +location.host + '/#/homepage';
                         //window.location = url;
                     }
                 })
@@ -138,13 +138,13 @@
             .then(function(retval){
                 console.log(retval);
                 //Sending them to our Angular app after we created new session with User. 
-                var url = 'http://' + location.host + '/#/dashboard'; //?token=' + retval.data.Token; 
+                var url = 'http://' + location.host + '/#/homepage'; //?token=' + retval.data.Token; 
  
                 sessionStorage.setItem('Token', retval.data);
                 var sessionToken = sessionStorage.getItem('Token');
                 console.log(sessionToken);
                 window.location = url;
-                
+
             }, function(err){
                 console.log(err);
             });

@@ -1,0 +1,18 @@
+<div class="container-fluid">
+	<div class="row"><br />
+    	<div style="height: 350px;" class="col-md-6 col-md-offset-3">
+        	<carousel interval="MyInterval">
+            <slide ng-repeat="slide in Slides" active="slide.active">
+				<div style="height: 428px;overflow: hidden;">
+	            	<img ng-src="{{slide.Image}}" style="margin:auto;width:100%" >
+	            	<div class="carousel-caption">
+	              		<h1 class="carousel-text">{{slide.Text}}</h1>
+	            	</div>
+	          	</div>
+            </slide>
+          </carousel>
+    	</div>
+    </div>	
+</div>
+
+
