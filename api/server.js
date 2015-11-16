@@ -5,17 +5,19 @@ var session = require('express-session');
 var cors = require('cors');
 var router = express.Router();
 var app = express();
+var jwtauth = require('./my_modules/jwtauth');
+var OrderController = require('./controllers/order');
+var UserController = require('./controllers/user');
+
+var mongoose = require('mongoose');
+var uri = process.env.MONGOOSE_URI;
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 
-var OrderController = require('./controllers/order');
-var UserController = require('./controllers/user');
 
-var mongoose = require('mongoose');
-var uri = process.env.MONGOOSE_URI;
 mongoose.connect(uri, function(err){
 	if(err) console.log("Mongoose Connection Error\n", err);
 });
@@ -23,10 +25,14 @@ mongoose.connect(uri, function(err){
 
 router.route('/users')
 	.post(UserController.CreateNewUser)
-	.get(UserController.GetAllUsers);
+	.get(UserController.GetAllUsers)
+	.delete(UserController.DeleteUser);
 
+router.route('/login')
+	.post(UserController.Login);
 
-
+router.route('/orders')
+	.get(jwtauth, UserController.GetUserOrders);
 
 app.use('/api', router);
 

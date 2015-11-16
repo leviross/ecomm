@@ -23,24 +23,27 @@ app.use(session(sessionOpts));
 
 var UniqueTokenStrategy = require('passport-unique-token').Strategy;
 
-router.get('/', function(req, res) {
+// router.get('/', function(req, res) {
 	
-	res.send("I LOVE SEFIRA!!!!   PEACE TO THE WORLD:)");
-});
-router.post('login', authenticate, function(req, res) {
-	console.log(req);
+// 	res.send("I LOVE SEFIRA!!!!   PEACE TO THE WORLD:)");
+// });
+router.post('/authenticate', function(req, res) {
+	console.log(req.body);
 	//user authenticated and can be found in req.user
 });
 
-function authenticate() {
-	passport.authenticate('token', function(err, user, info) {
-		if(err) return next(err);
+var User = require('./api/models/user');
 
-		if(!user) res.status(401).json({message: "Incorrect token credentials"});
-	
-		req.user = user;
-		next();
-	});
+function authenticate() {
+
+		passport.authenticate('token', function(err, user, info) {
+			if(err) return next(err);
+
+			if(!user) res.status(401).json({message: "Incorrect token credentials"});
+		
+			req.user = user;
+			next();
+		});
 }
 
 

@@ -26,6 +26,7 @@
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
+    "jsonwebtoken": "^5.4.1",
     "mongoose": "^4.2.3",
     "passport-unique-token": "^0.1.3"
   }
