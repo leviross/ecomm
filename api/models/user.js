@@ -6,7 +6,9 @@ var UserModel = new mongoose.Schema({
 	FirstName: String, 
 	LastName: String,
 	Email: String, 
-	Password: String
+	Password: String,
+	IsAdmin: Boolean,
+	IsEmployee: Boolean
 }, { collection: 'user'} );
 
 UserModel.set('toJSON', {
@@ -15,6 +17,8 @@ UserModel.set('toJSON', {
 			Email: ret.Email,
 			FirstName: ret.FirstName,
 			LastName: ret.LastName,
+			IsAdmin: ret.IsAdmin,
+			IsEmployee: ret.IsEmployee,
 			_id: ret._id
 		}
 		return retJson;

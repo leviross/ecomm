@@ -32,6 +32,10 @@ body {
     text-align: right;
 }
 
+/* custom buttons random stuff */
+.add-prod-btn {
+  margin-top: 70px;
+}
 /* navbar */
 .navbar {
     min-height: 30px;

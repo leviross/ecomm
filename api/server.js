@@ -8,6 +8,7 @@ var app = express();
 var jwtauth = require('./my_modules/jwtauth');
 var OrderController = require('./controllers/order');
 var UserController = require('./controllers/user');
+var ProductController = require('./controllers/product');
 
 var mongoose = require('mongoose');
 var uri = process.env.MONGOOSE_URI;
@@ -22,7 +23,7 @@ mongoose.connect(uri, function(err){
 	if(err) console.log("Mongoose Connection Error\n", err);
 });
 
-
+// users
 router.route('/users')
 	.post(UserController.CreateNewUser)
 	.get(UserController.GetAllUsers)
@@ -30,10 +31,12 @@ router.route('/users')
 
 router.route('/login')
 	.post(UserController.Login);
-
+//orders
 router.route('/orders')
 	.get(jwtauth, UserController.GetUserOrders);
-
+// products
+router.route('/products')
+	.post(ProductController.CreateNewProduct);
 app.use('/api', router);
 
 var port = process.env.PORT || 4000;

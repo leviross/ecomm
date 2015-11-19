@@ -21,11 +21,11 @@
             <form ng-show="Flow == 'Login'" ng-submit="Login()" name="LoginForm">
                 <div class="row">
                     <div class="form-group col-sm-12" style="margin-bottom:20px">
-                        <label for="exampleInputEmail1">Email</label>
+                        <label class="control-label">Email</label class="control-label">
                         <input type="email" class="form-control" ng-model="Register.Email" placeholder="Email Address" />
                     </div>
                     <div class="form-group col-sm-12" style="margin-bottom:20px">
-                        <label for="exampleInputPassword1">Password</label>
+                        <label class="control-label">Password</label class="control-label">
                         <input type="password" class="form-control" ng-model="Register.Password" placeholder="Password" />
                     </div>
                     <div class="col-sm-3">
@@ -40,27 +40,27 @@
             <form ng-show="Flow == 'SignUp'" ng-submit="SignUp()" name="RegistrationForm">
                 <div class="row">
                     <div class="form-group col-sm-12" style="margin-bottom:20px">
-                        <label for="exampleInputEmail1">First Name</label>
+                        <label class="control-label">First Name</label class="control-label">
                         <input type="text" name="fName" class="custom-validate form-control" ng-model="Register.FirstName" placeholder="First Name" required ng-minlength="2" ng-blur="CheckFirstName()" />
                         <div class="messages" ng-show="!RegistrationForm.fName.$valid && !RegistrationForm.fName.$pristine">Must be at least 2 letters.</div>
                     </div>
                     <div class="form-group col-sm-12" style="margin-bottom:20px">
-                        <label for="exampleInputEmail1">Last Name</label>
+                        <label class="control-label">Last Name</label class="control-label">
                         <input type="text" name="lName" class="custom-validate form-control" ng-model="Register.LastName" placeholder="Last Name" required ng-minlength="3" ng-blur="CheckLastName()" />
                         <div class="messages" ng-show="!RegistrationForm.lName.$valid && !RegistrationForm.lName.$pristine">Must be at least 3 letters.</div>
                     </div>
                     <div class="form-group col-sm-12" style="margin-bottom:20px">
-                        <label for="exampleInputEmail1">Email</label>
+                        <label class="control-label">Email</label class="control-label">
                         <input type="email" name="email" class="custom-validate form-control" ng-model="Register.Email" placeholder="Email Address" required ng-minlength="7" />
                         <div class="messages" ng-show="!RegistrationForm.email.$valid && !RegistrationForm.email.$pristine">Must be a valid email.</div>
                     </div>
                     <div class="form-group col-sm-12" style="margin-bottom:20px">
-                        <label for="exampleInputPassword1">Password</label>
+                        <label class="control-label">Password</label class="control-label">
                         <input type="password" name="password" class="custom-validate form-control" ng-model="Register.Password" placeholder="Password" required ng-minlength="8" />
                         <div class="messages" ng-show="!RegistrationForm.password.$valid && !RegistrationForm.password.$pristine">Must be at least 8 charachters.</div>
                     </div>
                     <div class="form-group col-sm-12" style="margin-bottom:20px">
-                        <label for="exampleInputPassword1">Password</label>
+                        <label class="control-label">Password</label class="control-label">
                         <input type="password" name="password2" class="custom-validate form-control" ng-model="Register.Password2" placeholder="Re-enter Password" required ng-minlength="8" />
                         <div class="messages" ng-show="Register.Password2 !== Register.Password && !RegistrationForm.password2.$pristine">Must match the first password.</div>
                     </div>
