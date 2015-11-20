@@ -7,6 +7,12 @@ app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/homepage', {
         templateUrl: 'views/homepage.html',
         controller: 'HomePageController'
+    }).when('/admin', {
+        templateUrl: 'views/admin/admin.html',
+        controller: 'AdminController'
+    }).when('/admin/:type', {
+        templateUrl: 'views/admin/admin.html',
+        controller: 'AdminController'
     }).when('/add-product', {
     	templateUrl: 'views/add-product.html',
     	controller: 'AddProductController'

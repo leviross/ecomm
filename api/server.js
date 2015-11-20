@@ -26,17 +26,26 @@ mongoose.connect(uri, function(err){
 // users
 router.route('/users')
 	.post(UserController.CreateNewUser)
-	.get(UserController.GetAllUsers)
-	.delete(UserController.DeleteUser);
+	.get(UserController.GetAllUsers);
+
+router.route('/users/:id')
+	.delete(UserController.DeleteUser);	
 
 router.route('/login')
 	.post(UserController.Login);
+
 //orders
 router.route('/orders')
 	.get(jwtauth, UserController.GetUserOrders);
+
 // products
 router.route('/products')
 	.post(ProductController.CreateNewProduct);
+
+router.route('/products/:id')
+	.get(ProductController.GetProductById)
+	.delete(ProductController.DeleteProduct);
+
 app.use('/api', router);
 
 var port = process.env.PORT || 4000;

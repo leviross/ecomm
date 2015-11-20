@@ -4,7 +4,6 @@ var jwt = require('jsonwebtoken');
 var tokenSecret = process.env.TOKEN_SECRET;
 
 exports.CreateNewUser = function(req, res){
-	//return console.log(req.body);
 
 	var Hash = Bcrypt.hashSync(req.body.Password, 10);
 
@@ -18,7 +17,8 @@ exports.CreateNewUser = function(req, res){
 			u.LastName = req.body.LastName;
 			u.Email = req.body.Email;
 			u.Password = Hash;
-			u.Token = "";
+			u.IsAdmin = req.body.IsAdmin;
+			u.IsEmployee = req.body.IsEmployee;
 			u.save(function(err, user){
 				if(err) console.log("Error Creating New User.");
 				res.send(user);
@@ -56,15 +56,18 @@ exports.GetUserOrders = function(req, res, next){
 }
 
 exports.GetAllUsers = function(req, res){
-	console.log("REQ\n", req);
-	res.send("Hello World!");
+	User.find({}, function(err, users){
+		if(err) console.log("Error Getting All Users:\n", err);
+		console.log("All Users:\n", users);
+		res.json(users);
+	});
 }
 
 
 exports.DeleteUser = function(req, res){
-	User.findById(req.body._id).remove(function(err, status){
-		if(err) console.log("Error Deleting User");
-		console.log("Status of Delete Is: ", status);
-		res.send(status);
+	var userId = req.body._id || req.params.id;
+	User.findByIdAndRemove(userId, function(err){
+		if(err) console.log("Error Deleting User:\n", err);
+		res.json({UserDeleted: true, Message: "User was deleted"});
 	});
 }

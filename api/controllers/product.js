@@ -31,3 +31,24 @@ exports.CreateNewProduct = function(req, res){
 		}
 	});
 }
+
+exports.GetProductById = function(req, res){
+	var productId = req.body._id || req.params.id;
+	Product.findOne({_id: productId}, function(err, product){
+		if(err) console.log("Error Finding Product:\n", err);
+		res.json(product);
+	});
+}
+
+exports.DeleteProduct = function(req, res){
+	Product.findByIdAndRemove(req.params.id, function(err, product){
+		if(err) console.log("Error Deleting Product:\n", err);
+		res.json(product);
+	});
+}
+
+
+
+
+
+
