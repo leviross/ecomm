@@ -1,4 +1,4 @@
-app.controller('AdminController', ['$scope', '$rootScope', 'UserService', '$routeParams', function($scope, $rootScope, UserService, $routeParams) {
+app.controller('AdminController', ['$scope', '$rootScope', 'UserService', '$routeParams', '$location', function($scope, $rootScope, UserService, $routeParams, $location) {
 	
 	var Tabs = [ 'views/admin/partials/users.html', 'views/admin/partials/brands.html', 'views/admin/partials/warrantyTypes.html', 'views/admin/partials/repairTypes.html', 'views/admin/partials/taxRate.html', 'views/admin/partials/districts.html'  ];
 	$scope.DisplayMode = 'list';
@@ -14,6 +14,8 @@ app.controller('AdminController', ['$scope', '$rootScope', 'UserService', '$rout
  //        }
  //        $scope.Update();
  //    });
+
+	$scope.ShowChangePassword = false;
 	
 
 
@@ -66,6 +68,10 @@ app.controller('AdminController', ['$scope', '$rootScope', 'UserService', '$rout
 	$scope.EditUser	= function (user) {
 		$scope.DisplayMode = 'edit';
 		$scope.UserDetails = user;
+	}
+
+	$scope.ShowChangePassword = function(){
+		$scope.ShowChangePassword = true;
 	}
 
 	$scope.UpdateUserPassword = function () {
