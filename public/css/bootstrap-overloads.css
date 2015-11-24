@@ -7,6 +7,15 @@ body {
     margin-bottom: 4px;
 }
 
+select.large-select {
+  height: 26px;
+  margin-left: 14px;
+}
+
+.ng-dirty { 
+  /*border-color: red;*/
+}
+
 .pagination > li > a,
 .pagination > li > span,
 .btn,

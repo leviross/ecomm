@@ -9,6 +9,14 @@ app.factory('UserService', ['$http', function($http){
 				}, function(err){
 					console.log("Error getting all users:\n", err);
 				});
+		},
+		CreateNewUser: function(userObj, cb){
+			return $http.post('http://localhost:4000/api/users', userObj)
+				.then(function(retval){
+					cb(retval.data);
+				}, function(err){
+					console.log("Error creating user:\n", err);
+				})
 		}
 
 	}

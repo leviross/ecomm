@@ -4,10 +4,9 @@ var jwt = require('jsonwebtoken');
 var tokenSecret = process.env.TOKEN_SECRET;
 
 exports.CreateNewUser = function(req, res){
-
 	var Hash = Bcrypt.hashSync(req.body.Password, 10);
-
-	User.findOne(req.body.Email, function(err, existingUser){
+	
+	User.findOne({Email: req.body.Email}, function(err, existingUser){
 		if(err) console.log("Error querying User collection on Create.");
 		if(existingUser){
 			res.send(existingUser);
@@ -17,11 +16,16 @@ exports.CreateNewUser = function(req, res){
 			u.LastName = req.body.LastName;
 			u.Email = req.body.Email;
 			u.Password = Hash;
-			u.IsAdmin = req.body.IsAdmin;
+			if(req.body.IsAdmin == '1'){
+				u.IsAdmin = true;
+			}else{
+				u.IsAdmin = false;
+			}
 			u.IsEmployee = req.body.IsEmployee;
 			u.save(function(err, user){
 				if(err) console.log("Error Creating New User.");
-				res.send(user);
+				console.log("New User Created:\n", user);
+				res.json(user);
 			});
 
 		}

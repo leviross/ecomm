@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-group col-sm-12" style="margin-bottom:20px">
                         <label class="control-label">Password</label class="control-label">
-                        <input type="password" name="password" class="custom-validate form-control" ng-model="Register.Password" placeholder="Password" required ng-minlength="8" />
+                        <input type="password" name="password" class="custom-validate form-control" ng-model="Register.Password" placeholder="Password" required />
                         <div class="messages" ng-show="!RegistrationForm.password.$valid && !RegistrationForm.password.$pristine">Must be at least 8 charachters.</div>
                     </div>
                     <div class="form-group col-sm-12" style="margin-bottom:20px">
@@ -76,18 +76,20 @@
     </div>
     </div>
     <script src="./scripts/angular.min.js"></script>
+    <script src="./scripts/ValidationModule.js"></script>
+    
     <script>
 
-    var app = angular.module('LoginApp', []);
+    var app = angular.module('LoginApp', ['ValidationModule']);
 
-    app.controller('LoginController', ['$scope', '$http', '$location', function($scope, $http, $location){
+    app.controller('LoginController', ['$scope', '$http', '$location', 'ValidationService', function($scope, $http, $location, ValidationService){
 
         $scope.Flow = "Login";
         $scope.Register = {
             FirstName: "",
             LastName: "",
             Email: "levross@gmail.com",
-            Password: "fuckit123",
+            Password: "hh5762",
             Password2: "",
             PasswordsMatch: true
         }
@@ -99,18 +101,12 @@
             $scope.Flow = "Login";
         }
 
-        String.prototype.capitalize = function(){
-            return this.toLowerCase().replace(/\b\w/g, function(m){
-                return m.toUpperCase();
-            });
-        }
-
         $scope.CheckFirstName = function(){
-            $scope.Register.FirstName = $scope.Register.FirstName.capitalize();
+            $scope.Register.FirstName = ValidationService.CapitalizeName($scope.Register.FirstName);
         }
 
         $scope.CheckLastName = function(){
-            $scope.Register.LastName = $scope.Register.LastName.capitalize();
+            $scope.Register.LastName = ValidationService.CapitalizeName($scope.Register.LastName);
         }
 
         $scope.SignUp = function(){

@@ -1,4 +1,4 @@
-var app = angular.module('EcommApp', ['ngRoute', 'ngResource', 'ui.bootstrap', 'ngSanitize']);
+var app = angular.module('EcommApp', ['ngRoute', 'ui.bootstrap', 'ValidationModule']);
 
 
 app.config(['$routeProvider', function ($routeProvider) {

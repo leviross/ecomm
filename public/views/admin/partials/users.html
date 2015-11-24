@@ -1,8 +1,8 @@
-<div class="panel panel-default" ng-show="Tab === 0">
+<div class="panel panel-default" ng-show="Tab === 0" ng-controller="UserController">
 	<h4 class="admin-tab">Users</h4>
 	<div class="add-button col-md-1 col-md-offset-11" ng-show="DisplayMode === 'list'">
-	    <button class="btn btn-success">
-	        <span ng-click="NewUser()" class="glyphicon glyphicon-plus"></span>
+	    <button class="btn btn-success" ng-click="NewUser()">
+	        <span class="glyphicon glyphicon-plus"></span>
 	    </button>
 	</div>
 	<table class="table table-hover" ng-show="DisplayMode === 'list'">
@@ -19,61 +19,58 @@
 				<td><h5>{{user.FirstName}}</h5></td>
 				<td><h5>{{user.LastName}}</h5></td>
 				<td><h5>{{user.Email}}</h5></td>
-				<td><button type="button" class="btn btn-warning"><span class="glyphicon glyphicon-pencil" ng-click="EditUser(user)"></span></button></td>
+				<td><button type="button" class="btn btn-warning" ng-click="EditUser(user)"><span class="glyphicon glyphicon-pencil"></span></button></td>
 			</tr>
 		</tbody>
 	</table>
-	<div class="container-fluid" ng-show="DisplayMode != 'list'">
-		<form name="UserForm" class="validated-form" novalidate>
+	<div class="container-fluid" ng-show="DisplayMode == 'edit'">
+		<form name="UserForm" class="validated-form">
 			<br />
 			<div class="row">
 				<label class="col-md-1">First Name</label>
 				<div class="col-md-5">
-					<input type="text" class="form-control" placeholder="Name" ng-model="UserDetails.Name" ng-readonly="UserDetails._id != null" required />
+					<input type="text" class="custom-validate form-control" placeholder="First Name" ng-model="UserDetails.FirstName" ng-blur="CheckFirstName()" ng-minlength="2" required />
 				</div>
-				<label class="col-md-2">Last Name</label>
-				<div class="col-md-4">
-					<input name="pass1" type="password" class="form-control" placeholder="New Password" ng-model="UserDetails.NewPassword1" ng-minlength="6" />
+				<label class="col-md-1">Last Name</label>
+				<div class="col-md-5">
+					<input type="text" class="custom-validate form-control" placeholder="Last Name" ng-model="UserDetails.LastName" ng-blur="CheckLastName()" ng-minlength="2" required />
 				</div>
 			</div>
 			<br />
 			<div class="row">
 				<label class="col-md-1">Email</label>
 				<div class="col-md-5">
-					<input type="email" class="form-control" placeholder="Email" ng-model="UserDetails.Email" ng-readonly="UserDetails._id != null" required />
+					<input type="email" class="custom-validate form-control" placeholder="Email" ng-model="UserDetails.Email" required />
 				</div>
-				<div class="col-md-4 col-md-offset-2" style="margin:0 20px 0 0;">
-					<h5>Click <a href="" ng-click="ShowChangePassword()">here</a> to change the password.</h5>
+				<div class="col-md-4 col-md-offset-2" ng-hide="UserDetails._id == null">
+					<h5 ng-hide="UserDetails.ShowChangePassword">Click <a href="" ng-click="ToggleChangePassword()">here</a> to change the password.</h5>
+					<h5 ng-show="UserDetails.ShowChangePassword">Click <a href="" ng-click="ToggleChangePassword()">here</a> to hide the password fields.</h5>
 				</div>
-			</div>
+			</div><br />
 			<div class="row" ng-show="UserDetails._id == null">
 				<label class="col-md-1">Admin</label>
-				<select class="col-md-2" ng-model="UserDetails.IsAdmin" ng-options="type.id as type.name for type in UserTypes">
+				<select class="large-select col-md-2" ng-model="UserDetails.IsAdmin" ng-options="type.id as type.name for type in UserTypes">
 				</select>
 			</div><br />
-			<div class="row" ng-show="ShowChangePassword">
+			<div class="row" ng-show="UserDetails.ShowChangePassword">
 				<label class="col-md-1">Password</label>
 				<div class="col-md-5">
-					<input name="pass2" type="password" class="form-control" placeholder="Confirm New Password" ng-model="UserDetails.NewPassword2" ng-minlength="6" />
+					<input name="Password1" type="password" class="custom-validate form-control" placeholder="New Password" ng-model="UserDetails.Password1" ng-minlength="8" />
+					<div class="messages" ng-show="!UserForm.Password1.$valid && !UserForm.Password1.$pristine">Must be at least 8 charachters.</div>
 				</div>
-				<label class="col-md-2">Password</label>
+				<label class="col-md-1">Password</label>
 				<div class="col-md-5">
-					<input name="pass2" type="password" class="form-control" placeholder="Confirm New Password" ng-model="UserDetails.NewPassword2" ng-minlength="6" />
+					<input name="Password2" type="password" class="custom-validate form-control" placeholder="Confirm New Password" ng-model="UserDetails.Password2" ng-minlength="8" />
+					<div class="messages" ng-show="UserDetails.Password2 !== UserDetails.Password1 && !UserForm.Password2.$pristine">Must match the first password.</div>
 				</div>	
-			</div>
-					
-			<br />
+			</div><br />
+			<div class="col-md-offset-9">
+	            <button type="button" class="btn btn-default" ng-click="BackToUsers()">Cancel</button>
+	            <button ng-show="UserDetails._id != null" type="button" class="btn btn-primary" ng-disabled="!UserForm.$valid || UserForm.Password1.$pristine || UserForm.Password2.$pristine" ng-click="UpdateUserPassword()">Update</button>
+	            <button ng-show="UserDetails._id == null" type="button" class="btn btn-primary" ng-disabled="UserForm.$invalid || UserForm.Password1.$pristine || UserForm.Password2.$pristine" ng-click="CreateUser()">Create</button>
+	        </div>
 		</form>	
-
 		<br />
-
-        <div class="col-md-offset-9">
-            <button type="button" class="btn btn-default" ng-click="BackToUsers()">Cancel</button>
-            <button ng-show="UserDetails._id != null" type="button" class="btn btn-primary" ng-disabled="!UserForm.$valid || UserForm.pass1.$pristine || UserForm.pass2.$pristine" ng-click="UpdateUserPassword()">Update</button>
-            <button ng-show="UserDetails._id == null" type="button" class="btn btn-primary" ng-disabled="UserForm.$invalid || UserForm.pass1.$pristine || UserForm.pass2.$pristine" ng-click="CreateUser()">Create</button>
-        </div>
-        <br />
-
 	</div>	
 </div>
 
