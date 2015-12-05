@@ -1,4 +1,4 @@
-var validationModule = angular.module('ValidationModule', [])
+var validationModule = angular.module('ValidationModule', []);
 validationModule.factory('ValidationService', [function(){
 
 	String.prototype.capitalize = function(){

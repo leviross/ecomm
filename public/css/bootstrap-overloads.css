@@ -26,13 +26,11 @@ select.large-select {
     line-height: 1.42857143;
 }
 .form-control {
+    width: 100%;
     height: 45px;
     padding: 3px 8px;
     font-size: 20px;
     line-height: 1.42857143;
-}
-.form-control {
-    width: 100%;
 }
 
 .form-horizontal .control-label {

@@ -2,6 +2,19 @@ app.controller('UserController', ['$scope', 'UserService', 'ValidationService', 
 
 	$scope.DisplayMode = 'list';
 	$scope.UserTypes = [{id: "1", name: "Admin", value: true}, {id: "2", name: "Non-Admin", value: false}];
+	$scope.Users = UserService.GetCachedUsers("UsersArray");
+
+	if(!$scope.Users){
+		UserService.GetAllUsers(function (usersArray) {
+			$scope.Users = usersArray;
+		});
+	}
+
+	$scope.alerts = [
+	    { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+	    { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+	  ];
+
 
 	$scope.EditUser	= function (user) {
 		$scope.DisplayMode = 'edit';
@@ -43,11 +56,6 @@ app.controller('UserController', ['$scope', 'UserService', 'ValidationService', 
 		
 	}	
 
-
-	UserService.GetAllUsers(function (usersArray) {
-			$scope.Users = usersArray;
-		});
-
 	$scope.ToggleChangePassword = function(){
 		$scope.UserDetails.NewPassword1 = "";
 		$scope.UserDetails.NewPassword2 = "";
@@ -60,15 +68,14 @@ app.controller('UserController', ['$scope', 'UserService', 'ValidationService', 
 	});
 
 	$scope.UpdateUserPassword = function () {
-		if($scope.UserDetails.NewPassword1 !== $scope.UserDetails.NewPassword2) {
-			alert("Passwords do not match, please try again.");
-		}else {
-			var ObjToPass = { Email: $scope.UserDetails.Email, NewPassword: $scope.UserDetails.NewPassword1 };
-			UserService.UpdateDbPassword(ObjToPass, function (retval) {
-				$scope.UserDetails.NewPassword1 = "";
-				$scope.UserDetails.NewPassword2 = "";
-			});
-		}
+		console.log("Got Here!~");
+		var userObj = { _id: $scope.UserDetails._id, Email: $scope.UserDetails.Email, Password: $scope.UserDetails.Password1 };
+		UserService.ChangeUserPassword(userObj, function (retval) {
+			$scope.UserDetails.NewPassword1 = "";
+			$scope.UserDetails.NewPassword2 = "";
+			alert("changed!");
+		});
+	
 		$scope.NewPassword1 = "";
 		$scope.NewPassword2 = "";	
 		$scope.UserForm.$setPristine();
@@ -76,6 +83,7 @@ app.controller('UserController', ['$scope', 'UserService', 'ValidationService', 
 
 	$scope.BackToUsers = function () {
 		$scope.DisplayMode = 'list';
+		$scope.UserForm.$setPristine();
 		$scope.UserDetails.ShowChangePassword = false;
 	}
 

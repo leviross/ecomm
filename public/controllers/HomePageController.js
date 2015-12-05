@@ -1,4 +1,4 @@
-app.controller('HomePageController', ['$scope', 'TokenService', function($scope, TokenService){
+app.controller('HomePageController', ['$scope', 'TokenService', 'UserService', function($scope, TokenService, UserService){
 
 	$scope.MyInterval = 5000;
 	$scope.noWrapSlides = false;

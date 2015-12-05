@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 var tokenSecret = process.env.TOKEN_SECRET;
 
 exports.CreateNewUser = function(req, res){
-	var Hash = Bcrypt.hashSync(req.body.Password, 10);
+	
 	
 	User.findOne({Email: req.body.Email}, function(err, existingUser){
 		if(err) console.log("Error querying User collection on Create.");
@@ -15,7 +15,7 @@ exports.CreateNewUser = function(req, res){
 			u.FirstName = req.body.FirstName;
 			u.LastName = req.body.LastName;
 			u.Email = req.body.Email;
-			u.Password = Hash;
+			u.Password = Hash(req.body.password);
 			if(req.body.IsAdmin == '1'){
 				u.IsAdmin = true;
 			}else{
@@ -32,7 +32,11 @@ exports.CreateNewUser = function(req, res){
 	});
 }
 
-var isValidPassword = function(user, password){
+function Hash(pass){
+	return Bcrypt.hashSync(pass, 10);
+}
+
+function isValidPassword(user, password){
 	//console.log(user, password);
 	return Bcrypt.compareSync(password, user.Password);
 }
@@ -51,6 +55,19 @@ exports.Login = function(req, res, next){
 			var token = jwt.sign({UserId: user._id}, tokenSecret, {expiresIn: 604800}); // expires in 1 week expressed in seconds
 			res.json(token);
 			console.log("Successfully logged in.");
+		}
+	});
+}
+
+exports.ChangeUserPassword = function(req, res){
+	User.findByIdAndUpdate(req.params.id, function(err, user){
+		if(err) console.log("Can't find that Id, try again.");
+		if(user){
+			u.password = Hash(req.body.password);
+			u.save(function(error, updatedUser){
+				if(error) console.log("Error on updating user password.");
+				res.json(updatedUser);
+			});
 		}
 	});
 }

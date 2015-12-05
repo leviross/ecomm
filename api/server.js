@@ -30,6 +30,9 @@ router.route('/users')
 
 router.route('/users/:id')
 	.delete(UserController.DeleteUser);	
+	
+router.route('/users/update-pass/:id')
+	.put(UserController.ChangeUserPassword);	
 
 router.route('/login')
 	.post(UserController.Login);
