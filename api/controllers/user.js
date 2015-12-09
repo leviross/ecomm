@@ -60,14 +60,21 @@ exports.Login = function(req, res, next){
 }
 
 exports.ChangeUserPassword = function(req, res){
-	User.findByIdAndUpdate(req.params.id, function(err, user){
+	console.log("Got to ChangeUserPassword\n", req.body);
+	User.findOne({_id: req.params.id}, function(err, user){
 		if(err) console.log("Can't find that Id, try again.");
 		if(user){
-			u.password = Hash(req.body.password);
-			u.save(function(error, updatedUser){
-				if(error) console.log("Error on updating user password.");
-				res.json(updatedUser);
-			});
+			var newHashedPass = Hash(req.body.Password);
+			if(user.Password == newHashedPass){ 
+				console.log("That's the same password already in use.");
+				res.send({PasswordUpdated: false, User: user}); 
+			}else{
+				user.password = newHashedPass;
+				user.save(function(error, updatedUser){
+					if(error) console.log("Error on updating user password.");
+					res.json(updatedUser);
+				});
+			}
 		}
 	});
 }

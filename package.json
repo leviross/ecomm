@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/leviross/ecomm#readme",
   "dependencies": {
+    "alertifyjs": "^1.6.0",
     "bcrypt": "^0.8.5",
     "body-parser": "^1.14.1",
     "cors": "^2.7.1",

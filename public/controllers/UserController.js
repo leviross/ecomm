@@ -73,7 +73,9 @@ app.controller('UserController', ['$scope', 'UserService', 'ValidationService', 
 		UserService.ChangeUserPassword(userObj, function (retval) {
 			$scope.UserDetails.NewPassword1 = "";
 			$scope.UserDetails.NewPassword2 = "";
-			alert("changed!");
+			alertify.notify('Password Updated', 'success', 5, function(){
+				console.log("Worked");
+			});
 		});
 	
 		$scope.NewPassword1 = "";

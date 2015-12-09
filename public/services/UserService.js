@@ -1,7 +1,7 @@
 app.factory('UserService', ['$http', '$cacheFactory', function($http, $cacheFactory){
 
 	'use strict'
-	var cachedVar; 
+	var cachedUsersArr = []; 
 
 	return {
 
@@ -24,7 +24,7 @@ app.factory('UserService', ['$http', '$cacheFactory', function($http, $cacheFact
 				})
 		},
 		ChangeUserPassword: function(userObj, cb){
-			return $http.put('http://localhost:4000/api/users/update-pass/' + userObj._id)
+			return $http.put('http://localhost:4000/api/users/update-pass/' + userObj._id, userObj)
 				.then(function(retval){
 					cb(retval);
 				}, function(err){
@@ -33,12 +33,18 @@ app.factory('UserService', ['$http', '$cacheFactory', function($http, $cacheFact
 		},
 		PutCachedUsers: function(key, value){
 			//was using $cacheFactory, but doesn't keep data on page reload.
-			sessionStorage.setItem(key, value);
+			cachedUsersArr = value;
+			sessionStorage.setItem(key, JSON.stringify(value));
 		},
 		GetCachedUsers: function(key){	
-			JSON.parse(sessionStorage.getItem(key));
-			if(!sessionStorage.getItem(key)) return null;
-			return sessionStorage.getItem(key);
+			if(cachedUsersArr.length == 0){
+				var parsedJsonArr = JSON.parse(sessionStorage.getItem(key));
+				return parsedJsonArr;
+			}else{
+				return cachedUsersArr;
+			}
+			
+			
 		}
 
 	}
