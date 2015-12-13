@@ -1,6 +1,5 @@
 <div class="panel panel-default" ng-show="Tab === 0" ng-controller="UserController">
-	<h4 class="admin-tab">Users</h4>
-	<br />
+	<h3 class="admin-tab">Users</h3>
 	<div class="add-button col-md-1 col-md-offset-11" ng-show="DisplayMode === 'list'">
 	    <button class="btn btn-success" ng-click="NewUser()">
 	        <span class="glyphicon glyphicon-plus"></span>
@@ -9,10 +8,10 @@
 	<table class="table table-hover" ng-show="DisplayMode === 'list'">
 		<thead>
 			<tr>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Email</th>
-				<th>Edit</th>
+				<th class="users-th">First Name</th>
+				<th class="users-th">Last Name</th>
+				<th class="users-th">Email</th>
+				<th class="users-th">Edit</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -28,18 +27,18 @@
 		<form name="UserForm" class="validated-form">
 			<br />
 			<div class="row">
-				<label class="col-md-1">First Name</label>
+				<label class="control-label col-md-1">First Name</label>
 				<div class="col-md-5">
 					<input type="text" class="custom-validate form-control" placeholder="First Name" ng-model="UserDetails.FirstName" ng-blur="CheckFirstName()" ng-minlength="2" required />
 				</div>
-				<label class="col-md-1">Last Name</label>
+				<label class="control-label col-md-1">Last Name</label>
 				<div class="col-md-5">
 					<input type="text" class="custom-validate form-control" placeholder="Last Name" ng-model="UserDetails.LastName" ng-blur="CheckLastName()" ng-minlength="2" required />
 				</div>
 			</div>
 			<br />
 			<div class="row">
-				<label class="col-md-1">Email</label>
+				<label class="control-label col-md-1">Email</label>
 				<div class="col-md-5">
 					<input type="email" class="custom-validate form-control" placeholder="Email" ng-model="UserDetails.Email" required />
 				</div>
@@ -49,19 +48,19 @@
 				</div>
 			</div><br />
 			<div class="row" ng-show="UserDetails._id == null">
-				<label class="col-md-1">Admin</label>
+				<label class="control-label col-md-1">Admin</label>
 				<select class="large-select col-md-2" ng-model="UserDetails.IsAdmin" ng-options="type.id as type.name for type in UserTypes">
 				</select>
 			</div><br />
 			<div class="row" ng-show="UserDetails.ShowChangePassword">
-				<label class="col-md-1">Password</label>
+				<label class="control-label col-md-1">Pass</label>
 				<div class="col-md-5">
-					<input name="Password1" type="password" class="custom-validate form-control" placeholder="New Password" ng-model="UserDetails.Password1" ng-minlength="8" />
+					<input name="Password1" type="password" class="custom-validate form-control" placeholder="New Password" ng-model="UserDetails.Password1" ng-minlength="6" />
 					<div class="messages" ng-show="!UserForm.Password1.$valid && !UserForm.Password1.$pristine">Must be at least 8 charachters.</div>
 				</div>
-				<label class="col-md-1">Password</label>
+				<label class="control-label col-md-1">Pass</label>
 				<div class="col-md-5">
-					<input name="Password2" type="password" class="custom-validate form-control" placeholder="Confirm New Password" ng-model="UserDetails.Password2" ng-minlength="8" />
+					<input name="Password2" type="password" class="custom-validate form-control" placeholder="Confirm New Password" ng-model="UserDetails.Password2" ng-minlength="6" />
 					<div class="messages" ng-show="UserDetails.Password2 !== UserDetails.Password1 && !UserForm.Password2.$pristine">Must match the first password.</div>
 				</div>	
 			</div><br />

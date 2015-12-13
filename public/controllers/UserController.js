@@ -68,22 +68,28 @@ app.controller('UserController', ['$scope', 'UserService', 'ValidationService', 
 	});
 
 	$scope.UpdateUserPassword = function () {
-		console.log("Got Here!~");
 		var userObj = { _id: $scope.UserDetails._id, Email: $scope.UserDetails.Email, Password: $scope.UserDetails.Password1 };
 		UserService.ChangeUserPassword(userObj, function (retval) {
-			$scope.UserDetails.NewPassword1 = "";
-			$scope.UserDetails.NewPassword2 = "";
-			alertify.notify('Password Updated', 'success', 5, function(){
-				console.log("Worked");
-			});
+			if(retval.data.PasswordUpdated){
+				$scope.UserDetails.Password1 = "";
+				$scope.UserDetails.Password2 = "";
+				alertify.notify('Password Updated', 'success', 5, function(){});	
+				$scope.UserForm.$setPristine();
+			}else if(!retval.data.PasswordUpdated){
+				alertify.notify('Please choose new Password', 'error', 5, function(){});
+				$scope.UserDetails.Password1 = "";
+				$scope.UserDetails.Password2 = "";
+				$scope.UserForm.$setPristine();
+			}
 		});
 	
-		$scope.NewPassword1 = "";
-		$scope.NewPassword2 = "";	
-		$scope.UserForm.$setPristine();
+		
 	}
 
 	$scope.BackToUsers = function () {
+		return alertify.notify('Password Updated', 'success', 50, function(){
+				console.log("Worked");
+			});
 		$scope.DisplayMode = 'list';
 		$scope.UserForm.$setPristine();
 		$scope.UserDetails.ShowChangePassword = false;

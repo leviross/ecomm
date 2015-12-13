@@ -33,18 +33,41 @@ exports.CreateNewUser = function(req, res){
 }
 
 function Hash(pass){
-	return Bcrypt.hashSync(pass, 10);
+	return Bcrypt.hashSync(pass, 10); 
 }
 
 function isValidPassword(user, password){
-	//console.log(user, password);
 	return Bcrypt.compareSync(password, user.Password);
+}
+
+exports.ChangeUserPassword = function(req, res){
+	User.findOne({_id: req.params.id}, function(err, user){
+		if(err) console.log("Can't find that Id, try again.");
+
+		var passwordsMatch = isValidPassword(user, req.body.Password);
+
+		if(passwordsMatch){ 
+			console.log("That's the same password already in use.");
+			res.send({PasswordUpdated: false, User: user}); 
+		}else if(!passwordsMatch){
+
+			user.Password = Hash(req.body.Password);
+
+			user.save(function(error, updatedUser){
+				if(error) console.log("Error on updating user password.");
+				console.log("Password changed!\n", updatedUser);
+				res.json({PasswordUpdated: true, User: 	updatedUser});
+			});
+		}
+		
+	});
 }
 
 
 exports.Login = function(req, res, next){
 	User.findOne({Email: req.body.Email}, function(err, user){
 		if(err) { console.log("Error Finding User on Login\n", err); }
+
 		if(user == null) {
 			res.json({Username: false});
 			console.log("Wrong Email");
@@ -55,26 +78,6 @@ exports.Login = function(req, res, next){
 			var token = jwt.sign({UserId: user._id}, tokenSecret, {expiresIn: 604800}); // expires in 1 week expressed in seconds
 			res.json(token);
 			console.log("Successfully logged in.");
-		}
-	});
-}
-
-exports.ChangeUserPassword = function(req, res){
-	console.log("Got to ChangeUserPassword\n", req.body);
-	User.findOne({_id: req.params.id}, function(err, user){
-		if(err) console.log("Can't find that Id, try again.");
-		if(user){
-			var newHashedPass = Hash(req.body.Password);
-			if(user.Password == newHashedPass){ 
-				console.log("That's the same password already in use.");
-				res.send({PasswordUpdated: false, User: user}); 
-			}else{
-				user.password = newHashedPass;
-				user.save(function(error, updatedUser){
-					if(error) console.log("Error on updating user password.");
-					res.json(updatedUser);
-				});
-			}
 		}
 	});
 }
