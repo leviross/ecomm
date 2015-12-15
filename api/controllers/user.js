@@ -76,7 +76,7 @@ exports.Login = function(req, res, next){
 			console.log("Wrong password");
 		}else{
 			var token = jwt.sign({UserId: user._id}, tokenSecret, {expiresIn: 604800}); // expires in 1 week expressed in seconds
-			res.json(token);
+			res.json({Token: token, User: user});
 			console.log("Successfully logged in.");
 		}
 	});

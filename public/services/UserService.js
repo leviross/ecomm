@@ -2,6 +2,7 @@ app.factory('UserService', ['$http', '$cacheFactory', function($http, $cacheFact
 
 	'use strict'
 	var cachedUsersArr = []; 
+	var currentUser = null;
 
 	return {
 
@@ -43,8 +44,12 @@ app.factory('UserService', ['$http', '$cacheFactory', function($http, $cacheFact
 			}else{
 				return cachedUsersArr;
 			}
-			
-			
+		},
+		PutLoggedInUser: function(user){
+			currentUser = user;
+		},
+		GetLoggedInUser: function(){
+			return currentUser;
 		}
 
 	}

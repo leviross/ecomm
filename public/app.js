@@ -4,7 +4,7 @@ var app = angular.module('EcommApp', ['ngRoute', 'ui.bootstrap', 'ValidationModu
 app.config(['$routeProvider', function ($routeProvider) {
 
 
-    $routeProvider.when('/homepage', {
+    $routeProvider.when('/', {
         templateUrl: 'views/homepage.html',
         controller: 'HomePageController'
     }).when('/admin', {
@@ -16,8 +16,11 @@ app.config(['$routeProvider', function ($routeProvider) {
     }).when('/add-product', {
     	templateUrl: 'views/add-product.html',
     	controller: 'AddProductController'
+    }).when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginController'
     }).otherwise({
-      redirectTo: '/homepage/'
+      redirectTo: '/'
   });
 
 }]);    
