@@ -1,30 +1,39 @@
 <div class="container">
-  <div id="checkout" class="col-md-6 col-md-offset-3">
+  <div class="col-md-6 col-md-offset-3">
     <div class="box">
       <div class="row page-top"><h1>Login</h1></div>
       <form name="LoginForm" ng-submit="Login()">
         <div class="content">
           <div class="row">
-            <div class="col-sm-12">
+            <div class="col-md-12">
               <div class="form-group">
                 <label for="Email">Email</label>
-                <input type="text" ng-model="Email" class="form-control">
+                <input id="Email" type="email" name="email" class="form-control" ng-model="Email" required ng-minlength="7" />
+                <div class="messages" ng-show="!LoginForm.email.$valid && !LoginForm.email.$pristine">Must be a valid email.</div>
               </div>
             </div>
-            <div class="col-sm-12">
+          </div>
+          <div class="row">
+            <div class="col-md-12">
               <div class="form-group">
                 <label for="lastname">Password</label>
-                <input type="password" ng-model="Password" class="form-control">
+                <input type="password" name="password" class="form-control" ng-model="Password" required ng-minlength="8" />
+                <div class="messages" ng-show="!LoginForm.password.$valid && !LoginForm.password.$pristine">Must be at least 8 characters.</div>
               </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <p>Don't have an account, <a href="/#/register">click here</a> to sign up.</p>
             </div>
           </div>
         </div>
         <div class="box-footer">
           <div class="pull-left">
-            <button class="btn btn-default">Cancel</button>
+            <button type="button" ng-click="Cancel()" class="btn btn-default">Cancel</button>
           </div>
           <div class="pull-right">
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button class="btn btn-primary" ng-disabled="LoginForm.$invalid">Login</button>
           </div>
         </div>
       </form>

@@ -42,7 +42,8 @@
                 </ul>
               </li>
               <li><a href="contact.html">Contact</a></li>
-              <li ng-hide="User"><a href="" ng-click="GoToLogin()">Login</a></li>
+              <li ng-hide="User"><a href="/#/login">Login</a></li>
+              <li ng-hide="User"><a href="/#/register">Register</a></li>
               <li ng-show="User" class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle">{{User.FirstName}} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="">My Account</a></li>

@@ -9,23 +9,28 @@ exports.CreateNewUser = function(req, res){
 	User.findOne({Email: req.body.Email}, function(err, existingUser){
 		if(err) console.log("Error querying User collection on Create.");
 		if(existingUser){
-			res.send(existingUser);
+			console.log("User already exists:\n", existingUser);
+			res.send({Created: false, User: existingUser});
 		}else{
 			var u = new User();
 			u.FirstName = req.body.FirstName;
 			u.LastName = req.body.LastName;
 			u.Email = req.body.Email;
-			u.Password = Hash(req.body.password);
+			u.Password = Hash(req.body.Password);
 			if(req.body.IsAdmin == '1'){
 				u.IsAdmin = true;
 			}else{
 				u.IsAdmin = false;
 			}
-			u.IsEmployee = req.body.IsEmployee;
+			if(req.body.IsEmployee){
+				u.IsEmployee = req.body.IsEmployee;
+			}else{
+				u.IsEmployee = false;
+			}
 			u.save(function(err, user){
 				if(err) console.log("Error Creating New User.");
 				console.log("New User Created:\n", user);
-				res.json(user);
+				res.json({Created: true, User: user});
 			});
 
 		}
@@ -76,7 +81,7 @@ exports.Login = function(req, res, next){
 			console.log("Wrong password");
 		}else{
 			var token = jwt.sign({UserId: user._id}, tokenSecret, {expiresIn: 604800}); // expires in 1 week expressed in seconds
-			res.json({Token: token, User: user});
+			res.json({Login: true, Token: token, User: user});
 			console.log("Successfully logged in.");
 		}
 	});

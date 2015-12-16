@@ -1,1 +1,13 @@
-/* your styles go here */
+/*.custom-validate.ng-invalid.ng-dirty {
+	border-color: #FA787E;
+}
+.custom-validate.ng-valid.ng-dirty {
+	border-color: #78FA89;
+} */
+
+.messages {
+  font-size: 13px;
+  padding-top: 5px;
+  /*padding-bottom: 6px;*/
+  color: red;
+}
