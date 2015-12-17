@@ -1,8 +1,12 @@
-app.factory('UserService', ['$http', '$cacheFactory', function($http, $cacheFactory){
+app.factory('UserService', ['$http', '$cacheFactory', '$location', function($http, $cacheFactory, $location){
 
 	'use strict'
 	var cachedUsersArr = []; 
 	var currentUser = null;
+	// var sessionUser = JSON.parse(sessionStorage.getItem('User'));
+    // console.log(sessionUser);
+    var sessionToken = sessionStorage.getItem('Token');
+    // UserService.PutLoggedInUser(retval.data.User);
 
 	return {
 
@@ -25,11 +29,20 @@ app.factory('UserService', ['$http', '$cacheFactory', function($http, $cacheFact
 				})
 		},
 		ChangeUserPassword: function(userObj, cb){
+			userObj.Token = sessionToken;
 			return $http.put('http://localhost:4000/api/users/update-pass/' + userObj._id, userObj)
 				.then(function(retval){
 					cb(retval);
 				}, function(err){
 					console.log("Error updating user password:\n", err);
+				});	
+		},
+		ResetPassword: function(email, cb){
+			return $http.put('http://localhost:4000/api/users/reset-password/' + email)
+				.then(function(retval){
+					cb(retval);
+				}, function(err){
+					console.log(err);
 				});
 		},
 		PutCachedUsers: function(key, value){
@@ -45,11 +58,20 @@ app.factory('UserService', ['$http', '$cacheFactory', function($http, $cacheFact
 				return cachedUsersArr;
 			}
 		},
-		PutLoggedInUser: function(user){
+		PutLoggedInUser: function(user, token){
+			sessionStorage.setItem('Token', token);
+           	sessionStorage.setItem('User', JSON.stringify(user));
 			currentUser = user;
 		},
 		GetLoggedInUser: function(){
 			return currentUser;
+		},
+		Logout: function(){
+			currentUser = null;
+    		sessionStorage.setItem('Token', "");
+    		sessionStorage.setItem('User', "");
+    		alertify.notify('You are logged off.', 'warning', 5, function(){});
+    		$location.path('/')
 		}
 
 	}

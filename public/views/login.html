@@ -1,8 +1,9 @@
 <div class="container">
   <div class="col-md-6 col-md-offset-3">
     <div class="box">
-      <div class="row page-top"><h1>Login</h1></div>
-      <form name="LoginForm" ng-submit="Login()">
+      <div ng-hide="ShowResetPass" class="row page-top"><h1>Login</h1></div>
+      <div ng-show="ShowResetPass" class="row page-top"><h1>Reset Password</h1></div>
+      <form name="LoginForm" ng-submit="Login()" novalidate>
         <div class="content">
           <div class="row">
             <div class="col-md-12">
@@ -13,7 +14,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row" ng-hide="ShowResetPass">
             <div class="col-md-12">
               <div class="form-group">
                 <label for="lastname">Password</label>
@@ -27,13 +28,26 @@
               <p>Don't have an account, <a href="/#/register">click here</a> to sign up.</p>
             </div>
           </div>
+          <div class="row" ng-hide="ShowResetPass">
+            <div class="col-md-12">
+              <p><a href="" ng-click="ShowResetPassword()">Forgot your password?</a></p>
+            </div>  
+          </div>
+          <div class="row" ng-show="ShowResetPass">
+            <div class="col-md-12">
+              <p>Enter your email address and we will email you a password reset link.</p>
+            </div>  
+          </div>
         </div>
         <div class="box-footer">
           <div class="pull-left">
             <button type="button" ng-click="Cancel()" class="btn btn-default">Cancel</button>
           </div>
-          <div class="pull-right">
+          <div ng-hide="ShowResetPass" class="pull-right">
             <button class="btn btn-primary" ng-disabled="LoginForm.$invalid">Login</button>
+          </div>
+          <div ng-show="ShowResetPass" class="pull-right">
+            <button class="btn btn-primary" ng-disabled="LoginForm.email.$invalid">Reset Password</button>
           </div>
         </div>
       </form>

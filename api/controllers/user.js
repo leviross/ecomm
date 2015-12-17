@@ -2,6 +2,9 @@ var User = require('../models/user');
 var Bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var tokenSecret = process.env.TOKEN_SECRET;
+var sendgrid  = require('sendgrid')(process.env.SENDGRID_API_KEY);
+var sendgrid_to_email = process.env.SENDGRID_TO_EMAIL;
+var sendgrid_from_email = process.env.SENDGRID_FROM_EMAIL;
 
 exports.CreateNewUser = function(req, res){
 	
@@ -46,26 +49,58 @@ function isValidPassword(user, password){
 }
 
 exports.ChangeUserPassword = function(req, res){
-	User.findOne({_id: req.params.id}, function(err, user){
-		if(err) console.log("Can't find that Id, try again.");
+	jwt.verify(req.body.Token, tokenSecret, function(jwtErr, decoded){
+		if(jwtErr){ console.log("Token Expired.", jwtErr); }
+		User.findOne({_id: req.params.id}, function(err, user){
+			if(err) console.log("Can't find that Id, try again.");
 
-		var passwordsMatch = isValidPassword(user, req.body.Password);
+			var passwordsMatch = isValidPassword(user, req.body.Password);
 
-		if(passwordsMatch){ 
-			console.log("That's the same password already in use.");
-			res.send({PasswordUpdated: false, User: user}); 
-		}else if(!passwordsMatch){
+			if(passwordsMatch){ 
+				console.log("That's the same password already in use.");
+				res.send({PasswordUpdated: false, User: user}); 
+			}else if(!passwordsMatch){
 
-			user.Password = Hash(req.body.Password);
+				user.Password = Hash(req.body.Password);
 
-			user.save(function(error, updatedUser){
-				if(error) console.log("Error on updating user password.");
-				console.log("Password changed!\n", updatedUser);
-				res.json({PasswordUpdated: true, User: 	updatedUser});
-			});
-		}
-		
+				user.save(function(error, updatedUser){
+					if(error) console.log("Error on updating user password.");
+					console.log("Password changed!\n", updatedUser);
+					res.json({PasswordUpdated: true, User: 	updatedUser});
+				});
+			}
+			
+		});
 	});
+}
+
+exports.ResetPassword = function(req, res){
+	
+    User.findOne({Email: req.params.email}, function(err, user){
+    	if(err) { console.log(err) }
+
+    	var token = jwt.sign({UserId: user._id}, tokenSecret, {expiresIn: 6000}); // 100 mins expressed in secs
+
+	    var payload = {
+	        to: sendgrid_to_email,
+	        subject: 'New Email from Hipster.com',
+	        from: sendgrid_from_email,
+	        name: user.FirstName,
+	        html: "<h4>Hello " + user.FirstName + "</h4> <br /> <p>Click <a href='http://localhost:3030/#/reset-password?token=" + token + "&id=" + user._id + "'>here</a> to reset your password.</p>"
+	    }
+
+    	sendgrid.send(payload, function(error, result){
+	        if(error){
+	            console.log(error);
+	            res.json(error);
+	        }else{
+	            console.log(result);
+	            
+				res.json({Reset: true, Token: token, User: user});
+	        }
+
+	    });
+    });
 }
 
 
@@ -86,6 +121,7 @@ exports.Login = function(req, res, next){
 		}
 	});
 }
+
 
 exports.GetUserOrders = function(req, res, next){
 

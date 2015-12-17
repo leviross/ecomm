@@ -22,9 +22,14 @@ app.config(['$routeProvider', function ($routeProvider) {
     }).when('/register', {
         templateUrl: 'views/register.html',
         controller: 'RegisterController'
+    }).when('/reset-password', {
+        templateUrl: 'views/reset-password.html',
+        controller: 'ResetPasswordController'
     }).otherwise({
       redirectTo: '/'
-  });
+    });
+
+    //TODO: put the route logic functions here to make sure 
 
 }]);    
    

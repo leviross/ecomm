@@ -20,6 +20,11 @@ angular.module('EcommApp')
 	$scope.GoToLogin = function(){
 		$location.path('/login');
 	}
+
+	$scope.Logout = function(){
+		UserService.Logout();
+		$scope.User = null;
+	}
     
 
 

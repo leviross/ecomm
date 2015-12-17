@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cors = require('cors');
 var router = express.Router();
+
 var app = express();
 var jwtauth = require('./my_modules/jwtauth');
 var OrderController = require('./controllers/order');
@@ -33,9 +34,11 @@ router.route('/users/:id')
 	
 router.route('/users/update-pass/:id')
 	.put(UserController.ChangeUserPassword);	
+router.route('/users/reset-password/:email')
+	.put(UserController.ResetPassword);	
 
 router.route('/login')
-	.post(UserController.Login);
+	.post(UserController.Login);	
 
 //orders
 router.route('/orders')
