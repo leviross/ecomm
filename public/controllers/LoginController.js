@@ -31,12 +31,6 @@ app.controller('LoginController', ['$scope', '$http', '$rootScope', 'UserService
         		ClearForm();
     			$('#Email').focus();
         	}
-            
-            
-            // var sessionUser = JSON.parse(sessionStorage.getItem('User'));
-            // console.log(sessionUser);
-            // var sessionToken = sessionStorage.getItem('Token');
-            // UserService.PutLoggedInUser(retval.data.User);
 
         }, function(err){
             console.log(err);

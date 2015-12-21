@@ -1,4 +1,4 @@
-app.controller('HomePageController', ['$scope', 'TokenService', 'UserService', '$rootScope', function($scope, TokenService, UserService, $rootScope){
+app.controller('HomePageController', ['$scope', 'UserService', '$rootScope', function($scope, UserService, $rootScope){
 
 	$scope.MyInterval = 5000;
 	$scope.noWrapSlides = false;
@@ -6,8 +6,8 @@ app.controller('HomePageController', ['$scope', 'TokenService', 'UserService', '
 	$scope.Slides = [{Image: '../images/furn1.jpg', Text: "Image 1"}, {Image: '../images/furn2.jpg', Text: "Image 2"}, {Image: '../images/furn3.jpg', Text: "Image 3"}];
 
 
-	var token = TokenService.GetCurrentToken();
-	console.log("Current Token:\n", token);
+	var user = UserService.GetLoggedInUser();
+	console.log("Current Token:\n", user.Token);
 
 
 

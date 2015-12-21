@@ -26,11 +26,11 @@
             <button type="button" data-toggle="collapse" data-target="#navigation" class="navbar-toggle btn btn-transparent"><i class="fa fa-align-justify"></i><span class="sr-only">Toggle navigation</span></button>
           </div>
           <div id="navigation" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="/">Home</a></li>
-              <li><a href="category.html">Shop</a></li>
-              <li><a href="text.html">About</a></li>
-              <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Brands <b class="caret"></b></a>
+            <ul ng-click="ActiveClass($event)" id="navList" class="nav navbar-nav">
+              <li class="loopClass active"><a href="/#/">Home</a></li>
+              <li class="loopClass"><a href="/#/shop">Shop</a></li>
+              <li class="loopClass"><a href="text.html">About</a></li>
+              <li class="loopClass dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Brands <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="index.html">Decorex</a></li>
                   <li><a href="category.html">Ashley</a></li>
@@ -41,10 +41,10 @@
                   <li><a href="contact.html">Hello</a></li>
                 </ul>
               </li>
-              <li><a href="contact.html">Contact</a></li>
-              <li ng-hide="User"><a href="/#/login">Login</a></li>
-              <li ng-hide="User"><a href="/#/register">Register</a></li>
-              <li ng-show="User" class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle">{{User.FirstName}} <b class="caret"></b></a>
+              <li class="loopClass"><a href="contact.html">Contact</a></li>
+              <li class="loopClass" ng-hide="User"><a href="/#/login">Login</a></li>
+              <li class="loopClass" ng-hide="User"><a href="/#/register">Register</a></li>
+              <li class="loopClass" ng-show="User" class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle">{{User.FirstName}} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="">My Account</a></li>
                   <li><a href="">My Orders</a></li>

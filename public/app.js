@@ -25,6 +25,9 @@ app.config(['$routeProvider', function ($routeProvider) {
     }).when('/reset-password', {
         templateUrl: 'views/reset-password.html',
         controller: 'ResetPasswordController'
+    }).when('/shop', {
+        templateUrl: 'views/shop.html',
+        controller: 'ShopController'
     }).otherwise({
       redirectTo: '/'
     });

@@ -3,10 +3,8 @@ app.factory('UserService', ['$http', '$cacheFactory', '$location', function($htt
 	'use strict'
 	var cachedUsersArr = []; 
 	var currentUser = null;
-	// var sessionUser = JSON.parse(sessionStorage.getItem('User'));
-    // console.log(sessionUser);
     var sessionToken = sessionStorage.getItem('Token');
-    // UserService.PutLoggedInUser(retval.data.User);
+    var sessionUser = sessionStorage.getItem('User');
 
 	return {
 
@@ -61,10 +59,19 @@ app.factory('UserService', ['$http', '$cacheFactory', '$location', function($htt
 		PutLoggedInUser: function(user, token){
 			sessionStorage.setItem('Token', token);
            	sessionStorage.setItem('User', JSON.stringify(user));
+			sessionToken = sessionStorage.getItem('Token');
 			currentUser = user;
+			currentUser.Token = sessionToken;
 		},
 		GetLoggedInUser: function(){
-			return currentUser;
+			if(currentUser) {
+				return currentUser;
+			}else{
+				var parsedSessionUser = JSON.parse(sessionUser);
+				parsedSessionUser.Token = sessionToken;
+				currentUser = parsedSessionUser;
+				return currentUser;
+			}
 		},
 		Logout: function(){
 			currentUser = null;

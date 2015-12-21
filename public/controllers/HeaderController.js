@@ -25,6 +25,14 @@ angular.module('EcommApp')
 		UserService.Logout();
 		$scope.User = null;
 	}
+
+	$scope.ActiveClass = function(event){
+		$('#navList li').each(function(index, li){
+			$(li).removeClass('active');
+		});
+		console.log(event);
+		event.target.parentElement.className = 'active';
+	}
     
 
 

@@ -49,28 +49,34 @@ function isValidPassword(user, password){
 }
 
 exports.ChangeUserPassword = function(req, res){
+	//return console.log(req.body);
 	jwt.verify(req.body.Token, tokenSecret, function(jwtErr, decoded){
-		if(jwtErr){ console.log("Token Expired.", jwtErr); }
-		User.findOne({_id: req.params.id}, function(err, user){
-			if(err) console.log("Can't find that Id, try again.");
+		if(jwtErr){ 
+			console.log("Token Expired.", jwtErr); 
+			res.json(jwtErr);
+		}else if(decoded){
+			User.findOne({_id: req.params.id}, function(err, user){
+				if(err) console.log("Can't find that Id, try again.");
 
-			var passwordsMatch = isValidPassword(user, req.body.Password);
+				var passwordsMatch = isValidPassword(user, req.body.Password);
 
-			if(passwordsMatch){ 
-				console.log("That's the same password already in use.");
-				res.send({PasswordUpdated: false, User: user}); 
-			}else if(!passwordsMatch){
+				if(passwordsMatch){ 
+					console.log("That's the same password already in use.");
+					res.send({PasswordUpdated: false, User: user}); 
+				}else if(!passwordsMatch){
 
-				user.Password = Hash(req.body.Password);
+					user.Password = Hash(req.body.Password);
 
-				user.save(function(error, updatedUser){
-					if(error) console.log("Error on updating user password.");
-					console.log("Password changed!\n", updatedUser);
-					res.json({PasswordUpdated: true, User: 	updatedUser});
-				});
-			}
-			
-		});
+					user.save(function(error, updatedUser){
+						if(error) console.log("Error on updating user password.");
+						console.log("Password changed!\n", updatedUser);
+						res.json({PasswordUpdated: true, User: 	updatedUser});
+					});
+				}
+				
+			});
+		}
+		
 	});
 }
 
