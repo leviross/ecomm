@@ -1,0 +1,50 @@
+<div class="panel panel-default padded-panel" ng-show="Tab === 2" ng-controller="CategoryController">
+	<h4 class="admin-h4">Categories</h4>
+	<div class="add-button col-md-1 col-md-offset-11" ng-show="DisplayMode === 'list'">
+    <button class="btn btn-success" ng-click="AddCategory()">
+       <span class="glyphicon glyphicon-plus"></span>
+    </button>
+	</div>
+	<table class="table table-hover" ng-show="DisplayMode === 'list'">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Types</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="category in Categories">
+				<td>{{category.Name}}</td>
+				<td>{{category.Types}}</td>
+				<td><button type="button" class="btn btn-warning" ng-click="EditCategory(category)"><span class="glyphicon glyphicon-pencil"></span></button></td>
+			</tr>
+		</tbody>
+	</table>
+	<div ng-show=" DisplayMode == 'edit' || DisplayMode == 'create' ">
+		<form name="CategoryForm" class="validated-form">
+			<br />
+			<div class="row">
+				<div class="col-md-1">
+					<label class="control-label col-md-1">Name</label>
+				</div>
+				<div class="col-md-5">
+					<input name="name" type="text" class="custom-validate form-control" placeholder="Category Name" ng-model="Category.Name" ng-minlength="3" required />
+				</div>
+				<div class="col-md-1">
+					<label class="control-label col-md-1">Types</label>
+				</div>
+				<div class="col-md-5">
+					<input name="types" type="text" class="custom-validate form-control" placeholder="Enter in a comma after each type" ng-model="Category.Types" ng-minlength="4" required />
+				</div>
+			</div>
+			<br />
+			<div class="col-md-offset-9">
+        <button type="button" class="btn btn-default" ng-click="BackToCategories()">Cancel</button>
+        <button ng-show=" DisplayMode == 'edit' " type="submit" class="btn btn-primary" ng-disabled="!CategoryForm.$valid || CategoryForm.name.$pristine || CategoryForm.types.$pristine" ng-click="UpdateCategory()">Update</button>
+        <button ng-show=" DisplayMode == 'create' " type="submit" class="btn btn-primary" ng-disabled="CategoryForm.$invalid || CategoryForm.name.$pristine || CategoryForm.types.$pristine" ng-click="CreateNewCategory()">Create</button>
+	    </div>
+		</form>	
+		<br />
+	</div>	
+</div>
+

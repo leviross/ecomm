@@ -11,3 +11,15 @@
   /*padding-bottom: 6px;*/
   color: red;
 }
+
+section.tab {
+	padding-bottom: 0px;
+}
+
+h4.admin-h4 {
+	text-align: center;
+}
+
+div.padded-panel {
+	padding: 10px;
+}

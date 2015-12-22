@@ -1,6 +1,6 @@
 app.controller('AdminController', ['$scope', '$rootScope', 'UserService', '$routeParams', '$location', function($scope, $rootScope, UserService, $routeParams, $location) {
 	
-	var Tabs = [ 'views/admin/partials/users.html', 'views/admin/partials/brands.html', 'views/admin/partials/warrantyTypes.html', 'views/admin/partials/repairTypes.html', 'views/admin/partials/taxRate.html', 'views/admin/partials/districts.html'  ];
+	var Tabs = [ 'views/admin/partials/users.html', 'views/admin/partials/brands.html', 'views/admin/partials/categories.html', 'views/admin/partials/repairTypes.html', 'views/admin/partials/taxRate.html', 'views/admin/partials/districts.html'  ];
 	
 	$scope.TabView = Tabs[0];	
 	$scope.Tab = 0;
@@ -12,7 +12,7 @@ app.controller('AdminController', ['$scope', '$rootScope', 'UserService', '$rout
 	}else if($routeParams.type == "brands") {
 		$scope.Tab = 1;
 		$scope.TabView = Tabs[1];
-	}else if($routeParams.type == "warranty-types") {
+	}else if($routeParams.type == "categories") {
 		$scope.Tab = 2;
 		$scope.TabView = Tabs[2];
 	}else if($routeParams.type == "repair-types") {
@@ -33,7 +33,7 @@ app.controller('AdminController', ['$scope', '$rootScope', 'UserService', '$rout
 		if(setTab == 0) {
 			$location.path('/admin/users');
 		}else if(setTab == 1) {
-			$location.path('/admin/warranty-types');
+			$location.path('/admin/categories');
 		}else if(setTab == 2) {
 			$location.path('/admin/repair-types');
 		}else if(setTab == 3) {

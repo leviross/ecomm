@@ -10,6 +10,7 @@ var jwtauth = require('./my_modules/jwtauth');
 var OrderController = require('./controllers/order');
 var UserController = require('./controllers/user');
 var ProductController = require('./controllers/product');
+var CategoryController = require('./controllers/category');
 
 var mongoose = require('mongoose');
 var uri = process.env.MONGOOSE_URI;
@@ -45,6 +46,10 @@ router.route('/orders')
 	.get(jwtauth, UserController.GetUserOrders);
 
 // products
+router.route('/categories')
+	.post(CategoryController.CreateNewCategory)
+	.get(CategoryController.GetAllCategories);
+	
 router.route('/products')
 	.post(ProductController.CreateNewProduct);
 

@@ -22,28 +22,9 @@
         </div>
         <div class="panel-body">
           <ul class="nav nav-pills nav-stacked category-menu">
-            <li><a href="category.html">Men <span class="badge pull-right">42</span></a>
+            <li ng-repeat="category in Categories" ng-click="SelectCategory($event, $index)" ng-class="category.class"><a href="">{{category.name}} <span class="badge pull-right">{{category.count}}</span></a>
               <ul>
-                <li> <a href="category.html">T-shirts</a></li>
-                <li><a href="category.html">Shirts</a></li>
-                <li><a href="category.html">Pants</a></li>
-                <li><a href="category.html">Accessories</a></li>
-              </ul>
-            </li>
-            <li class="active"><a href="category.html">Girls <span class="badge pull-right">120</span></a>
-              <ul>
-                <li> <a href="category.html">T-shirts</a></li>
-                <li><a href="category.html">Skirts</a></li>
-                <li><a href="category.html">Pants</a></li>
-                <li><a href="category.html">Accessories</a></li>
-              </ul>
-            </li>
-            <li><a href="category.html">Kids <span class="badge pull-right">85</span></a>
-              <ul>
-                <li> <a href="category.html">T-shirts</a></li>
-                <li><a href="category.html">Skirts</a></li>
-                <li><a href="category.html">Pants</a></li>
-                <li><a href="category.html">Accessories</a></li>
+                <li ng-repeat="type in category.types"><a href="">{{type.kind}}</a></li>
               </ul>
             </li>
           </ul>

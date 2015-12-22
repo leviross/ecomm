@@ -1,4 +1,4 @@
-app.controller('UserController', ['$scope', 'UserService', 'ValidationService', function($scope, UserService, ValidationService){
+app.controller('UsersController', ['$scope', 'UserService', function($scope, UserService){
 
 	$scope.DisplayMode = 'list';
 	$scope.UserTypes = [{id: "1", name: "Admin", value: true}, {id: "2", name: "Non-Admin", value: false}];
@@ -94,8 +94,7 @@ app.controller('UserController', ['$scope', 'UserService', 'ValidationService', 
 		$scope.UserForm.$setPristine();
 		$scope.UserDetails.ShowChangePassword = false;
 	}
-
-
+	
 
 
 }]);

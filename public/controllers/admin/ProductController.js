@@ -1,4 +1,4 @@
-app.controller('AddProductController', ['$scope', 'ProductService', function($scope, ProductService){
+app.controller('ProductController', ['$scope', 'ProductService', function($scope, ProductService){
 
 	$scope.Product = {};
 
