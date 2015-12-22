@@ -1,12 +1,13 @@
 app.controller('CategoryController', ['$scope', 'ProductService', function($scope, ProductService){
 
-	var cachedCategories = ProductService.GetCachedCategories();
-	if(cachedCategories.length == 0){
-		ProductService.GetAllCategories(function(result){
+	var currentIndex = null;
+
+	$scope.Categories = ProductService.GetCachedCategories("Categories");
+
+	if(!$scope.Categories){
+		ProductService.GetAllCategories(function(result) {
 			$scope.Categories = result;
 		});
-	}else{
-		$scope.Categories = cachedCategories;
 	}
 	
 	$scope.DisplayMode = 'list';
@@ -15,9 +16,10 @@ app.controller('CategoryController', ['$scope', 'ProductService', function($scop
 		$scope.DisplayMode = 'create';
 	}
 
-	$scope.EditCategory = function(category){
+	$scope.EditCategory = function(category, index){
 		$scope.DisplayMode = 'edit';
 		$scope.Category = category;
+		currentIndex = index;
 	}
 
 	$scope.CreateNewCategory = function(){
@@ -29,6 +31,15 @@ app.controller('CategoryController', ['$scope', 'ProductService', function($scop
 		});
 	}
 
+	$scope.UpdateCategory = function(){
+		ProductService.UpdateCategory($scope.Category, function(result){
+			alertify.notify('Category Updated.', 'success', 5, function(){});
+			$scope.Categories[currentIndex] = result;
+			$scope.DisplayMode = 'list';
+			ClearForm();
+		});
+	}
+
 	$scope.GetAllCategories = function(){
 		ProductService.GetAllCategories(function(result){
 			$scope.Categories = result;
@@ -37,6 +48,12 @@ app.controller('CategoryController', ['$scope', 'ProductService', function($scop
 
 	$scope.BackToCategories = function() {
 		$scope.DisplayMode = 'list';
+	}
+
+	function ClearForm(){
+		$scope.CategoryForm.$setPristine();
+		$scope.Category.Name = "";
+		$scope.Category.Types = "";
 	}
 
 }]);

@@ -12,10 +12,10 @@ exports.CreateNewCategory = function(req, res){
 
 			c.Name = req.body.Name;
 			c.Types = req.body.Types;
-			c.Types = types;
-			
+
 			c.save(function(error, savedCategory){
 				if(error) console.log("Error Saving New Category:\n", error);
+				console.log(savedCategory);
 				res.json(savedCategory);
 			});
 		}
@@ -27,6 +27,36 @@ exports.GetAllCategories = function(req, res){
 		if(err) console.log("Error Finding Categories:\n", err);
 		console.log(categories);
 		res.json(categories);
+	});
+}
+
+exports.GetCategoryById  = function(req, res){
+	Category.findOne({_id: req.params.id}, function(err, category){
+		if(err){
+			console.log("Error finding that Category:\n", err);
+		}else{
+			res.json(category);
+		}
+	});
+}
+
+exports.UpdateCategory = function(req, res){
+	Category.findOne({_id: req.params.id}, function(err, category){
+		if(err){
+			console.log("Error finding that Category:\n", err);
+		}else{
+			category.Name = req.body.Name;
+			category.Types = req.body.Types;
+			
+			category.save(function(error, updatedCategory){
+				if(error){
+					console.log("Error Updating this Category:\n", error);
+				}else{
+					console.log("Updated Category:\n", updatedCategory);
+					res.json(updatedCategory);
+				}
+			});
+		}
 	});
 }
 

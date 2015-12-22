@@ -11,17 +11,17 @@ app.factory('UserService', ['$http', '$cacheFactory', '$location', function($htt
 		GetAllUsers: function(cb){
 			var self = this;
 			return $http.get('http://localhost:4000/api/users')
-				.then(function(retval){
-					cb(retval.data);
-					self.PutCachedUsers("UsersArray", retval.data);
+				.then(function(result){
+					cb(result.data);
+					self.PutCachedUsers("UsersArray", result.data);
 				}, function(err){
 					console.log("Error getting all users:\n", err);
 				});
 		},
 		CreateNewUser: function(userObj, cb){
 			return $http.post('http://localhost:4000/api/users', userObj)
-				.then(function(retval){
-					cb(retval.data);
+				.then(function(result){
+					cb(result.data);
 				}, function(err){
 					console.log("Error creating user:\n", err);
 				})
@@ -29,16 +29,16 @@ app.factory('UserService', ['$http', '$cacheFactory', '$location', function($htt
 		ChangeUserPassword: function(userObj, cb){
 			userObj.Token = sessionToken;
 			return $http.put('http://localhost:4000/api/users/update-pass/' + userObj._id, userObj)
-				.then(function(retval){
-					cb(retval);
+				.then(function(result){
+					cb(result);
 				}, function(err){
 					console.log("Error updating user password:\n", err);
 				});	
 		},
 		ResetPassword: function(email, cb){
 			return $http.put('http://localhost:4000/api/users/reset-password/' + email)
-				.then(function(retval){
-					cb(retval);
+				.then(function(result){
+					cb(result);
 				}, function(err){
 					console.log(err);
 				});

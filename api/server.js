@@ -49,6 +49,10 @@ router.route('/orders')
 router.route('/categories')
 	.post(CategoryController.CreateNewCategory)
 	.get(CategoryController.GetAllCategories);
+
+router.route('/categories/:id')
+	.get(CategoryController.GetCategoryById)
+	.put(CategoryController.UpdateCategory);	
 	
 router.route('/products')
 	.post(ProductController.CreateNewProduct);
