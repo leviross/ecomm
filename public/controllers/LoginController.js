@@ -1,20 +1,20 @@
 app.controller('LoginController', ['$scope', '$http', '$rootScope', 'UserService', '$location', function($scope, $http, $rootScope, UserService, $location){
 
-	
-	$scope.ShowResetPass = false;
+	var self = this;
+	this.ShowResetPass = false;
 
 	function ClearForm(){
-		$scope.LoginForm.$setPristine();
-    	$scope.Email = "";
-    	$scope.Password = "";
+		self.LoginForm.$setPristine();
+    	self.Email = "";
+    	self.Password = "";
 	}
 
 
-	$scope.Login = function(){
+	this.Login = function(){
 
-		if($scope.ShowResetPass){ return $scope.ResetPassword(); }
+		if(this.ShowResetPass){ return this.ResetPassword(); }
 
-        var LoginData = {Email: $scope.Email, Password: $scope.Password};
+        var LoginData = {Email: this.Email, Password: this.Password};
         var url = 'http://' + location.host;
 
         $http.post('http://localhost:4000/api/login', LoginData)
@@ -39,22 +39,22 @@ app.controller('LoginController', ['$scope', '$http', '$rootScope', 'UserService
         
     }
 
-    $scope.Cancel = function(){ 
-    	if($scope.ShowResetPass){
-    		$scope.ShowResetPass = false;
+    this.Cancel = function(){ 
+    	if(this.ShowResetPass){
+    		this.ShowResetPass = false;
     	}else{
     		$location.path('/');
     	}
     }
 
-    $scope.ShowResetPassword = function(){
-    	$scope.ShowResetPass = true;
+    this.ShowResetPassword = function(){
+    	this.ShowResetPass = true;
     }
 
-    $scope.ResetPassword = function(){
-    	UserService.ResetPassword($scope.Email, function(result){
+    this.ResetPassword = function(){
+    	UserService.ResetPassword(this.Email, function(result){
     		alertify.notify('Check your email for your password reset link', 'warning', 5, function(){});	
-    		$scope.ShowResetPass = false;
+    		self.ShowResetPass = false;
     		ClearForm();
     	});
     }

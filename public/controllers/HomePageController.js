@@ -1,17 +1,17 @@
 app.controller('HomePageController', ['$scope', 'UserService', '$rootScope', function($scope, UserService, $rootScope){
 
-	$scope.MyInterval = 5000;
-	$scope.noWrapSlides = false;
+	this.MyInterval = 5000;
+	this.noWrapSlides = false;
 
-	$scope.Slides = [{Image: '../images/furn1.jpg', Text: "Image 1"}, {Image: '../images/furn2.jpg', Text: "Image 2"}, {Image: '../images/furn3.jpg', Text: "Image 3"}];
+	this.Slides = [{Image: '../images/furn1.jpg', Text: "Image 1"}, {Image: '../images/furn2.jpg', Text: "Image 2"}, {Image: '../images/furn3.jpg', Text: "Image 3"}];
 
 
 	var user = UserService.GetLoggedInUser();
-	console.log("Current Token:\n", user.Token);
+	console.log("Current Token:\n", user);
 
 
 
-	$scope.OpenModal = function(){
+	this.OpenModal = function(){
 		$rootScope.$broadcast('OpenQuickViewModal');
 	}
 

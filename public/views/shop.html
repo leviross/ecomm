@@ -3,11 +3,11 @@
     <div class="col-md-12">
       <ul class="breadcrumb">
         <li><a href="/#/">Home</a></li>
-        <li>{{Category}}</li>
+        <li>{{Shop.Category}}</li>
       </ul>
       <div class="row page-top">
         <div class="col-sm-6 col-sm-offset-3">
-          <h1>{{Category}}</h1>
+          <h1>{{Shop.Category}}</h1>
           <p class="text-muted">In our Ladies department we offer wide selection of the best products we have found and carefully selected worldwide. Pellentesque habitant morbi tristique senectus et netuss.</p>
         </div>
       </div>
@@ -22,9 +22,9 @@
         </div>
         <div class="panel-body">
           <ul class="nav nav-pills nav-stacked category-menu">
-            <li ng-repeat="category in Categories" ng-click="SelectCategory($event, $index)" ng-class="category.class"><a href="">{{category.name}} <span class="badge pull-right">{{category.count}}</span></a>
+            <li ng-repeat="category in Shop.Categories" ng-click="Shop.SelectCategory($event, $index)" ng-class="category.class"><a href="">{{category.Name}} <span class="badge pull-right">32</span></a>
               <ul>
-                <li ng-repeat="type in category.types"><a href="">{{type.kind}}</a></li>
+                <li ng-repeat="type in category.Types"><a href="">{{type.kind}}</a></li>
               </ul>
             </li>
           </ul>

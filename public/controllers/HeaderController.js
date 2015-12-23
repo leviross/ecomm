@@ -1,39 +1,39 @@
 angular.module('EcommApp')
-.controller('HeaderController', ['$scope', '$rootScope', '$location', '$http', '$location', 'UserService', function($scope, $rootScope, $location, $http, $location, UserService){
+.controller('HeaderController', function($scope, $rootScope, $location, $location, UserService){
 
-	$scope.Cart = [];
+	this.Cart = [];
+	var self = this;
 
 	var sessionUser = sessionStorage.getItem('User');
 
 	if(sessionUser == "" || sessionUser == "undefined"){
-		$scope.User = null;
+		this.User = null;
 	}else{
-		$scope.User = JSON.parse(sessionUser);
+		this.User = JSON.parse(sessionUser);
 	}
 
-	//$scope.User = UserService.GetLoggedInUser();
+	//this.User = UserService.GetLoggedInUser();
 	
 	$scope.$on('UserLoggedIn', function(event, user){
-		$scope.User = user;
+		self.User = user;
 	});
 
-	$scope.GoToLogin = function(){
+	this.GoToLogin = function(){
 		$location.path('/login');
 	}
 
-	$scope.Logout = function(){
+	this.Logout = function(){
 		UserService.Logout();
-		$scope.User = null;
+		this.User = null;
 	}
 
-	$scope.ActiveClass = function(event){
+	this.ActiveClass = function(event){
 		$('#navList li').each(function(index, li){
 			$(li).removeClass('active');
 		});
-		console.log(event);
 		event.target.parentElement.className = 'active';
 	}
     
 
 
-}]);
+});

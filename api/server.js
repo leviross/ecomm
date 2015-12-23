@@ -33,8 +33,9 @@ router.route('/users')
 router.route('/users/:id')
 	.delete(UserController.DeleteUser);	
 	
-router.route('/users/update-pass/:id')
-	.put(UserController.ChangeUserPassword);	
+router.route('/users/update/:id')
+	.put(UserController.UpdateUser);
+		
 router.route('/users/reset-password/:email')
 	.put(UserController.ResetPassword);	
 

@@ -1,12 +1,13 @@
 app.controller('ResetPasswordController', ['$scope', 'UserService', '$routeParams', '$location', function($scope, UserService, $routeParams, $location){
 
 	var routeParams = $routeParams;
+
 	if(routeParams.id){
-		routeParams.User = {_id: routeParams.id};
-
-		UserService.PutLoggedInUser(routeParams.User, routeParams.token);
-
+		routeParams.user = {_id: routeParams.id, Email: routeParams.email};
+		UserService.PutLoggedInUser(routeParams.user, routeParams.token);
 		$location.url('/reset-password');
+	}else{
+		$scope.User = UserService.GetLoggedInUser();
 	}
 	
 

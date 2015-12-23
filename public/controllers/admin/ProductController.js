@@ -1,10 +1,11 @@
 app.controller('ProductController', ['$scope', 'ProductService', function($scope, ProductService){
 
-	$scope.Product = {};
+	this.Product = null;
+	var self = this;
 
-	$scope.AddNewProduct = function(){
-		ProductService.AddNewProduct($scope.Product, function(retval){
-			$scope.Product = retval;
+	this.AddNewProduct = function(){
+		ProductService.AddNewProduct(this.Product, function(retval){
+			self.Product = retval;
 		});
 	}
 

@@ -48,32 +48,47 @@ function isValidPassword(user, password){
 	return Bcrypt.compareSync(password, user.Password);
 }
 
-exports.ChangeUserPassword = function(req, res){
-	//return console.log(req.body);
+exports.UpdateUser = function(req, res){
 	jwt.verify(req.body.Token, tokenSecret, function(jwtErr, decoded){
 		if(jwtErr){ 
-			console.log("Token Expired.", jwtErr); 
+			console.log("Token Missing or Expired.", jwtErr); 
 			res.json(jwtErr);
 		}else if(decoded){
 			User.findOne({_id: req.params.id}, function(err, user){
-				if(err) console.log("Can't find that Id, try again.");
+				//return console.log(req.body);
+				if(err){
+					console.log("Can't find that Id, try again.");
+					res.sendStatus(500);
+				}else if(req.body.Password1){
+					var passwordsMatch = isValidPassword(user, req.body.Password1);
 
-				var passwordsMatch = isValidPassword(user, req.body.Password);
+					if(passwordsMatch){ 
+						console.log("That's the same password already in use.");
+						res.send({PasswordUpdated: false, UserUpdated: false, User: user}); 
+					}else if(!passwordsMatch){
 
-				if(passwordsMatch){ 
-					console.log("That's the same password already in use.");
-					res.send({PasswordUpdated: false, User: user}); 
-				}else if(!passwordsMatch){
+						user.Password = Hash(req.body.Password1);
+						user.FirstName = req.body.FirstName;
+						user.LastName = req.body.LastName;
+						user.Email = req.body.Email;
 
-					user.Password = Hash(req.body.Password);
+						user.save(function(error, updatedUser){
+							if(error) console.log("Error on updating user password.");
+							console.log("Password changed!\n", updatedUser);
+							res.json({PasswordUpdated: true, UserUpdated: true, User: 	updatedUser});
+						});
+					}
+				}else if(!req.body.Password1){
+					user.FirstName = req.body.FirstName;
+					user.LastName = req.body.LastName;
+					user.Email = req.body.Email;
 
 					user.save(function(error, updatedUser){
 						if(error) console.log("Error on updating user password.");
-						console.log("Password changed!\n", updatedUser);
-						res.json({PasswordUpdated: true, User: 	updatedUser});
+						console.log("Password not changed, User changed:\n", updatedUser);
+						res.json({PasswordUpdated: false, UserUpdated: true, User: updatedUser});
 					});
-				}
-				
+				}				
 			});
 		}
 		
@@ -92,7 +107,7 @@ exports.ResetPassword = function(req, res){
 	        subject: 'New Email from Hipster.com',
 	        from: sendgrid_from_email,
 	        name: user.FirstName,
-	        html: "<h4>Hello " + user.FirstName + "</h4> <br /> <p>Click <a href='http://localhost:3030/#/reset-password?token=" + token + "&id=" + user._id + "'>here</a> to reset your password.</p>"
+	        html: "<h4>Hello " + user.FirstName + "</h4> <br /> <p>Click <a href='http://localhost:3030/#/reset-password?token=" + token + "&id=" + user._id + "&email=" + user.Email + "'>here</a> to reset your password.</p>"
 	    }
 
     	sendgrid.send(payload, function(error, result){

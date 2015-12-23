@@ -4,7 +4,7 @@ app.factory('UserService', ['$http', '$cacheFactory', '$location', function($htt
 	var cachedUsersArr = []; 
 	var currentUser = null;
     var sessionToken = sessionStorage.getItem('Token');
-    var sessionUser = sessionStorage.getItem('User');
+   	var sessionUser = sessionStorage.getItem('User');
 
 	return {
 
@@ -26,9 +26,9 @@ app.factory('UserService', ['$http', '$cacheFactory', '$location', function($htt
 					console.log("Error creating user:\n", err);
 				})
 		},
-		ChangeUserPassword: function(userObj, cb){
+		UpdateUser: function(userObj, cb){
 			userObj.Token = sessionToken;
-			return $http.put('http://localhost:4000/api/users/update-pass/' + userObj._id, userObj)
+			return $http.put('http://localhost:4000/api/users/update/' + userObj._id, userObj)
 				.then(function(result){
 					cb(result);
 				}, function(err){
@@ -66,11 +66,13 @@ app.factory('UserService', ['$http', '$cacheFactory', '$location', function($htt
 		GetLoggedInUser: function(){
 			if(currentUser) {
 				return currentUser;
-			}else{
+			}else if(sessionUser){
 				var parsedSessionUser = JSON.parse(sessionUser);
 				parsedSessionUser.Token = sessionToken;
 				currentUser = parsedSessionUser;
 				return currentUser;
+			}else{
+				return null;
 			}
 		},
 		Logout: function(){

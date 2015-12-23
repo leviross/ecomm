@@ -1,4 +1,4 @@
-<div ng-controller="HeaderController">	
+<div ng-controller="HeaderController as Header">	
     <!-- navbar-->
     <header class="header">
       <div class="topbar">
@@ -14,7 +14,7 @@
             </div>
             <div class="col-sm-4 topbar__logo"><a href="/#/"><img src="../images/logo.png" alt="" class="topbar__logo__normal"><img src="../images/logo-small.png" alt="" class="topbar__logo__small"></a></div>
             <div class="col-sm-3 hidden-xs">
-              <div class="topbar__cart"><a href="basket.html" class="btn btn-transparent"><i class="fa fa-shopping-cart"></i><span>{{Cart.length}} Items in cart</span></a></div>
+              <div class="topbar__cart"><a href="basket.html" class="btn btn-transparent"><i class="fa fa-shopping-cart"></i><span>{{Header.Cart.length}} Items in cart</span></a></div>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
             <button type="button" data-toggle="collapse" data-target="#navigation" class="navbar-toggle btn btn-transparent"><i class="fa fa-align-justify"></i><span class="sr-only">Toggle navigation</span></button>
           </div>
           <div id="navigation" class="collapse navbar-collapse">
-            <ul ng-click="ActiveClass($event)" id="navList" class="nav navbar-nav">
+            <ul ng-click="Header.ActiveClass($event)" id="navList" class="nav navbar-nav">
               <li class="loopClass active"><a href="/#/">Home</a></li>
               <li class="loopClass"><a href="/#/shop">Shop</a></li>
               <li class="loopClass"><a href="text.html">About</a></li>
@@ -42,14 +42,15 @@
                 </ul>
               </li>
               <li class="loopClass"><a href="contact.html">Contact</a></li>
-              <li class="loopClass" ng-hide="User"><a href="/#/login">Login</a></li>
-              <li class="loopClass" ng-hide="User"><a href="/#/register">Register</a></li>
-              <li class="loopClass" ng-show="User" class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle">{{User.FirstName}} <b class="caret"></b></a>
+              <li class="loopClass" ng-hide="Header.User"><a href="/#/login">Login</a></li>
+              <li class="loopClass" ng-hide="Header.User"><a href="/#/register">Register</a></li>
+              <li class="loopClass" ng-show="User" class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle">{{Header.User.FirstName}} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="">My Account</a></li>
                   <li><a href="">My Orders</a></li>
                   <li><a href="">My Profile</a></li>
-                  <li ng-click="Logout()"><a href="">Logout</a></li>
+                  <li ng-show="Header.User.IsAdmin"><a href="/#/admin">Admin</a></li>
+                  <li ng-click="Header.Logout()"><a href="">Logout</a></li>
                 </ul>
               </li>
             </ul>

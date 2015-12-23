@@ -1,35 +1,36 @@
-app.controller('AdminController', ['$scope', '$rootScope', 'UserService', '$routeParams', '$location', function($scope, $rootScope, UserService, $routeParams, $location) {
+app.controller('AdminController', function($scope, $rootScope, UserService, $routeParams, $location) {
 	
-	var Tabs = [ 'views/admin/partials/users.html', 'views/admin/partials/brands.html', 'views/admin/partials/categories.html', 'views/admin/partials/repairTypes.html', 'views/admin/partials/taxRate.html', 'views/admin/partials/districts.html'  ];
+	this.Tabs = [ 'views/admin/partials/users.html', 'views/admin/partials/brands.html', 'views/admin/partials/categories.html', 'views/admin/partials/repairTypes.html', 'views/admin/partials/taxRate.html', 'views/admin/partials/districts.html'  ];
+	var self = this;
 	
-	$scope.TabView = Tabs[0];	
-	$scope.Tab = 0;
+	this.TabView = this.Tabs[0];	
+	this.Tab = 0;
 	
 	
 	if($routeParams.type == "users") {
-		$scope.Tab = 0;
-		$scope.TabView = Tabs[0];
+		this.Tab = 0;
+		this.TabView = this.Tabs[0];
 	}else if($routeParams.type == "brands") {
-		$scope.Tab = 1;
-		$scope.TabView = Tabs[1];
+		this.Tab = 1;
+		this.TabView = this.Tabs[1];
 	}else if($routeParams.type == "categories") {
-		$scope.Tab = 2;
-		$scope.TabView = Tabs[2];
+		this.Tab = 2;
+		this.TabView = this.Tabs[2];
 	}else if($routeParams.type == "repair-types") {
-		$scope.Tab = 3;
-		$scope.TabView = Tabs[3];
+		this.Tab = 3;
+		this.TabView = this.Tabs[3];
 	}else if($routeParams.type == "tax-rate") {
-		$scope.Tab = 4;
-		$scope.TabView = Tabs[4];
+		this.Tab = 4;
+		this.TabView = this.Tabs[4];
 		Globals.GetTaxRate(function (rate) {
-			$scope.TaxRate = rate;
+			this.TaxRate = rate;
 		});
 	}else if($routeParams.type == "districts") {
-		$scope.Tab = 5;
-		$scope.TabView = Tabs[5];
+		this.Tab = 5;
+		this.TabView = this.Tabs[5];
 	}
 
-	$scope.SelectTab = function (setTab) {
+	this.SelectTab = function (setTab) {
 		if(setTab == 0) {
 			$location.path('/admin/users');
 		}else if(setTab == 1) {
@@ -40,13 +41,13 @@ app.controller('AdminController', ['$scope', '$rootScope', 'UserService', '$rout
 			$location.path('/admin/tax-rate');
 		}else if(setTab == 4) {
 			$location.path('/admin/districts');
-			$scope.$broadcast('InitDistrictPage');
+			self.$broadcast('InitDistrictPage');
 		}
 	}
 
-	$scope.IsSelected = function (checkTab) {
-		return $scope.Tab === checkTab;
+	this.IsSelected = function (checkTab) {
+		return self.Tab === checkTab;
 	}
 
 
-}]);
+});

@@ -6,28 +6,28 @@ app.config(['$routeProvider', function ($routeProvider) {
 
     $routeProvider.when('/', {
         templateUrl: 'views/homepage.html',
-        controller: 'HomePageController'
+        controller: 'HomePageController as HomePage'
     }).when('/admin', {
         templateUrl: 'views/admin/admin.html',
-        controller: 'AdminController'
+        controller: 'AdminController as Admin'
     }).when('/admin/:type', {
         templateUrl: 'views/admin/admin.html',
-        controller: 'AdminController'
+        controller: 'AdminController as Admin'
     }).when('/add-product', {
     	templateUrl: 'views/add-product.html',
-    	controller: 'AddProductController'
+    	controller: 'AddProductController as AddProduct'
     }).when('/login', {
         templateUrl: 'views/login.html',
-        controller: 'LoginController'
+        controller: 'LoginController as Login'
     }).when('/register', {
         templateUrl: 'views/register.html',
-        controller: 'RegisterController'
+        controller: 'RegisterController as Register'
     }).when('/reset-password', {
         templateUrl: 'views/reset-password.html',
-        controller: 'ResetPasswordController'
+        controller: 'ResetPasswordController as ResetPassword'
     }).when('/shop', {
         templateUrl: 'views/shop.html',
-        controller: 'ShopController'
+        controller: 'ShopController as Shop'
     }).otherwise({
       redirectTo: '/'
     });
@@ -36,9 +36,10 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 }]);    
    
-app.run(function ($rootScope, $http, $location) {//Used for 
-    console.log('app.run');//Not sure what else to put here any more now that auth is being done from the routes above...
-
+app.run(function ($rootScope, $http, $location) {
+    //Run blocks are used as a main method, it executes after services have been configured 
+    // and the injector has been created
+    console.log('app.run');
 });
 
 angular.module('EcommApp')

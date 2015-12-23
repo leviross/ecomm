@@ -1,59 +1,66 @@
-app.controller('CategoryController', ['$scope', 'ProductService', function($scope, ProductService){
+app.controller('CategoryController', function($scope, ProductService){
 
-	var currentIndex = null;
+	this.currentIndex = null;
+	this.DisplayMode = 'list';
+	this.CategoryDetails = null;
 
-	$scope.Categories = ProductService.GetCachedCategories("Categories");
+	var self = this;
 
-	if(!$scope.Categories){
+	this.Categories = ProductService.GetCachedCategories("Categories");
+	console.log(this);
+
+	if(!this.Categories){
 		ProductService.GetAllCategories(function(result) {
-			$scope.Categories = result;
-		});
-	}
-	
-	$scope.DisplayMode = 'list';
-
-	$scope.AddCategory = function(){
-		$scope.DisplayMode = 'create';
-	}
-
-	$scope.EditCategory = function(category, index){
-		$scope.DisplayMode = 'edit';
-		$scope.Category = category;
-		currentIndex = index;
-	}
-
-	$scope.CreateNewCategory = function(){
-		//return $scope.Category;
-		ProductService.CreateNewCategory($scope.Category, function(result){
-			$scope.Category = result;
-			$scope.Categories.push(result);
-			$scope.DisplayMode = 'list';
+			self.Categories = result;
 		});
 	}
 
-	$scope.UpdateCategory = function(){
-		ProductService.UpdateCategory($scope.Category, function(result){
+	this.AddCategory = function(){
+		this.DisplayMode = 'create';
+		this.CategoryDetails = null;
+	}
+
+	this.EditCategory = function(category, index){
+		this.DisplayMode = 'edit';
+		this.CategoryDetails = category;
+		this.currentIndex = index;
+	}
+
+	this.CreateNewCategory = function(){
+		ProductService.CreateNewCategory(this.CategoryDetails, function(result){
+			self.Category = result;
+			self.Categories.push(result);
+			self.DisplayMode = 'list';
+		});
+	}
+
+	this.UpdateCategory = function(){
+		ProductService.UpdateCategory(this.CategoryDetails, this.currentIndex, function(result){
 			alertify.notify('Category Updated.', 'success', 5, function(){});
-			$scope.Categories[currentIndex] = result;
-			$scope.DisplayMode = 'list';
+			self.Categories[self.currentIndex] = result;
+			self.DisplayMode = 'list';
 			ClearForm();
 		});
 	}
 
-	$scope.GetAllCategories = function(){
+	this.GetAllCategories = function(){
 		ProductService.GetAllCategories(function(result){
-			$scope.Categories = result;
+			self.Categories = result;
 		});
 	}
 
-	$scope.BackToCategories = function() {
-		$scope.DisplayMode = 'list';
+	this.BackToCategories = function() {
+		var categoriesArray = ProductService.GetCachedCategories("Categories");
+		//console.log(categoriesArray);
+		//self.Categories = categoriesArray;
+		this.DisplayMode = 'list';
+		//ClearForm();
 	}
 
 	function ClearForm(){
-		$scope.CategoryForm.$setPristine();
-		$scope.Category.Name = "";
-		$scope.Category.Types = "";
+		self.CategoryForm.$setPristine();
+		self.CategoryDetails.Name = "";
+		self.CategoryDetails.Types = "";
 	}
 
-}]);
+});
