@@ -10,12 +10,14 @@
 			<thead>
 				<tr>
 					<th>Name</th>
+					<th>Count</th>
 					<th>Types</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="category in Category.Categories">
 					<td>{{category.Name}}</td>
+					<td>{{category.Count}}</td>
 					<td>{{category.Types}}</td>
 					<td><button type="button" class="btn btn-warning" ng-click="Category.EditCategory(category, $index)"><span class="glyphicon glyphicon-pencil"></span></button></td>
 				</tr>
@@ -26,16 +28,24 @@
 				<br />
 				<div class="row">
 					<div class="col-md-1">
-						<label class="control-label col-md-1">Name</label>
+						<label class="control-label">Name</label>
 					</div>
 					<div class="col-md-5">
 						<input name="name" type="text" class="custom-validate form-control" placeholder="Category Name" ng-model="Category.CategoryDetails.Name" ng-minlength="3" required />
 					</div>
 					<div class="col-md-1">
-						<label class="control-label col-md-1">Types</label>
+						<label class="control-label">Types</label>
 					</div>
 					<div class="col-md-5">
 						<input name="types" type="text" class="custom-validate form-control" placeholder="Enter in a comma after each type" ng-model="Category.CategoryDetails.Types" ng-minlength="4" required />
+					</div>
+				</div><br />
+				<div class="row">
+					<div class="col-md-1">
+						<label class="control-label">Total Count</label>
+					</div>
+					<div class="col-md-2">
+						<input type="text" class="form-control" ng-model="Category.CategoryDetails.Count">
 					</div>
 				</div>
 				<br />

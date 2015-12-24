@@ -22,9 +22,9 @@
         </div>
         <div class="panel-body">
           <ul class="nav nav-pills nav-stacked category-menu">
-            <li ng-repeat="category in Shop.Categories" ng-click="Shop.SelectCategory($event, $index)" ng-class="category.class"><a href="">{{category.Name}} <span class="badge pull-right">32</span></a>
+            <li ng-repeat="category in Shop.Categories" ng-click="Shop.SelectCategory($event, $index)" ng-class="category.class"><a href="">{{category.Name}} <span class="badge pull-right">{{category.Count}}</span></a>
               <ul>
-                <li ng-repeat="type in category.Types"><a href="">{{type.kind}}</a></li>
+                <li ng-repeat="t in category.Types"><a href="">{{t.Kind}}</a></li>
               </ul>
             </li>
           </ul>

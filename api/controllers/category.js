@@ -12,6 +12,7 @@ exports.CreateNewCategory = function(req, res){
 
 			c.Name = req.body.Name;
 			c.Types = req.body.Types;
+			c.Count = req.body.Count;
 
 			c.save(function(error, savedCategory){
 				if(error) console.log("Error Saving New Category:\n", error);
@@ -47,6 +48,7 @@ exports.UpdateCategory = function(req, res){
 		}else{
 			category.Name = req.body.Name;
 			category.Types = req.body.Types;
+			category.Count = req.body.Count;
 			
 			category.save(function(error, updatedCategory){
 				if(error){

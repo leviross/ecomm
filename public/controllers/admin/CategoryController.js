@@ -27,6 +27,7 @@ app.controller('CategoryController', function($scope, ProductService){
 	}
 
 	this.CreateNewCategory = function(){
+		//TODO: DB creates proper object, but it goes back to list view and lists 2 empty categories, fix. 
 		ProductService.CreateNewCategory(this.CategoryDetails, function(result){
 			self.Category = result;
 			self.Categories.push(result);
