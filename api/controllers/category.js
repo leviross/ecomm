@@ -49,7 +49,7 @@ exports.UpdateCategory = function(req, res){
 			category.Name = req.body.Name;
 			category.Types = req.body.Types;
 			category.Count = req.body.Count;
-			
+
 			category.save(function(error, updatedCategory){
 				if(error){
 					console.log("Error Updating this Category:\n", error);
@@ -63,9 +63,14 @@ exports.UpdateCategory = function(req, res){
 }
 
 exports.DeleteCategory = function(req, res){
-	Category.findByIdAndRemove(req.params.id, function(err, Category){
-		if(err) console.log("Error Deleting Category:\n", err);
-		res.json(product);
+	Category.findByIdAndRemove(req.params.id, function(err, category){
+		if(err) {
+			console.log("Error Deleting Category:\n", err);
+			res.json({Deleted: false, Message: err});
+		}else{
+			console.log("Category was deleted.");
+			res.json({Deleted: true, Message: "Category was deleted."});	
+		}
 	});
 }
 

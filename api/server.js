@@ -53,7 +53,8 @@ router.route('/categories')
 
 router.route('/categories/:id')
 	.get(CategoryController.GetCategoryById)
-	.put(CategoryController.UpdateCategory);	
+	.put(CategoryController.UpdateCategory)
+	.delete(CategoryController.DeleteCategory);	
 	
 router.route('/products')
 	.post(ProductController.CreateNewProduct);

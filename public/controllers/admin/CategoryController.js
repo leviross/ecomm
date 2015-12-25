@@ -7,10 +7,10 @@ app.controller('CategoryController', function($scope, ProductService){
 	var self = this;
 
 	this.Categories = ProductService.GetCachedCategories("Categories");
-	console.log(this);
+	//console.log(this);
 
 	if(!this.Categories){
-		ProductService.GetAllCategories(function(result) {
+		ProductService.GetAllCategories(function(result){
 			self.Categories = result;
 		});
 	}
@@ -29,9 +29,10 @@ app.controller('CategoryController', function($scope, ProductService){
 	this.CreateNewCategory = function(){
 		//TODO: DB creates proper object, but it goes back to list view and lists 2 empty categories, fix. 
 		ProductService.CreateNewCategory(this.CategoryDetails, function(result){
-			self.Category = result;
+			self.CategoryDetails = result;
 			self.Categories.push(result);
 			self.DisplayMode = 'list';
+			alertify.notify(result.Name + ' Category was created!', 'success', 5, function(){});
 		});
 	}
 
@@ -41,6 +42,14 @@ app.controller('CategoryController', function($scope, ProductService){
 			self.Categories[self.currentIndex] = result;
 			self.DisplayMode = 'list';
 			ClearForm();
+		});
+	}
+
+	this.DeleteCategory = function(category, index){
+		ProductService.DeleteCategory(category._id, function(result){
+			self.Categories.splice(index, 1);
+			ProductService.InitCachedCategories('Categories', this.Categories);
+			alertify.notify('Category Deleted.', 'error', 5, function(){});
 		});
 	}
 

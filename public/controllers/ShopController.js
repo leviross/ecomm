@@ -15,7 +15,7 @@ app.controller('ShopController', function($scope, ProductService){
 	function ScopeCategories(categories){
 		var finalArr = [];
 		for(var i = 0; i <  categories.length; i++){
-			var scopeObj = {Name: categories[i].Name, Count: 33, class: ""};
+			var scopeObj = {Name: categories[i].Name, Count: categories[i].Count, class: ""};
 			var kinds = categories[i].Types.split(",");
 			for(var j = 0; j < kinds.length; j++){
 				kinds[j] = {Kind: kinds[j]};

@@ -15,11 +15,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="category in Category.Categories">
+				<tr ng-repeat="category in Category.Categories track by $index">
 					<td>{{category.Name}}</td>
 					<td>{{category.Count}}</td>
 					<td>{{category.Types}}</td>
 					<td><button type="button" class="btn btn-warning" ng-click="Category.EditCategory(category, $index)"><span class="glyphicon glyphicon-pencil"></span></button></td>
+					<td><button type="button" class="btn btn-danger" ng-click="Category.DeleteCategory(category, $index)"><span class="glyphicon glyphicon-trash"></span></button></td>
 				</tr>
 			</tbody>
 		</table>

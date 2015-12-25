@@ -24,7 +24,7 @@ app.factory('ProductService', ['$http', function($http){
 		},
 		InitCachedCategories: function(key, value){
 			categories = value;
-			sessionStorage.setItem('Categories', JSON.stringify(value));
+			sessionStorage.setItem(key, JSON.stringify(value));
 		},
 		AddCachedCategories: function(category){
 			categories.push(category);
@@ -49,8 +49,9 @@ app.factory('ProductService', ['$http', function($http){
 			var self = this;
 			return $http.post('http://localhost:4000/api/categories', category)
 				.then(function(result){
-					self.AddCachedCategories("Categories", result.data);
-					cb(result);
+					self.AddCachedCategories(result.data);
+					cb(result.data);
+					console.log(categories);
 				}, function(err){
 					console.log(err);
 				});
@@ -60,6 +61,14 @@ app.factory('ProductService', ['$http', function($http){
 			return $http.put('http://localhost:4000/api/categories/' + category._id, category)
 				.then(function(result){
 					self.UpdatedCachedCategories("Categories", result.data, index);
+					cb(result.data);
+				}, function(err){
+					console.log(err);
+				});
+		},
+		DeleteCategory: function(id, cb){
+			return $http.delete('http://localhost:4000/api/categories/' + id)
+				.then(function(result){
 					cb(result.data);
 				}, function(err){
 					console.log(err);
