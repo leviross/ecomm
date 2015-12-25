@@ -30,7 +30,8 @@ app.controller('CategoryController', function($scope, ProductService){
 		//TODO: DB creates proper object, but it goes back to list view and lists 2 empty categories, fix. 
 		ProductService.CreateNewCategory(this.CategoryDetails, function(result){
 			self.CategoryDetails = result;
-			self.Categories.push(result);
+			//self.Categories.push(result);
+			//ProductService.SetCachedCategories('Categories', self.Categories);
 			self.DisplayMode = 'list';
 			alertify.notify(result.Name + ' Category was created!', 'success', 5, function(){});
 		});
@@ -40,6 +41,7 @@ app.controller('CategoryController', function($scope, ProductService){
 		ProductService.UpdateCategory(this.CategoryDetails, this.currentIndex, function(result){
 			alertify.notify('Category Updated.', 'success', 5, function(){});
 			self.Categories[self.currentIndex] = result;
+			//ProductService.SetCachedCategories('Categories', self.Categories);
 			self.DisplayMode = 'list';
 			ClearForm();
 		});
@@ -48,7 +50,7 @@ app.controller('CategoryController', function($scope, ProductService){
 	this.DeleteCategory = function(category, index){
 		ProductService.DeleteCategory(category._id, function(result){
 			self.Categories.splice(index, 1);
-			ProductService.InitCachedCategories('Categories', this.Categories);
+			ProductService.SetCachedCategories('Categories', self.Categories);
 			alertify.notify('Category Deleted.', 'error', 5, function(){});
 		});
 	}
