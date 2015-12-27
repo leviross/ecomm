@@ -1,4 +1,4 @@
-app.controller('UserController', function($scope, UserService, ValidationService, $location){
+function UserController($scope, UserService, ValidationService, $location){
 
 	this.DisplayMode = 'list';
 	this.UserTypes = [{id: "1", name: "Admin", value: true}, {id: "2", name: "Non-Admin", value: false}];
@@ -105,6 +105,8 @@ app.controller('UserController', function($scope, UserService, ValidationService
 
 	}
 	
+}
 
+UserController.$inject = ['$scope', 'UserService', 'ValidationService', '$location'];
 
-});
+app.controller('UserController', UserController);

@@ -1,4 +1,4 @@
-app.controller('LoginController', ['$scope', '$http', '$rootScope', 'UserService', '$location', function($scope, $http, $rootScope, UserService, $location){
+function LoginController($http, $rootScope, UserService, $location){
 
 	var self = this;
 	this.ShowResetPass = false;
@@ -59,6 +59,8 @@ app.controller('LoginController', ['$scope', '$http', '$rootScope', 'UserService
     	});
     }
 
+}
 
+LoginController.$inject = ['$http', '$rootScope', 'UserService', '$location'];
 
-}]);
+app.controller('LoginController', LoginController);

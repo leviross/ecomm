@@ -1,5 +1,6 @@
 app.factory('ProductService', ['$http', function($http){
 
+	'use strict'
 	var categories = [];
 	var sessionCategories = sessionStorage.getItem('Categories');
 
@@ -35,24 +36,23 @@ app.factory('ProductService', ['$http', function($http){
 			categories[index] = value;
 			sessionStorage.setItem(key, JSON.stringify(categories));
 		},
-		GetCachedCategories: function(key){
+		GetCachedCategories: function(key, cb){
 			if(categories.length !== 0){
-				return categories;
+				cb(categories);
 			}else if(!sessionStorage.Categories){
-				return null;
+				cb(null);
 			}else if(sessionStorage.Categories){
 				var parsedCategories = JSON.parse(sessionStorage.getItem(key));
 				categories = parsedCategories;
-				return categories;
+				cb(categories);
 			}
 		},
 		CreateNewCategory: function(category, cb){
 			var self = this;
 			return $http.post('http://localhost:4000/api/categories', category)
 				.then(function(result){
-					self.AddCachedCategories(result.data); //I was calling it here, but now I am taking the ctrl's array and saving back to the virual array on the service as categories was losing its definition
+					self.AddCachedCategories(result.data); 
 					cb(result.data);
-					//console.log(categories);
 				}, function(err){
 					console.log(err);
 				});
@@ -61,7 +61,7 @@ app.factory('ProductService', ['$http', function($http){
 			var self = this;
 			return $http.put('http://localhost:4000/api/categories/' + category._id, category)
 				.then(function(result){
-					self.UpdatedCachedCategories("Categories", result.data, index);// read comment on lines 52 & 30
+					self.UpdatedCachedCategories("Categories", result.data, index);
 					cb(result.data);
 				}, function(err){
 					console.log(err);

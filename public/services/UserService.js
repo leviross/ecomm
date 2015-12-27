@@ -1,4 +1,4 @@
-app.factory('UserService', ['$http', '$cacheFactory', '$location', function($http, $cacheFactory, $location){
+app.factory('UserService', ['$http', '$location', function($http, $location){
 
 	'use strict'
 	var cachedUsersArr = []; 
@@ -49,11 +49,14 @@ app.factory('UserService', ['$http', '$cacheFactory', '$location', function($htt
 			sessionStorage.setItem(key, JSON.stringify(value));
 		},
 		GetCachedUsers: function(key){	
-			if(cachedUsersArr.length == 0){
-				var parsedJsonArr = JSON.parse(sessionStorage.getItem(key));
-				return parsedJsonArr;
-			}else{
+			if(cachedUsersArr.length !== 0){
 				return cachedUsersArr;
+			}else if(!sessionStorage.UsersArray){
+				return null
+			}else if(sessionStorage.UsersArray){
+				var parsedJsonArr = JSON.parse(sessionStorage.getItem(key));
+				cachedUsersArr = parsedJsonArr;
+				return cachedUsersArr;	
 			}
 		},
 		PutLoggedInUser: function(user, token){

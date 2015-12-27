@@ -1,4 +1,4 @@
-app.controller('RegisterController', ['$scope', 'ValidationService', '$http', '$location', function($scope, ValidationService, $http, $location){
+function RegisterController($scope, ValidationService, $http, $location){
 
 	$scope.CheckFirstName = function(){
 		if($scope.FirstName !== ""){
@@ -39,4 +39,8 @@ app.controller('RegisterController', ['$scope', 'ValidationService', '$http', '$
 
     }
 
-}]);
+}
+
+RegisterController.$inject = ['$scope', 'ValidationService', '$http', '$location'];
+
+app.controller('RegisterController', RegisterController);

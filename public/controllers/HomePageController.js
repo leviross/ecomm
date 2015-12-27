@@ -1,4 +1,4 @@
-app.controller('HomePageController', ['$scope', 'UserService', '$rootScope', function($scope, UserService, $rootScope){
+function HomePageController($scope, UserService, $rootScope){
 
 	this.MyInterval = 5000;
 	this.noWrapSlides = false;
@@ -18,4 +18,8 @@ app.controller('HomePageController', ['$scope', 'UserService', '$rootScope', fun
 	
 
 
-}]);
+}
+
+HomePageController.$inject = ['$scope', 'UserService', '$rootScope'];
+
+app.controller('HomePageController', HomePageController);

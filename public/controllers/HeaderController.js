@@ -1,5 +1,4 @@
-angular.module('EcommApp')
-.controller('HeaderController', function($scope, $rootScope, $location, $location, UserService){
+function HeaderController($scope, $rootScope, $location, UserService){
 
 	this.Cart = [];
 	var self = this;
@@ -35,5 +34,8 @@ angular.module('EcommApp')
 	}
     
 
+}
 
-});
+HeaderController.$inject = ['$scope', '$rootScope', '$location', 'UserService'];
+
+app.controller('HeaderController', HeaderController);

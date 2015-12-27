@@ -1,47 +1,53 @@
-app.controller('CategoryController', function($scope, ProductService){
-
-	this.currentIndex = null;
-	this.DisplayMode = 'list';
-	this.CategoryDetails = null;
+function CategoryController(ProductService){
 
 	var self = this;
+	this.currentIndex = null;
+	this.DisplayMode = 'list';
+	var currentCategory = null;
 
-	this.Categories = ProductService.GetCachedCategories("Categories");
-	//console.log(this);
-
-	if(!this.Categories){
-		ProductService.GetAllCategories(function(result){
+	ProductService.GetCachedCategories("Categories", function(result){
+		if(!result){
+			ProductService.GetAllCategories(function(dbArray){
+				self.Categories = dbArray;
+			});
+		}else{
 			self.Categories = result;
-		});
-	}
+		}
+	});
+
 
 	this.AddCategory = function(){
 		this.DisplayMode = 'create';
-		this.CategoryDetails = null;
+		this.Name = "";
+		this.Types = "";
+		this.Count = "";
 	}
 
 	this.EditCategory = function(category, index){
 		this.DisplayMode = 'edit';
-		this.CategoryDetails = category;
+		currentCategory = category;
+		this.Name = category.Name;
+		this.Types = category.Types;
+		this.Count = category.Count;
 		this.currentIndex = index;
 	}
 
 	this.CreateNewCategory = function(){
-		//TODO: DB creates proper object, but it goes back to list view and lists 2 empty categories, fix. 
-		ProductService.CreateNewCategory(this.CategoryDetails, function(result){
-			self.CategoryDetails = result;
-			//self.Categories.push(result);
-			//ProductService.SetCachedCategories('Categories', self.Categories);
+		var catObj = {Name: this.Name, Types: this.Types, Count: this.Count};
+		ProductService.CreateNewCategory(catObj, function(result){
 			self.DisplayMode = 'list';
+			ProductService.GetCachedCategories("Categories", function(result){
+				self.Categories = result;
+			})
 			alertify.notify(result.Name + ' Category was created!', 'success', 5, function(){});
 		});
 	}
 
 	this.UpdateCategory = function(){
-		ProductService.UpdateCategory(this.CategoryDetails, this.currentIndex, function(result){
+		var catObj = {_id: currentCategory._id, Name: this.Name, Types: this.Types, Count: this.Count};
+		ProductService.UpdateCategory(catObj, this.currentIndex, function(result){
 			alertify.notify('Category Updated.', 'success', 5, function(){});
 			self.Categories[self.currentIndex] = result;
-			//ProductService.SetCachedCategories('Categories', self.Categories);
 			self.DisplayMode = 'list';
 			ClearForm();
 		});
@@ -62,17 +68,20 @@ app.controller('CategoryController', function($scope, ProductService){
 	}
 
 	this.BackToCategories = function() {
-		var categoriesArray = ProductService.GetCachedCategories("Categories");
-		//console.log(categoriesArray);
-		//self.Categories = categoriesArray;
-		this.DisplayMode = 'list';
-		//ClearForm();
+		ProductService.GetCachedCategories("Categories", function(result){
+		 	self.Categories = result; 
+		 	self.DisplayMode = 'list';
+			ClearForm();	
+		});
 	}
 
 	function ClearForm(){
 		self.CategoryForm.$setPristine();
-		self.CategoryDetails.Name = "";
-		self.CategoryDetails.Types = "";
+		self.Name = "";
+		self.Types = "";
+		self.Count = "";
 	}
 
-});
+}
+
+app.controller('CategoryController', CategoryController);
