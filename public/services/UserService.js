@@ -28,12 +28,20 @@ app.factory('UserService', ['$http', '$location', function($http, $location){
 		},
 		UpdateUser: function(userObj, cb){
 			userObj.Token = sessionToken;
-			return $http.put('http://localhost:4000/api/users/update/' + userObj._id, userObj)
+			return $http.put('http://localhost:4000/api/users/' + userObj._id, userObj)
 				.then(function(result){
 					cb(result);
 				}, function(err){
 					console.log("Error updating user password:\n", err);
 				});	
+		},
+		DeleteUser: function(id, cb){
+			return $http.delete('http://localhost:4000/api/users/' + id)
+				.then(function(result){
+					cb(result.data);
+				}, function(err){
+					cb(err);
+				});
 		},
 		ResetPassword: function(email, cb){
 			return $http.put('http://localhost:4000/api/users/reset-password/' + email)

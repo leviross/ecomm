@@ -31,10 +31,11 @@ router.route('/users')
 	.get(UserController.GetAllUsers);
 
 router.route('/users/:id')
-	.delete(UserController.DeleteUser);	
 	
-router.route('/users/update/:id')
-	.put(UserController.UpdateUser);
+	
+router.route('/users/:id')
+	.put(UserController.UpdateUser)
+	.delete(UserController.DeleteUser);	
 		
 router.route('/users/reset-password/:email')
 	.put(UserController.ResetPassword);	
