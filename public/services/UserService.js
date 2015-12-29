@@ -3,50 +3,78 @@ app.factory('UserService', ['$http', '$location', function($http, $location){
 	'use strict'
 	var cachedUsersArr = []; 
 	var currentUser = null;
-    var sessionToken = sessionStorage.getItem('Token');
-   	var sessionUser = sessionStorage.getItem('User');
+
+	function ForceLogin(){
+		alertify.notify("Login timed out, login again.", "error", 5);
+		$location.path('/login');
+	}
+
 
 	return {
 
 		GetAllUsers: function(cb){
 			var self = this;
-			return $http.get('http://localhost:4000/api/users')
+			var token = sessionStorage.getItem('Token');
+			return $http.get('http://localhost:4000/api/users/' + token)
 				.then(function(result){
-					cb(result.data);
-					self.PutCachedUsers("UsersArray", result.data);
+					if(result.data.Error){
+						ForceLogin();
+					}else{
+						cb(result.data);
+						self.PutCachedUsers("UsersArray", result.data);
+					}
 				}, function(err){
 					console.log("Error getting all users:\n", err);
+					ForceLogin();
 				});
 		},
 		CreateNewUser: function(userObj, cb){
-			return $http.post('http://localhost:4000/api/users', userObj)
+			var token = sessionStorage.getItem('Token');
+			return $http.post('http://localhost:4000/api/users/' + token, userObj)
 				.then(function(result){
-					cb(result.data);
+					if(result.data.Error){
+						ForceLogin();
+					}else{
+						cb(result.data);
+					}
 				}, function(err){
 					console.log("Error creating user:\n", err);
-				})
+					ForceLogin();
+				});
 		},
 		UpdateUser: function(userObj, cb){
-			userObj.Token = sessionToken;
-			return $http.put('http://localhost:4000/api/users/' + userObj._id, userObj)
+			var token = sessionStorage.getItem('Token');
+			return $http.put('http://localhost:4000/api/users/' + userObj._id + '/' + token, userObj)
 				.then(function(result){
-					cb(result);
+					if(result.data.Error){
+						ForceLogin();
+					}else{
+						cb(result.data);
+					}
 				}, function(err){
-					console.log("Error updating user password:\n", err);
+					console.log("Error updating user:\n", err);
+					ForceLogin();
 				});	
 		},
 		DeleteUser: function(id, cb){
-			return $http.delete('http://localhost:4000/api/users/' + id)
+			var token = sessionStorage.getItem('Token');
+			return $http.delete('http://localhost:4000/api/users/' + id + '/' + token)
 				.then(function(result){
-					cb(result.data);
+					if(result.data.Error){
+						ForceLogin();
+					}else{
+						cb(result.data);
+					}
 				}, function(err){
-					cb(err);
+					console.log("Error deleting user:\n", err);
+					ForceLogin();
 				});
 		},
 		ResetPassword: function(email, cb){
+			// no token needed here as this is the password reset link when logged out
 			return $http.put('http://localhost:4000/api/users/reset-password/' + email)
 				.then(function(result){
-					cb(result);
+					cb(result.data);
 				}, function(err){
 					console.log(err);
 				});
@@ -57,29 +85,29 @@ app.factory('UserService', ['$http', '$location', function($http, $location){
 			sessionStorage.setItem(key, JSON.stringify(value));
 		},
 		GetCachedUsers: function(key){	
-			if(cachedUsersArr.length !== 0){
+			if(cachedUsersArr && cachedUsersArr.length !== 0){
 				return cachedUsersArr;
-			}else if(!sessionStorage.UsersArray){
-				return null
-			}else if(sessionStorage.UsersArray){
+			}else if(sessionStorage.UsersArray != "" && sessionStorage.UsersArray != "undefined"){
 				var parsedJsonArr = JSON.parse(sessionStorage.getItem(key));
 				cachedUsersArr = parsedJsonArr;
 				return cachedUsersArr;	
+			}else{
+				return null
 			}
 		},
 		PutLoggedInUser: function(user, token){
 			sessionStorage.setItem('Token', token);
            	sessionStorage.setItem('User', JSON.stringify(user));
-			sessionToken = sessionStorage.getItem('Token');
 			currentUser = user;
-			currentUser.Token = sessionToken;
+			currentUser.Token = sessionStorage.getItem('Token');
 		},
 		GetLoggedInUser: function(){
+			var sessionUser = sessionStorage.getItem('User');
 			if(currentUser) {
 				return currentUser;
-			}else if(sessionUser){
+			}else if(sessionUser != "" && sessionUser != "undefined"){
 				var parsedSessionUser = JSON.parse(sessionUser);
-				parsedSessionUser.Token = sessionToken;
+				parsedSessionUser.Token = sessionStorage.getItem('Token');
 				currentUser = parsedSessionUser;
 				return currentUser;
 			}else{

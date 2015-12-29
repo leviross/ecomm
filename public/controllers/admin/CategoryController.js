@@ -5,16 +5,13 @@ function CategoryController(ProductService){
 	this.DisplayMode = 'list';
 	var currentCategory = null;
 
-	ProductService.GetCachedCategories("Categories", function(result){
-		if(!result){
-			ProductService.GetAllCategories(function(dbArray){
-				self.Categories = dbArray;
-			});
-		}else{
-			self.Categories = result;
-		}
-	});
+	this.Categories = ProductService.GetCachedCategories("Categories");
 
+	if(this.Categories == null || this.Categories == undefined || this.Categories == "undefined"){
+		ProductService.GetAllCategories(function(dbArray){
+			self.Categories = dbArray;
+		});
+	}
 
 	this.AddCategory = function(){
 		this.DisplayMode = 'create';

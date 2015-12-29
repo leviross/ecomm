@@ -2,6 +2,7 @@ var Category = require('../models/category');
 
 exports.CreateNewCategory = function(req, res){
 	//return console.log(req.body);
+	//deal with req.params.token and token verification
 	Category.findOne({Name: req.body.Name}, function(err, category){
 		if(err) console.log("Error Finding Some Category:\n", err);
 		if(category){
@@ -42,6 +43,7 @@ exports.GetCategoryById  = function(req, res){
 }
 
 exports.UpdateCategory = function(req, res){
+	//deal with req.params.token and token verification
 	Category.findOne({_id: req.params.id}, function(err, category){
 		if(err){
 			console.log("Error finding that Category:\n", err);
@@ -63,6 +65,7 @@ exports.UpdateCategory = function(req, res){
 }
 
 exports.DeleteCategory = function(req, res){
+	//deal with req.params.token and token verification
 	Category.findByIdAndRemove(req.params.id, function(err, category){
 		if(err) {
 			console.log("Error Deleting Category:\n", err);

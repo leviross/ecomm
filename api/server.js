@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var cors = require('cors');
 var router = express.Router();
+var morgan = require('morgan');
 
 var app = express();
 var jwtauth = require('./my_modules/jwtauth');
@@ -20,20 +21,19 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
 app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 
+app.use(morgan('dev'));
+
 
 mongoose.connect(uri, function(err){
 	if(err) console.log("Mongoose Connection Error\n", err);
 });
 
 // users
-router.route('/users')
+router.route('/users/:token')
 	.post(UserController.CreateNewUser)
 	.get(UserController.GetAllUsers);
 
-router.route('/users/:id')
-	
-	
-router.route('/users/:id')
+router.route('/users/:id/:token')
 	.put(UserController.UpdateUser)
 	.delete(UserController.DeleteUser);	
 		
@@ -48,11 +48,12 @@ router.route('/orders')
 	.get(jwtauth, UserController.GetUserOrders);
 
 // products
-router.route('/categories')
-	.post(CategoryController.CreateNewCategory)
+router.route('/categories/:token')
+	.post(CategoryController.CreateNewCategory);
+router.route('/categories')	
 	.get(CategoryController.GetAllCategories);
 
-router.route('/categories/:id')
+router.route('/categories/:id')//add token to these routes
 	.get(CategoryController.GetCategoryById)
 	.put(CategoryController.UpdateCategory)
 	.delete(CategoryController.DeleteCategory);	

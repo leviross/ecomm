@@ -2,12 +2,13 @@ function UserController($scope, UserService, ValidationService, $location){
 
 	this.DisplayMode = 'list';
 	this.UserTypes = [{id: "1", name: "Admin", value: true}, {id: "2", name: "Non-Admin", value: false}];
-	this.AllUsers = UserService.GetCachedUsers("UsersArray");
 	var self = this;
 	var currentIndex = null;
+	
+	this.AllUsers = UserService.GetCachedUsers("UsersArray");
 
-	if(this.AllUsers == null || this.AllUsers == undefined){
-		UserService.GetAllUsers(function(usersArray) {
+	if(this.AllUsers == null || this.AllUsers == undefined || this.AllUsers == "undefined"){
+		UserService.GetAllUsers(function(usersArray){
 			self.AllUsers = usersArray;
 		});
 	}
@@ -36,12 +37,12 @@ function UserController($scope, UserService, ValidationService, $location){
 	}
 
 	this.CheckFirstName = function(){
-		if(!this._id){
+		if(this.FirstName != "" && this.FirstName != undefined){
 			this.FirstName = ValidationService.CapitalizeName(this.FirstName);
 		}
 	}
 	this.CheckLastName = function(){
-		if(!this._id){
+		if(this.LastName != "" && this.LastName != undefined){
 			this.LastName = ValidationService.CapitalizeName(this.LastName);
 		}
 	}
@@ -50,12 +51,15 @@ function UserController($scope, UserService, ValidationService, $location){
 		var NewUserObj = {FirstName: this.FirstName, LastName: this.LastName, Email: this.Email, Password: this.Password1, 
 			IsAdmin: this.IsAdmin, IsEmployee: true}
 		UserService.CreateNewUser(NewUserObj, function(result){
-			alertify.notify('User: ' + result.User.FirstName + ' was created.', 'success', 5, function(){});
-			self.AllUsers.push(result.User);
-			self.DisplayMode = 'list';
-			self.UserForm.$setPristine();
+			if(result.Error){
+				MyAlert('Login timed out, please login again.', 'error', 5);
+				$location.path('/login');
+			}else{
+				MyAlert('User: ' + result.User.FirstName + ' was created.', 'success', 5);
+				self.AllUsers.push(result.User);
+				ClearForm();
+			}
 		});
-		
 	}	
 
 	this.ToggleChangePassword = function(){
@@ -75,35 +79,43 @@ function UserController($scope, UserService, ValidationService, $location){
 			IsAdmin: this.IsAdmin, IsEmployee: true}
 		UserService.UpdateUser(UpdatedUserObj, function(result) {
 			if(result.data.PasswordUpdated && !result.data.Error){
-				alertify.notify('User and Password Updated!', 'success', 5, function(){});	
+				MyAlert('User and Password Updated!', 'success', 5);	
 				self.Password1 = "";
 				self.Password2 = "";
 				ClearForm();
 				self.AllUsers[currentIndex] = result.data.User;
-			}else if(!result.data.PasswordUpdated && !result.data.UserUpdated && !result.data.Error){
-				alertify.notify('Password already in use, login or choose another password.', 'error', 5, function(){});
+			}else if(!result.data.PasswordUpdated && !result.data.UserUpdated && !result.data.Error && !result.data.NothingChanged){
+				MyAlert('Password already in use, choose another password.', 'error', 5);
 				self.Password1 = "";
 				self.Password2 = "";
 				self.UserForm.$setPristine();
 			}else if(result.data.UserUpdated && !result.data.PasswordUpdated && !result.data.Error){
-				alertify.notify('User Updated!', 'success', 5, function(){});
+				MyAlert('User Updated!', 'success', 5);
 				self.Password1 = "";
 				self.Password2 = "";
 				ClearForm();
 				self.AllUsers[currentIndex] = result.data.User;
+			}else if(result.data.NothingChanged){
+				MyAlert('You made no changes, try again.', 'error', 5);
 			}else if(result.data.Error){
-				alertify.notify('Login token expired, please login again.', 'error', 5, function(){});
+				MyAlert('Login timed out, please login again.', 'error', 5);
 				$location.path('/login');
 			}
 		});
 	}
 
+	function MyAlert(message, type, time, cb){
+		alertify.notify(message, type, time, cb);
+		self.Password1 = "";
+		self.Password2 = "";
+	}
+
 	this.DeleteUser = function(user, index){
 		UserService.DeleteUser(user._id, function(result){
 			self.AllUsers.splice(index, 1);
-			UserService.PutCachedUsers("UsersArray", this.AllUsers);
-			alertify.notify('That user was deleted.', 'error', 5, function(){});
-		})
+			UserService.PutCachedUsers("UsersArray", self.AllUsers);
+			MyAlert('That user was deleted.', 'error', 5);
+		});
 	}
 
 	this.BackToUsers = function(){

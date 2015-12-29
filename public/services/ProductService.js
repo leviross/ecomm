@@ -4,8 +4,14 @@ app.factory('ProductService', ['$http', function($http){
 	var categories = [];
 	var sessionCategories = sessionStorage.getItem('Categories');
 
+	function ForceLogin(){
+		alertify.notify("Login timed out, login again.", "error", 5);
+		$location.path('/login');
+	}
+
 	return {
 		AddNewProduct: function(product, cb){
+			var token = sessionStorage.getItem('Token');//deal with this later, sending the token...
 			return $http.post('http://localhost:4000/api/products')
 				.then(function(err){
 					console.log("Error posting new product\n", err);
@@ -36,20 +42,21 @@ app.factory('ProductService', ['$http', function($http){
 			categories[index] = value;
 			sessionStorage.setItem(key, JSON.stringify(categories));
 		},
-		GetCachedCategories: function(key, cb){
+		GetCachedCategories: function(key){
 			if(categories.length !== 0){
-				cb(categories);
+				return categories;
 			}else if(!sessionStorage.Categories){
-				cb(null);
+				return null;
 			}else if(sessionStorage.Categories){
 				var parsedCategories = JSON.parse(sessionStorage.getItem(key));
 				categories = parsedCategories;
-				cb(categories);
+				return categories;
 			}
 		},
 		CreateNewCategory: function(category, cb){
 			var self = this;
-			return $http.post('http://localhost:4000/api/categories', category)
+			var token = sessionStorage.getItem('Token');
+			return $http.post('http://localhost:4000/api/categories/' + token, category)
 				.then(function(result){
 					self.AddCachedCategories(result.data); 
 					cb(result.data);

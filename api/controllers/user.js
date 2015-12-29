@@ -7,7 +7,7 @@ var sendgrid_to_email = process.env.SENDGRID_TO_EMAIL;
 var sendgrid_from_email = process.env.SENDGRID_FROM_EMAIL;
 
 exports.CreateNewUser = function(req, res){
-	jwt.verify(req.body.Token, tokenSecret, function(jwtErr, decoded){
+	jwt.verify(req.params.token, tokenSecret, function(jwtErr, decoded){
 		if(jwtErr){ 
 			console.log("Token Missing or Expired.", jwtErr); 
 			res.json({Error: jwtErr});
@@ -19,7 +19,7 @@ exports.CreateNewUser = function(req, res){
 					console.log("Error querying User collection on Create.");
 				}else if(existingUser){
 					console.log("User already exists:\n", existingUser);
-					res.send({Created: false, User: existingUser});
+					res.json({Created: false, User: existingUser});
 				}else{
 					var u = new User();
 					u.FirstName = req.body.FirstName;
@@ -57,7 +57,8 @@ function isValidPassword(user, password){
 }
 
 exports.UpdateUser = function(req, res){
-	jwt.verify(req.body.Token, tokenSecret, function(jwtErr, decoded){
+	console.log(req.body);
+	jwt.verify(req.params.token, tokenSecret, function(jwtErr, decoded){
 		if(jwtErr){ 
 			console.log("Token Missing or Expired.", jwtErr); 
 			res.json({Error: jwtErr});
@@ -67,36 +68,46 @@ exports.UpdateUser = function(req, res){
 				if(err){
 					//TODO: send err back to the client
 					console.log("Can't find that Id, try again.");
-					res.sendStatus(500); //send a better error message.
-				}else if(req.body.Password1){
-					var passwordsMatch = isValidPassword(user, req.body.Password1);
+					res.json({Error: true, Message: err});
+				}else if(req.body.Password){
+					var passwordsMatch = isValidPassword(user, req.body.Password);
 
 					if(passwordsMatch){ 
 						console.log("That's the same password already in use.");
-						res.send({PasswordUpdated: false, UserUpdated: false, User: user}); 
+						res.json({PasswordUpdated: false, UserUpdated: false, User: user}); 
 					}else if(!passwordsMatch){
 
-						user.Password = Hash(req.body.Password1);
+						user.Password = Hash(req.body.Password);
+						user.FirstName = req.body.FirstName;
+						user.LastName = req.body.LastName;
+						user.Email = req.body.Email;
+
+						user.save(function(error, updatedUser){
+							if(error){
+								console.log("Error on updating user password.");
+								res.json({Error: true, Message: error});	
+							}else{
+								console.log("Password changed!\n", updatedUser);
+								res.json({PasswordUpdated: true, UserUpdated: true, User: 	updatedUser});
+							} 
+						});
+					}
+				}else if(!req.body.Password){
+					if(req.body.FirstName == user.FirstName && req.body.LastName == user.LastName && req.body.Email == user.Email){
+						console.log("Nothing changed at all, try again.");
+						res.json({UserUpdated: false, NothingChanged: true});
+					}else{
 						user.FirstName = req.body.FirstName;
 						user.LastName = req.body.LastName;
 						user.Email = req.body.Email;
 
 						user.save(function(error, updatedUser){
 							if(error) console.log("Error on updating user password.");
-							console.log("Password changed!\n", updatedUser);
-							res.json({PasswordUpdated: true, UserUpdated: true, User: 	updatedUser});
+							console.log("Password not changed, User changed:\n", updatedUser);
+							res.json({PasswordUpdated: false, UserUpdated: true, User: updatedUser});
 						});
 					}
-				}else if(!req.body.Password1){
-					user.FirstName = req.body.FirstName;
-					user.LastName = req.body.LastName;
-					user.Email = req.body.Email;
-
-					user.save(function(error, updatedUser){
-						if(error) console.log("Error on updating user password.");
-						console.log("Password not changed, User changed:\n", updatedUser);
-						res.json({PasswordUpdated: false, UserUpdated: true, User: updatedUser});
-					});
+					
 				}				
 			});
 		}
@@ -105,12 +116,12 @@ exports.UpdateUser = function(req, res){
 }
 
 exports.ResetPassword = function(req, res){
-	
+	// no token needed here as this is the password reset link when logged out
     User.findOne({Email: req.params.email}, function(err, user){
     	if(err){
-    		//TODO: send err back to the client 
-    		console.log(err) 
-    	}else{
+    		console.log(err);
+    		res.json({Error: true, Message: err}); 
+    	}else if(user){
 
 	    	var token = jwt.sign({UserId: user._id}, tokenSecret, {expiresIn: 6000}); // 100 mins expressed in secs
 
@@ -128,11 +139,12 @@ exports.ResetPassword = function(req, res){
 		            res.json(error);
 		        }else{
 		            console.log(result);
-		            
 					res.json({Reset: true, Token: token, User: user});
 		        }
 
 		    });
+	    }else if(!user){
+	    	res.json({Error: true, Message: "Email does not exist in our system"}); 
 	    }
     });
 }
@@ -163,13 +175,20 @@ exports.GetUserOrders = function(req, res, next){
 }
 
 exports.GetAllUsers = function(req, res){
-	User.find({}, function(err, users){
-		if(err){
-			//TODO: send err back to the client
-			console.log("Error Getting All Users:\n", err);
-		}else{
-			console.log("All Users:\n", users);
-			res.json(users);
+	jwt.verify(req.params.token, tokenSecret, function(jwtErr, decoded){
+		if(jwtErr){ 
+			console.log("Token Missing or Expired.", jwtErr); 
+			res.send({Error: true, Message: jwtErr});
+		}else if(decoded){
+			User.find({}, function(err, users){
+				if(err){
+					console.log("Error Getting All Users:\n", err);
+					res.json({Error: true, Message: err});
+				}else{
+					console.log("All Users:\n", users);
+					res.json(users);
+				}
+			});
 		}
 	});
 }
@@ -177,13 +196,20 @@ exports.GetAllUsers = function(req, res){
 
 exports.DeleteUser = function(req, res){
 	var userId = req.body._id || req.params.id;
-	User.findByIdAndRemove(userId, function(err){
-		if(err){
-			console.log("Error Deleting User:\n", err);
-			//TODO: send err back to the client
-		}else{
-			console.log("User was deleted.");
-			res.json({UserDeleted: true, Message: "User was deleted"});
+	jwt.verify(req.params.token, tokenSecret, function(jwtErr, decoded){
+		if(jwtErr){ 
+			console.log("Token Missing or Expired.", jwtErr); 
+			res.send({Error: true, Message: jwtErr});
+		}else if(decoded){
+			User.findByIdAndRemove(userId, function(err){
+				if(err){
+					console.log("Error Deleting User:\n", err);
+					res.json({UserDeleted: false, Message: "Error deleting that users."});
+				}else{
+					console.log("User was deleted.");
+					res.json({UserDeleted: true, Message: "User was deleted"});
+				}
+			});
 		}
 	});
 }

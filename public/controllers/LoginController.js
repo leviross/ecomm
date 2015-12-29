@@ -53,8 +53,12 @@ function LoginController($http, $rootScope, UserService, $location){
 
     this.ResetPassword = function(){
     	UserService.ResetPassword(this.Email, function(result){
-    		alertify.notify('Check your email for your password reset link', 'warning', 5, function(){});	
-    		self.ShowResetPass = false;
+            if(result.Error){
+                alertify.notify('That email does not exist in our system', 'error', 5, function(){});   
+            }else{
+                alertify.notify('Check your email for your password reset link', 'warning', 5, function(){});   
+                self.ShowResetPass = false; 
+            }
     		ClearForm();
     	});
     }
