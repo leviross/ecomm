@@ -1,4 +1,4 @@
-app.factory('ProductService', ['$http', function($http){
+app.factory('ProductService', ['$http', '$location', function($http, $location){
 
 	'use strict'
 	var categories = [];
@@ -43,7 +43,7 @@ app.factory('ProductService', ['$http', function($http){
 			sessionStorage.setItem(key, JSON.stringify(categories));
 		},
 		GetCachedCategories: function(key){
-			if(categories.length !== 0){
+			if(categories && categories.length !== 0){
 				return categories;
 			}else if(!sessionStorage.Categories){
 				return null;
@@ -58,28 +58,44 @@ app.factory('ProductService', ['$http', function($http){
 			var token = sessionStorage.getItem('Token');
 			return $http.post('http://localhost:4000/api/categories/' + token, category)
 				.then(function(result){
-					self.AddCachedCategories(result.data); 
-					cb(result.data);
+					if(result.data.Error){
+						ForceLogin();
+					}else{
+						self.AddCachedCategories(result.data); 
+						cb(result.data);
+					}
 				}, function(err){
 					console.log(err);
+					ForceLogin();
 				});
 		},
 		UpdateCategory: function(category, index, cb){
 			var self = this;
 			return $http.put('http://localhost:4000/api/categories/' + category._id, category)
 				.then(function(result){
-					self.UpdatedCachedCategories("Categories", result.data, index);
-					cb(result.data);
+					if(result.data.Error){
+						ForceLogin();
+					}else{
+						self.UpdatedCachedCategories("Categories", result.data, index);
+						cb(result.data);
+					}
 				}, function(err){
 					console.log(err);
+					ForceLogin();
 				});
 		},
 		DeleteCategory: function(id, cb){
-			return $http.delete('http://localhost:4000/api/categories/' + id)
+			var token = sessionStorage.getItem('Token');
+			return $http.delete('http://localhost:4000/api/categories/' + id + '/' + token)
 				.then(function(result){
-					cb(result.data);
+					if(result.data.Error){
+						ForceLogin();
+					}else{
+						cb(result.data);
+					}
 				}, function(err){
 					console.log(err);
+					ForceLogin();
 				});
 		}
 

@@ -116,8 +116,8 @@ app.factory('UserService', ['$http', '$location', function($http, $location){
 		},
 		Logout: function(){
 			currentUser = null;
-    		sessionStorage.setItem('Token', "");
-    		sessionStorage.setItem('User', "");
+			cachedUsersArr = [];
+    		sessionStorage.clear();
     		alertify.notify('You are logged off.', 'warning', 5, function(){});
     		$location.path('/')
 		}

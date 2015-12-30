@@ -1,24 +1,31 @@
 var Category = require('../models/category');
+var jwt = require('jsonwebtoken');
+var tokenSecret = process.env.TOKEN_SECRET;
 
 exports.CreateNewCategory = function(req, res){
-	//return console.log(req.body);
-	//deal with req.params.token and token verification
-	Category.findOne({Name: req.body.Name}, function(err, category){
-		if(err) console.log("Error Finding Some Category:\n", err);
-		if(category){
-			console.log("That category already exists in the system.\n", category);
-			res.json({Created: false, Message: "That category already exists in the system."});
-		}else{
-			var c = new Category();
+	jwt.verify(req.params.token, tokenSecret, function(jwtErr, decoded){
+		if(jwtErr){ 
+			console.log("Token Missing or Expired.", jwtErr); 
+			res.json({Error: jwtErr});
+		}else if(decoded){
+			Category.findOne({Name: req.body.Name}, function(err, category){
+				if(err) console.log("Error Finding Some Category:\n", err);
+				if(category){
+					console.log("That category already exists in the system.\n", category);
+					res.json({Created: false, Message: "That category already exists in the system."});
+				}else{
+					var c = new Category();
 
-			c.Name = req.body.Name;
-			c.Types = req.body.Types;
-			c.Count = req.body.Count;
+					c.Name = req.body.Name;
+					c.Types = req.body.Types;
+					c.Count = req.body.Count;
 
-			c.save(function(error, savedCategory){
-				if(error) console.log("Error Saving New Category:\n", error);
-				console.log(savedCategory);
-				res.json(savedCategory);
+					c.save(function(error, savedCategory){
+						if(error) console.log("Error Saving New Category:\n", error);
+						console.log(savedCategory);
+						res.json(savedCategory);
+					});
+				}
 			});
 		}
 	});
@@ -26,9 +33,13 @@ exports.CreateNewCategory = function(req, res){
 
 exports.GetAllCategories = function(req, res){
 	Category.find({}, function(err, categories){
-		if(err) console.log("Error Finding Categories:\n", err);
-		console.log(categories);
-		res.json(categories);
+		if(err){
+			console.log("Error Finding Categories:\n", err);
+			res.json({Error: true, Message: err});
+		}else{ 
+			console.log(categories);
+			res.json(categories);
+		}
 	});
 }
 
@@ -65,14 +76,20 @@ exports.UpdateCategory = function(req, res){
 }
 
 exports.DeleteCategory = function(req, res){
-	//deal with req.params.token and token verification
-	Category.findByIdAndRemove(req.params.id, function(err, category){
-		if(err) {
-			console.log("Error Deleting Category:\n", err);
-			res.json({Deleted: false, Message: err});
-		}else{
-			console.log("Category was deleted.");
-			res.json({Deleted: true, Message: "Category was deleted."});	
+	jwt.verify(req.params.token, tokenSecret, function(jwtErr, decoded){
+		if(jwtErr){ 
+			console.log("Token Missing or Expired.", jwtErr); 
+			res.json({Error: jwtErr});
+		}else if(decoded){
+			Category.findByIdAndRemove(req.params.id, function(err, category){
+				if(err){
+					console.log("Error Deleting Category:\n", err);
+					res.json({Deleted: false, Message: err});
+				}else{
+					console.log("Category was deleted.");
+					res.json({Deleted: true, Message: "Category was deleted."});	
+				}
+			});
 		}
 	});
 }

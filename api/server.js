@@ -47,16 +47,21 @@ router.route('/login')
 router.route('/orders')
 	.get(jwtauth, UserController.GetUserOrders);
 
-// products
-router.route('/categories/:token')
-	.post(CategoryController.CreateNewCategory);
-router.route('/categories')	
+// categories
+router.route('/categories')
 	.get(CategoryController.GetAllCategories);
 
-router.route('/categories/:id')//add token to these routes
-	.get(CategoryController.GetCategoryById)
+router.route('/categories/:token')
+	.post(CategoryController.CreateNewCategory);
+	
+	
+
+router.route('/categories/:id/:token')
 	.put(CategoryController.UpdateCategory)
 	.delete(CategoryController.DeleteCategory);	
+
+router.route('/categories/:id')
+	.get(CategoryController.GetCategoryById);	
 	
 router.route('/products')
 	.post(ProductController.CreateNewProduct);
