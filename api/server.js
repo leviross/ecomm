@@ -54,8 +54,6 @@ router.route('/categories')
 router.route('/categories/:token')
 	.post(CategoryController.CreateNewCategory);
 	
-	
-
 router.route('/categories/:id/:token')
 	.put(CategoryController.UpdateCategory)
 	.delete(CategoryController.DeleteCategory);	

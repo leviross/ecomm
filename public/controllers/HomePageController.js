@@ -15,7 +15,7 @@ function HomePageController($scope, UserService, $rootScope){
 		$rootScope.$broadcast('OpenQuickViewModal');
 	}
 
-	
+	//$rootScope.$broadcast('ChooseActiveNav', 0);	
 
 
 }

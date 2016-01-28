@@ -1,16 +1,17 @@
-app.factory('UserService', ['$http', '$location', function($http, $location){
+function UserService($http, $location){
 
 	'use strict'
 	var cachedUsersArr = []; 
 	var currentUser = null;
+	var self = this;
 
 	function ForceLogin(){
 		alertify.notify("Login timed out, login again.", "error", 5);
+		ServiceObject.Logout();
 		$location.path('/login');
 	}
 
-
-	return {
+	var ServiceObject = {
 
 		GetAllUsers: function(cb){
 			var self = this;
@@ -105,7 +106,7 @@ app.factory('UserService', ['$http', '$location', function($http, $location){
 			var sessionUser = sessionStorage.getItem('User');
 			if(currentUser) {
 				return currentUser;
-			}else if(sessionUser != "" && sessionUser != "undefined"){
+			}else if(sessionUser && sessionUser != "" && sessionUser != "undefined"){
 				var parsedSessionUser = JSON.parse(sessionUser);
 				parsedSessionUser.Token = sessionStorage.getItem('Token');
 				currentUser = parsedSessionUser;
@@ -124,5 +125,10 @@ app.factory('UserService', ['$http', '$location', function($http, $location){
 
 	}
 
+	return ServiceObject;
 
-}]);
+};
+
+UserService.$inject = ['$http', '$location'];
+
+app.factory('UserService', UserService);

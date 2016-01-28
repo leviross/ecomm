@@ -25,6 +25,7 @@ app.controller('ShopController', function($scope, ProductService){
 		}
 		self.Categories = finalArr;
 		self.Category = finalArr[0].Name;
+		self.Categories[0].class = "active";
 	}
 
 	this.SelectCategory = function(event, index){
@@ -32,6 +33,7 @@ app.controller('ShopController', function($scope, ProductService){
 			category.class = "";
 		});
 		this.Categories[index].class = "active";
+		this.Category = this.Categories[index].Name;
 		//TODO: select the real category data when i wire up the DB...
 	}
 

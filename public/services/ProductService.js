@@ -1,15 +1,15 @@
-app.factory('ProductService', ['$http', '$location', function($http, $location){
+function ProductService($http, $location, UserService){
 
 	'use strict'
 	var categories = [];
-	var sessionCategories = sessionStorage.getItem('Categories');
 
 	function ForceLogin(){
 		alertify.notify("Login timed out, login again.", "error", 5);
+		UserService.Logout();
 		$location.path('/login');
 	}
 
-	return {
+	var ServiceObject = {
 		AddNewProduct: function(product, cb){
 			var token = sessionStorage.getItem('Token');//deal with this later, sending the token...
 			return $http.post('http://localhost:4000/api/products')
@@ -71,7 +71,8 @@ app.factory('ProductService', ['$http', '$location', function($http, $location){
 		},
 		UpdateCategory: function(category, index, cb){
 			var self = this;
-			return $http.put('http://localhost:4000/api/categories/' + category._id, category)
+			var token = sessionStorage.getItem('Token');
+			return $http.put('http://localhost:4000/api/categories/' + category._id + '/' + token, category)
 				.then(function(result){
 					if(result.data.Error){
 						ForceLogin();
@@ -101,6 +102,16 @@ app.factory('ProductService', ['$http', '$location', function($http, $location){
 
 	}
 
+	return ServiceObject;
+
+};
 
 
-}]);
+ProductService.$inject = ['$http', '$location', 'UserService'];
+
+app.factory('ProductService', ProductService);
+
+
+
+
+

@@ -32,6 +32,7 @@ exports.CreateNewCategory = function(req, res){
 }
 
 exports.GetAllCategories = function(req, res){
+	//no token required as we are using this route to populate the shopping page
 	Category.find({}, function(err, categories){
 		if(err){
 			console.log("Error Finding Categories:\n", err);
@@ -44,6 +45,7 @@ exports.GetAllCategories = function(req, res){
 }
 
 exports.GetCategoryById  = function(req, res){
+	//no token required as this will be used by all customers
 	Category.findOne({_id: req.params.id}, function(err, category){
 		if(err){
 			console.log("Error finding that Category:\n", err);
@@ -54,21 +56,29 @@ exports.GetCategoryById  = function(req, res){
 }
 
 exports.UpdateCategory = function(req, res){
-	//deal with req.params.token and token verification
-	Category.findOne({_id: req.params.id}, function(err, category){
-		if(err){
-			console.log("Error finding that Category:\n", err);
-		}else{
-			category.Name = req.body.Name;
-			category.Types = req.body.Types;
-			category.Count = req.body.Count;
-
-			category.save(function(error, updatedCategory){
-				if(error){
-					console.log("Error Updating this Category:\n", error);
+	jwt.verify(req.params.token, tokenSecret, function(jwtErr, decoded){
+		if(jwtErr){ 
+			console.log("Token Missing or Expired.", jwtErr); 
+			res.json({Error: jwtErr});
+		}else if(decoded){
+			Category.findOne({_id: req.params.id}, function(err, category){
+				if(err){
+					console.log("Error finding that Category:\n", err);
+					res.json({Updated: false, Message: err});
 				}else{
-					console.log("Updated Category:\n", updatedCategory);
-					res.json(updatedCategory);
+					category.Name = req.body.Name;
+					category.Types = req.body.Types;
+					category.Count = req.body.Count;
+
+					category.save(function(error, updatedCategory){
+						if(error){
+							console.log("Error Updating this Category:\n", error);
+							res.json({Updated: false, Message: err});
+						}else{
+							console.log("Updated Category:\n", updatedCategory);
+							res.json(updatedCategory);
+						}
+					});
 				}
 			});
 		}

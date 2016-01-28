@@ -24,6 +24,8 @@ exports.CreateNewProduct = function(req, res){
 			p.Desc = req.body.Desc;
 			p.Title = req.body.Title;
 
+			//WE NEED TO UPLOAD THE IMAGES TO CLOUDINARY...
+
 			p.save(function(error, savedProduct){
 				if(error) console.log("Error Saving New Product:\n", error);
 				res.json(savedProduct);

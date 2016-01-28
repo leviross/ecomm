@@ -17,6 +17,15 @@ function HeaderController($scope, $rootScope, $location, UserService){
 		self.User = user;
 	});
 
+	$scope.$on('ChooseActiveNav', function(event, index){
+		var elemArr = [];
+		$('#navList').children().each(function(index, li){
+			$(li).removeClass('active');
+			elemArr.push($(li));
+		});
+		elemArr[index].addClass('active');	
+	});
+
 	this.GoToLogin = function(){
 		$location.path('/login');
 	}

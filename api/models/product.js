@@ -16,7 +16,8 @@ var ProductModel = new mongoose.Schema({
 	Color: String,
 	Material: String,
 	Desc: String,
-	Title: String
+	Title: String,
+	Images: Array
 
 }, { collection: 'product'} );
 
