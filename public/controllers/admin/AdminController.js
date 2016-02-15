@@ -1,6 +1,6 @@
-app.controller('AdminController', function($scope, $rootScope, UserService, $routeParams, $location) {
+function AdminController($scope, $rootScope, UserService, $routeParams, $location) {
 	
-	this.Tabs = [ 'views/admin/partials/users.html', 'views/admin/partials/brands.html', 'views/admin/partials/categories.html', 'views/admin/partials/repairTypes.html', 'views/admin/partials/taxRate.html', 'views/admin/partials/districts.html'  ];
+	this.Tabs = [ 'views/admin/partials/users.html', 'views/admin/partials/categories.html', 'views/admin/partials/products.html', 'views/admin/partials/uploads.html', 'views/admin/partials/orders.html' ];
 	var self = this;
 	
 	this.TabView = this.Tabs[0];	
@@ -10,24 +10,18 @@ app.controller('AdminController', function($scope, $rootScope, UserService, $rou
 	if($routeParams.type == "users") {
 		this.Tab = 0;
 		this.TabView = this.Tabs[0];
-	}else if($routeParams.type == "brands") {
+	}else if($routeParams.type == "categories") {
 		this.Tab = 1;
 		this.TabView = this.Tabs[1];
-	}else if($routeParams.type == "categories") {
+	}else if($routeParams.type == "products") {
 		this.Tab = 2;
 		this.TabView = this.Tabs[2];
-	}else if($routeParams.type == "repair-types") {
+	}else if($routeParams.type == "uploads") {
 		this.Tab = 3;
 		this.TabView = this.Tabs[3];
-	}else if($routeParams.type == "tax-rate") {
+	}else if($routeParams.type == "orders") {
 		this.Tab = 4;
 		this.TabView = this.Tabs[4];
-		Globals.GetTaxRate(function (rate) {
-			this.TaxRate = rate;
-		});
-	}else if($routeParams.type == "districts") {
-		this.Tab = 5;
-		this.TabView = this.Tabs[5];
 	}
 
 	this.SelectTab = function (setTab) {
@@ -36,12 +30,11 @@ app.controller('AdminController', function($scope, $rootScope, UserService, $rou
 		}else if(setTab == 1) {
 			$location.path('/admin/categories');
 		}else if(setTab == 2) {
-			$location.path('/admin/repair-types');
+			$location.path('/admin/products');
 		}else if(setTab == 3) {
-			$location.path('/admin/tax-rate');
+			$location.path('/admin/uploads');
 		}else if(setTab == 4) {
-			$location.path('/admin/districts');
-			self.$broadcast('InitDistrictPage');
+			$location.path('/admin/orders');
 		}
 	}
 
@@ -50,4 +43,7 @@ app.controller('AdminController', function($scope, $rootScope, UserService, $rou
 	}
 
 
-});
+};
+
+AdminController.$inject = ['$scope', '$rootScope', 'UserService', '$routeParams', '$location'];
+app.controller('AdminController', AdminController);

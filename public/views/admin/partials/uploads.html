@@ -1,0 +1,40 @@
+<div ng-controller="UploadsController as Uploads">
+	<div class="panel panel-default padded-panel" ng-show="Admin.Tab === 3">
+		<h4 class="admin-h4">Uploads</h4>
+		<form name="UploadsForm" ng-submit="Uploads.UploadProduct()">
+			<div class="row">
+				<div class="col-md-6">
+					<label class="control-label">Title</label>
+					<input type="text" class="form-control" ng-model="Uploads.Title" placeholder="Product Title" required />
+				</div>
+				<div class="col-md-3">
+					<label class="control-label">Category</label>
+					<select class="form-control" ng-options="c.Name as c.Name for c in Uploads.Categories" ng-model="Uploads.Category"></select>
+				</div>
+				<div class="col-md-3">
+					<label class="control-label">Price</label>
+					<input type="text" class="form-control" ng-model="Uploads.Price" placeholder="$ Price" required />
+				</div>
+			</div><br />
+			<div class="row">
+				<div class="col-md-4">
+					<label class="control-label">Large Image</label>
+					<input name="resume" fileread="Uploads.Image1" type="file" class="form-control" required />
+				</div>
+				<div class="col-md-4">
+					<label class="control-label">Medium Image</label>
+					<input name="Image1" fileread="Uploads.Image2" type="file" class="form-control" required />
+				</div>
+				<div class="col-md-4">
+					<label class="control-label">Small Image</label>
+					<input name="resume" fileread="Uploads.Image3" type="file" class="form-control" required />
+				</div>
+			</div><br />
+			<div class="row">
+				<div class="col-md-2 col-md-offset-10">
+					<button type="submit" class="btn btn-primary" ng-disabled="UploadsForm.$invalid || UploadsForm.name.$pristine || UploadsForm.types.$pristine">Create</button>
+				</div>
+			</div>	   
+		</form>		
+	</div>
+</div>

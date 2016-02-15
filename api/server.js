@@ -18,8 +18,8 @@ var uri = process.env.MONGOOSE_URI;
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(bodyParser.json());
-app.use(bodyParser.json({type: 'application/vnd.api+json'}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 app.use(morgan('dev'));
 

@@ -12,7 +12,7 @@ function ProductService($http, $location, UserService){
 	var ServiceObject = {
 		AddNewProduct: function(product, cb){
 			var token = sessionStorage.getItem('Token');//deal with this later, sending the token...
-			return $http.post('http://localhost:4000/api/products')
+			return $http.post('http://localhost:4000/api/products', product)
 				.then(function(err){
 					console.log("Error posting new product\n", err);
 				}, function(retval){

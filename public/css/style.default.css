@@ -260,6 +260,7 @@ section {
 }
 .img-responsive {
   margin: 0 auto;
+  width: 100%;
 }
 .page-top {
   text-align: center;
