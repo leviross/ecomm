@@ -60,12 +60,15 @@ router.route('/categories/:id/:token')
 
 router.route('/categories/:id')
 	.get(CategoryController.GetCategoryById);	
-	
+
+// products 	
 router.route('/products')
-	.post(ProductController.CreateNewProduct);
+	.post(ProductController.CreateNewProduct)
+	.get(ProductController.GetAllProducts);
 
 router.route('/products/:id')
 	.get(ProductController.GetProductById)
+	.put(ProductController.UpdateProduct)
 	.delete(ProductController.DeleteProduct);
 
 app.use('/api', router);

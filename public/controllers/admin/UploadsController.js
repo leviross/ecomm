@@ -1,4 +1,4 @@
-function UploadsController(ProductService) {
+function UploadsController(ProductService, $location) {
 
 	this.Categories = ProductService.GetCachedCategories("Categories");
 
@@ -14,13 +14,24 @@ function UploadsController(ProductService) {
 	this.Title = "";
 	this.Price = "";
 	this.Category = "";
+	this.Size = "";
 	this.Images = [];
+	this.Description = "";
 
 
 	this.UploadProduct = function() {
+		//Leaves in the Wind tells a story of peace in the middle of a stormy winter. Only holding on to serenity will keep man alive! 
+		this.Images = [];
+		var images = [];
 		this.Images.push(this.Image1, this.Image2, this.Image3);
-		var product = {Images: this.Images, Category: this.Category, Price: this.Price, Title: this.Title};
+		for(var i = 0; i < this.Images.length; i++) {
+			if(this.Images[i] != "") {
+				images.push(this.Images[i]);
+			}
+		}
+		var product = {Images: images, Category: this.Category, Price: this.Price, Title: this.Title, Description: this.Description, Size: this.Size};
 		ProductService.AddNewProduct(product, function(result) {
+			$location.path('/#/admin/products');
 			console.log(result);
 		});
 	}
@@ -28,5 +39,5 @@ function UploadsController(ProductService) {
 
 }
 
-UploadsController.$inject = ['ProductService'];
+UploadsController.$inject = ['ProductService', '$location'];
 app.controller('UploadsController', UploadsController);

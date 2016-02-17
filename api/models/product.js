@@ -6,7 +6,9 @@ var ProductModel = new mongoose.Schema({
 	Price: Number,
 	Title: String,
 	Category: String,
-	Images: Array
+	Images: Array,
+	Description: String,
+	Size: String
 
 }, { collection: 'product'} );
 
