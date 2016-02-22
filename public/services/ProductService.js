@@ -30,6 +30,16 @@ function ProductService($http, $location, UserService){
 					console.log("Error getting all products:\n", err);
 				});
 		},
+		UpdateProduct: function(product, index, cb) {
+			var self = this;
+			return $http.put('http://localhost:4000/api/products/' + product._id, product)
+				.then(function(result) {
+					cb(result.data);
+					self.UpdatedCachedProducts("Products", result.data, index);
+				}, function(err) {
+					console.log("Error updating the product:\n", err);
+				});
+		},
 		GetAllCategories: function(cb) {	
 			var self = this;	
 			return $http.get('http://localhost:4000/api/categories')
@@ -43,6 +53,10 @@ function ProductService($http, $location, UserService){
 		SetCachedProducts: function(key, value) {
 			products = value;
 			localStorage.setItem(key, JSON.stringify(value));
+		},
+		UpdatedCachedProducts: function(key, value, index){
+			products[index] = value;
+			localStorage.setItem(key, JSON.stringify(products));
 		},
 		AddCachedProducts: function(product) {
 			products.push(product);

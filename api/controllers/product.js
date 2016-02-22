@@ -7,7 +7,7 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_SECRET
 });
 
-exports.CreateNewProduct = function(req, res) {
+exports.CreateProduct = function(req, res) {
 
 	var publicIds = [];
 
@@ -21,8 +21,8 @@ exports.CreateNewProduct = function(req, res) {
 					publicIds.push(result.public_id);
 					console.log("i is: ", i);
 					console.log("Public Ids Array: ", publicIds);
-					if(i == req.body.Images.length-1) SaveProduct();
 					UploadImages(i+1);
+					if(i == req.body.Images.length-1) SaveProduct();
 				}
 			});	
 		}
@@ -57,23 +57,72 @@ exports.UpdateProduct = function(req, res) {
 	Product.findOne({_id: req.params.id}, function(err, p) {
 		if(err) {
 			console.log("Error Finding Product:\n", err);
-			res.send("That product doesn't exist in the DB.");
+			res.send("That product doesn't exist in the DB:\n" + err);
 		}else {
-			p.Title = req.body.Title;
-			p.Category = req.body.Category;
-			p.Price = req.body.Price;
-			p.Description = req.body.Description;
-			p.Size = req.body.Size;
-			//handle image edits eventually...
-			p.save(function(error, product) {
-				if(error) {
-					console.log("Error updating the product:\n", error);
-					res.send("Error updating the product:\n" + error);
-				}else {
-					console.log("Product updated:\n", product);
-					res.json(product);
+			if(!req.body.ImageChange) {
+				console.log("Images were not updated.");
+				p.Title = req.body.Title;
+				p.Category = req.body.Category;
+				p.Price = req.body.Price;
+				p.Description = req.body.Description;
+				p.Size = req.body.Size;
+				p.Images = req.body.Images;
+				p.save(function(err, product) {
+					if(err) {
+						console.log("Error saving the new product:\n", err);
+						res.send("Error saving the new product:\n" + err);
+					}else {
+						console.log(product);
+						res.json(product);
+					}
+					
+				});
+			}else {
+				var publicIds = [];
+				UploadImages(0);
+				function UploadImages(i) {
+					if(i < req.body.Images.length) {
+						if(req.body.Images[i].length < 30) {
+							publicIds.push(req.body.Images[i]);
+							UploadImages(i+1);
+						}else {
+							cloudinary.v2.uploader.upload(req.body.Images[i], function(error, result) {
+								if(error){
+									console.log("Error uploading to cloudinary:\n", error);
+									res.send("Error uploading to cloudinary:\n" + error);
+								}else{
+									publicIds.push(result.public_id);
+									console.log("i is: ", i);
+									console.log("Public Ids Array: ", publicIds);
+									UploadImages(i+1);
+									if(i == req.body.Images.length-1) SaveProduct();
+								}
+							});	
+						}
+					}
 				}
-			});	
+
+				function SaveProduct() {
+					console.log("Got to final upload and creating object model.");
+					p.Title = req.body.Title;
+					p.Category = req.body.Category;
+					p.Price = req.body.Price;
+					p.Description = req.body.Description;
+					p.Size = req.body.Size;
+					p.Images = publicIds;
+
+					p.save(function(err, product) {
+						if(err) {
+							console.log("Error saving the new product:\n", err);
+							res.send("Error saving the new product:\n" + err);
+						}else {
+							console.log(product);
+							res.json(product);
+						}
+						
+					});
+				}
+			}	
 		}
 	});
 }

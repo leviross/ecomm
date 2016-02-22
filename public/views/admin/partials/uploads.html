@@ -19,26 +19,33 @@
 			<div class="row">
 				<div class="col-md-4">
 					<label class="control-label">Large Image</label>
-					<input name="resume" fileread="Uploads.Image1" type="file" class="form-control" />
+					<input name="image1" fileread="Uploads.Image1" type="file" class="form-control" />
 				</div>
 				<div class="col-md-4">
 					<label class="control-label">Medium Image</label>
-					<input name="Image1" fileread="Uploads.Image2" type="file" class="form-control" />
+					<input name="image2" fileread="Uploads.Image2" type="file" class="form-control" />
 				</div>
 				<div class="col-md-4">
 					<label class="control-label">Small Image</label>
-					<input name="resume" fileread="Uploads.Image3" type="file" class="form-control" />
+					<input name="image3" fileread="Uploads.Image3" type="file" class="form-control" />
 				</div>
 			</div><br />
 			<div class="row">
 				<div class="col-md-8">
+					<label class="control-label">Description</label>
 					<textarea class="form-control" rows="3" placeholder="Description..." ng-model="Uploads.Description" ng-minlength="50"></textarea>
 				</div>
 				<div class="col-md-2">
+					<label class="control-label">Size</label>
 					<input type="text" name="size" class="form-control" ng-model="Uploads.Size" placeholder="Size.." />
 				</div>
-				<div class="col-md-2">
-					<button type="submit" class="btn btn-primary" ng-disabled="UploadsForm.$invalid || UploadsForm.name.$pristine || UploadsForm.types.$pristine">Create</button>
+				<div class="row">
+					<div class="col-md-2 col-md-offset-8">
+						<button class="btn btn-default" ng-click="Uploads.Cancel()">Cancel</button>
+					</div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-primary" ng-disabled="UploadsForm.$invalid">Update</button>
+					</div>
 				</div>
 			</div>	   
 		</form>		

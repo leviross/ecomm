@@ -21,42 +21,61 @@
 					<td>{{product.Title}}</td>
 					<td>{{product.Price}}</td>
 					<td>{{product.Size}}</td>
-					<td><button type="button" class="btn btn-warning" ng-click="Product.EditProduct(product. $index)"><span class="glyphicon glyphicon-pencil"></span></button></td>
+					<td><button type="button" class="btn btn-warning" ng-click="Product.EditProduct(product, $index)"><span class="glyphicon glyphicon-pencil"></span></button></td>
 					<td><button type="button" class="btn btn-danger" ng-click="Product.DeleteProduct(product, $index)"><span class="glyphicon glyphicon-trash"></span></button></td>
 				</tr>
 			</tbody>
 		</table>
 		<div ng-show=" Product.DisplayMode == 'edit' || Product.DisplayMode == 'create' ">
-			<form name="Product.ProductForm" class="validated-form">
-				<br />
+			<form name="ProductForm">
 				<div class="row">
-					<div class="col-md-1">
+					<div class="col-md-6">
 						<label class="control-label">Title</label>
+						<input type="text" class="form-control" ng-model="Product.Title" placeholder="Product Title" required />
 					</div>
-					<div class="col-md-9">
-						<input name="title" type="text" class="custom-validate form-control" placeholder="Product.Title" ng-model="Product.Title" ng-minlength="10" />
+					<div class="col-md-3">
+						<label class="control-label">Category</label>
+						<select class="form-control" ng-options="c.Name as c.Name for c in Product.Categories" ng-model="Product.Category"></select>
 					</div>
-					<div class="col-md-1">
+					<div class="col-md-3">
 						<label class="control-label">Price</label>
-					</div>
-					<div class="col-md-1">
-						<input name="price" type="text" class="custom-validate form-control" placeholder="Enter in a comma after each type" ng-model="Product.Price" ng-minlength="2" />
+						<input type="text" class="form-control" ng-model="Product.Price" placeholder="$ Price" required />
 					</div>
 				</div><br />
 				<div class="row">
-					<div class="col-md-1">
-						<label class="control-label">Size</label>
+					<div class="col-md-4" ng-repeat="image in Product.Images">
+						<img ng-src='http://res.cloudinary.com/dewoxdkgg/image/upload/h_165,w_285/{{image.PublicId}}' />
+						<label class="control-label">Change Image</label>
+						<input name="image1" fileread="Product.Image1" type="file" class="form-control" ng-model="Product.Image1" />
+						<button class="btn btn-warning" ng-click="Product.DeleteImage($index)">Delete</button>
 					</div>
-					<div class="col-md-2">
-						<input type="text" name="size" class="form-control" ng-model="Product.Size" required />
+					<div ng-if="Product.Images.length < 2" class="col-md-4">
+						<label class="control-label">Add Image</label>
+						<input name="image2" fileread="Product.Image2" type="file" class="form-control" ng-model="Product.Image2" />
+					</div>
+					<div ng-if="Product.Images.length == 2 && Product.Image2" class="col-md-4">
+						<label class="control-label">Add Image</label>
+						<input name="image2" fileread="Product.Image3" type="file" class="form-control" ng-model="Product.Image3" />
+					</div>
+				</div><br />
+				<div class="row">
+					<div class="col-md-8">
+						<label class="control-label">Description</label>
+						<textarea class="form-control" rows="3" placeholder="Description..." ng-model="Product.Description" ng-minlength="50"></textarea>
+					</div>
+					<div class="col-md-4">
+						<label class="control-label">Size</label>
+						<input type="text" name="size" class="form-control" ng-model="Product.Size" placeholder="Size.." />
 					</div>
 				</div>
-				<br />
-				<div class="col-md-offset-9">
-	        <button type="button" class="btn btn-default" ng-click="Product.BackToProducts()">Cancel</button>
-	        <button ng-show=" Product.DisplayMode == 'edit' " type="submit" class="btn btn-primary" ng-disabled="!Product.ProductForm.$valid" ng-click="Product.UpdateProduct()">Update</button>
-	        <button ng-show=" Product.DisplayMode == 'create' " type="submit" class="btn btn-primary" ng-disabled="Product.ProductForm.$invalid || Product.ProductForm.title.$pristine || Product.ProductForm.price.$pristine" ng-click="Product.CreateNewProduct()">Create</button>
-		    </div>
+				<div class="row">
+					<div class="col-md-2 col-md-offset-8">
+						<button class="btn btn-default" ng-click="Product.Cancel()">Cancel</button>
+					</div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-primary" ng-click="Product.UpdateProduct()">Update</button>
+					</div>
+				</div>	   
 			</form>	
 			<br />
 		</div>	

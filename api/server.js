@@ -63,7 +63,7 @@ router.route('/categories/:id')
 
 // products 	
 router.route('/products')
-	.post(ProductController.CreateNewProduct)
+	.post(ProductController.CreateProduct)
 	.get(ProductController.GetAllProducts);
 
 router.route('/products/:id')

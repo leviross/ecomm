@@ -2,7 +2,7 @@ function UploadsController(ProductService, $location) {
 
 	this.Categories = ProductService.GetCachedCategories("Categories");
 
-	if(this.Categories == null || this.Categories == undefined || this.Categories == "undefined"){
+	if(this.Categories == null || this.Categories == undefined || this.Categories == "undefined") {
 		ProductService.GetAllCategories(function(dbArray){
 			self.Categories = dbArray;
 		});
@@ -34,6 +34,10 @@ function UploadsController(ProductService, $location) {
 			$location.path('/#/admin/products');
 			console.log(result);
 		});
+	}
+
+	this.Cancel = function() {
+		$location.path('/#/admin/products');
 	}
 
 
