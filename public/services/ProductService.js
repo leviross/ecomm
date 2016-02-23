@@ -12,10 +12,12 @@ function ProductService($http, $location, UserService){
 
 	var ServiceObject = {
 		AddNewProduct: function(product, cb) {
+			var self = this;
 			var token = sessionStorage.getItem('Token');//deal with this later, sending the token...
 			return $http.post('http://localhost:4000/api/products', product)
 				.then(function(result){
 					cb(result.data);
+					self.AddCachedProducts("Products", result.data);
 				}, function(err){
 					console.log("Error posting new product\n", err);
 				});
@@ -38,6 +40,15 @@ function ProductService($http, $location, UserService){
 					self.UpdatedCachedProducts("Products", result.data, index);
 				}, function(err) {
 					console.log("Error updating the product:\n", err);
+				});
+		},
+		DeleteProduct: function(id, index, cb) {
+			var self = this;
+			return $http.delete('http://localhost:4000/api/products/' + id)
+				.then(function(result) {
+					cb(result.data);
+					products.splice(index, 1);
+					self.SetCachedProducts("Products", products);
 				});
 		},
 		GetAllCategories: function(cb) {	

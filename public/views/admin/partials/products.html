@@ -2,9 +2,6 @@
 	<div class="panel panel-default padded-panel" ng-show="Admin.Tab === 2">
 		<h4 class="admin-h4">Products</h4>
 		<div class="add-button col-md-1 col-md-offset-11" ng-show="Product.DisplayMode === 'list'">
-	    <button class="btn btn-success" ng-click="Product.AddProduct()">
-	       <span class="glyphicon glyphicon-plus"></span>
-	    </button>
 		</div>
 		<table class="table table-hover" ng-show="Product.DisplayMode === 'list'">
 			<thead>
@@ -43,19 +40,23 @@
 					</div>
 				</div><br />
 				<div class="row">
-					<div class="col-md-4" ng-repeat="image in Product.Images">
-						<img ng-src='http://res.cloudinary.com/dewoxdkgg/image/upload/h_165,w_285/{{image.PublicId}}' />
+					<div class="col-md-4">
+						<img ng-src='http://res.cloudinary.com/dewoxdkgg/image/upload/h_165,w_285/{{Product.Images[0]}}' />
 						<label class="control-label">Change Image</label>
-						<input name="image1" fileread="Product.Image1" type="file" class="form-control" ng-model="Product.Image1" />
-						<button class="btn btn-warning" ng-click="Product.DeleteImage($index)">Delete</button>
+						<input name="imageVariable" fileread="Product.Image1" type="file" class="form-control" />
+						<button class="btn btn-warning" ng-click="Product.DeleteImage(0)">Delete</button>
 					</div>
-					<div ng-if="Product.Images.length < 2" class="col-md-4">
-						<label class="control-label">Add Image</label>
-						<input name="image2" fileread="Product.Image2" type="file" class="form-control" ng-model="Product.Image2" />
+					<div class="col-md-4">
+						<img ng-show="Product.Images.length > 1" ng-src='http://res.cloudinary.com/dewoxdkgg/image/upload/h_165,w_285/{{Product.Images[1]}}' />
+						<label class="control-label">Change/Add Image</label>
+						<input name="Image1" fileread="Product.Image2" type="file" class="form-control" />
+						<button class="btn btn-warning" ng-click="Product.DeleteImage(1)">Delete</button>
 					</div>
-					<div ng-if="Product.Images.length == 2 && Product.Image2" class="col-md-4">
-						<label class="control-label">Add Image</label>
-						<input name="image2" fileread="Product.Image3" type="file" class="form-control" ng-model="Product.Image3" />
+					<div class="col-md-4">
+						<img ng-show="Product.Images.length == 3" ng-src='http://res.cloudinary.com/dewoxdkgg/image/upload/h_165,w_285/{{Product.Images[2]}}' />
+						<label class="control-label">Change/Add Image</label>
+						<input name="imageVariable" fileread="Product.Image3" type="file" class="form-control" />
+						<button class="btn btn-warning" ng-click="Product.DeleteImage(2)">Delete</button>
 					</div>
 				</div><br />
 				<div class="row">

@@ -4,6 +4,9 @@ function ProductController(ProductService) {
 	var currentProduct = null;
 	this.currentIndex = null;
 	this.DisplayMode = 'list';
+	this.Images = [];
+	var images = [];
+	var imageChange = false;
 
 	this.Products = ProductService.GetCachedProducts("Products");
 
@@ -12,10 +15,6 @@ function ProductController(ProductService) {
 			self.Products = dbArray;
 		});
 	}
-
-	ProductService.GetAllProducts(function(dbArray){
-			self.Products = dbArray;
-		});
 
 	this.Categories = ProductService.GetCachedCategories("Categories");
 
@@ -27,9 +26,7 @@ function ProductController(ProductService) {
 
 	this.EditProduct = function(product, index) {
 		this.Images = [];
-		this.Image1 = undefined;
-		this.Image2 = undefined;
-		this.Image3 = undefined;
+		images = [];
 		this.DisplayMode = 'edit';
 		currentProduct = product;
 		this.currentIndex = index;
@@ -40,23 +37,27 @@ function ProductController(ProductService) {
 		this.Category = product.Category;
 		this._id = product._id;
 		for (var i = 0; i < product.Images.length; i++) {
-			this.Images.push({PublicId: product.Images[i]});
+			this.Images.push(product.Images[i]);
+			images.push(product.Images[i]);
 		}
 		
 	}
 
 	this.UpdateProduct = function() {
-		var images = [];
-		var imageChange = false;
-		for(var i = 0; i < this.Images.length; i++) {
-			images.push(this.Images[i].PublicId);
+		
+		if(this.Image1) {
+			images[0] = this.Image1;
+			imageChange = true;
 		}
-		if(this.Image1) images.push(this.Image1);
-		if(this.Image2) images.push(this.Image2);
-		if(this.Image3) images.push(this.Image3);
-		for(var j = 0; j < images.length; j++) {
-			if(images[j].length > 30) imageChange = true;
-		} 
+		if(this.Image2) {
+			images[1] = this.Image2;
+			imageChange = true;
+		}
+		if(this.Image3) {
+			images[2] = this.Image3;
+			imageChange = true;
+		}
+
 		var product = {_id: this._id, ImageChange: imageChange, Images: images, Title: this.Title, Description: this.Description, Size: this.Size, Price: this.Price, Category: this.Category};
 		ProductService.UpdateProduct(product, this.currentIndex, function(result) {
 			alertify.notify('Product Updated!', 'success', 5, function(){});
@@ -66,6 +67,7 @@ function ProductController(ProductService) {
 
 	this.DeleteImage = function(index) {
 		this.Images.splice(index, 1);
+		images.splice(index, 1);
 	}
 
 	this.CreateProduct = function(){
@@ -78,6 +80,12 @@ function ProductController(ProductService) {
 		this.DisplayMode = 'list';
 	}
 
+	this.DeleteProduct = function(product, index) {
+		this.Products.splice(index, 1);
+		ProductService.DeleteProduct(product._id, index, function(result) {
+			alertify.notify('Product Deleted!', 'warning', 5, function(){});
+		});
+	}
 
 
 

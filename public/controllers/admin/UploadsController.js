@@ -31,7 +31,7 @@ function UploadsController(ProductService, $location) {
 		}
 		var product = {Images: images, Category: this.Category, Price: this.Price, Title: this.Title, Description: this.Description, Size: this.Size};
 		ProductService.AddNewProduct(product, function(result) {
-			$location.path('/#/admin/products');
+			$location.path('/admin/products');
 			console.log(result);
 		});
 	}
