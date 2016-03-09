@@ -17,7 +17,7 @@ function ProductService($http, $location, UserService){
 			return $http.post('http://localhost:4000/api/products', product)
 				.then(function(result){
 					cb(result.data);
-					self.AddCachedProducts("Products", result.data);
+					self.AddCachedProducts(result.data);
 				}, function(err){
 					console.log("Error posting new product\n", err);
 				});
@@ -27,7 +27,7 @@ function ProductService($http, $location, UserService){
 			return $http.get('http://localhost:4000/api/products')
 				.then(function(result) {
 					cb(result.data);
-					self.SetCachedProducts("Products", result.data);
+					self.SetCachedProducts(result.data);
 				}, function(err) {
 					console.log("Error getting all products:\n", err);
 				});
@@ -48,7 +48,7 @@ function ProductService($http, $location, UserService){
 				.then(function(result) {
 					cb(result.data);
 					products.splice(index, 1);
-					self.SetCachedProducts("Products", products);
+					self.SetCachedProducts(products);
 				});
 		},
 		GetAllCategories: function(cb) {	
@@ -61,9 +61,9 @@ function ProductService($http, $location, UserService){
 					console.log(err);
 				});
 		},
-		SetCachedProducts: function(key, value) {
+		SetCachedProducts: function(value) {
 			products = value;
-			localStorage.setItem(key, JSON.stringify(value));
+			localStorage.setItem("Products", JSON.stringify(value));
 		},
 		UpdatedCachedProducts: function(key, value, index){
 			products[index] = value;
@@ -71,7 +71,7 @@ function ProductService($http, $location, UserService){
 		},
 		AddCachedProducts: function(product) {
 			products.push(product);
-			localStorage.setItem('Products', JSON.stringify(products));
+			localStorage.setItem("Products", JSON.stringify(products));
 		},
 		GetCachedProducts: function(key) {
 			if(products && products.length !== 0){

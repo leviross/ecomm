@@ -10,8 +10,16 @@ function ProductController(ProductService) {
 
 	this.Products = ProductService.GetCachedProducts("Products");
 
-	if(this.Products == null || this.Products == undefined || this.Products == "undefined"){
-		ProductService.GetAllProducts(function(dbArray){
+	if(this.Products != null && this.Products != undefined && this.Products != "undefined") {
+		for(var i = 0; i < this.Products.length; i++) {
+			if(typeof this.Products[i] != "object") {
+				ProductService.GetAllProducts(function(dbArray) {
+					self.Products = dbArray;
+				});
+			}
+		}
+	}else {
+		ProductService.GetAllProducts(function(dbArray) {
 			self.Products = dbArray;
 		});
 	}
