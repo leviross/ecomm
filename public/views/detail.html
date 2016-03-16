@@ -1,0 +1,194 @@
+<div class="container">
+  <div class="row"> 
+    <div class="col-md-12">
+<!--       <ul class="breadcrumb">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="category.html">Girls</a></li>
+        <li>Burton Jacky Shirt</li>
+      </ul> -->
+      <div class="row page-top">
+        <div class="col-sm-6 col-sm-offset-3">
+          <h1 class="product__heading">{{Detail.Product.Title}}</h1>
+          <p class="text-muted">A collection of textile samples lay spread out on the table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row product__main">
+        <div class="col-sm-8">
+          <div class="mainImage"><img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{Detail.Product.Images[0]}}" alt="" class="img-responsive"></div>
+          <div class="ribbon sale">
+            <div class="theribbon">SALE</div>
+            <div class="ribbon-background"></div>
+          </div>
+          <div class="ribbon new">
+            <div class="theribbon">NEW</div>
+            <div class="ribbon-background"></div>
+          </div>
+          <!-- <div class="row product__thumbs">
+            <div class="col-xs-4"><a href="img/detailbig1.jpg" class="thumb"><img src="img/detailsmall1.jpg" alt="" class="img-responsive"></a></div>
+            <div class="col-xs-4"><a href="img/detailbig2.jpg" class="thumb"><img src="img/detailsmall2.jpg" alt="" class="img-responsive"></a></div>
+            <div class="col-xs-4"><a href="img/detailbig3.jpg" class="thumb"><img src="img/detailsmall3.jpg" alt="" class="img-responsive"></a></div>
+          </div> -->
+        </div>
+        <div class="col-sm-4">
+          <form>
+            <p class="price">${{Detail.Product.Price}}</p>
+            <div class="row">
+              <div class="col-md-6 col-md-offset-3">
+                <div class="form-group">
+                  <label for="size">Choose your size</label>
+                  <select id="size" class="form-control">
+                    <option>Small</option>
+                    <option>Medium</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="quantity">Quantity</label>
+                  <input type="number" value="1" id="quantity" class="form-control">
+                </div>
+              </div>
+            </div>
+            <p class="text-center">
+              <button type="submit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>&nbsp;Add to cart</button>
+              <button type="submit" data-toggle="tooltip" data-placement="top" title="Add to wishlist" class="btn btn-default"><i class="fa fa-heart-o"></i></button>
+            </p>
+          </form>
+          <div class="product__details">
+            <h4>Product details</h4>
+            <p>White lace top, woven, has a round neck, short sleeves, has knitted lining attached</p>
+            <h4>Material & care</h4>
+            <ul>
+              <li>Polyester</li>
+              <li>Machine wash</li>
+            </ul>
+            <h4>Size and fit</h4>
+            <ul>
+              <li>Regular fit</li>
+              <li>The model (height 5'8" and chest 33") is wearing a size S  </li>
+            </ul>
+            <blockquote>
+              <p><em>Define style this season with Armani's new range of trendy tops, crafted with intricate details. Create a chic statement look by teaming this lace number with skinny jeans and pumps.</em></p>
+            </blockquote>
+          </div>
+          <div class="product__social social">
+            <h4>Show it to your friends</h4>
+            <p><a href="#" data-animate-hover="pulse" class="external facebook"><i class="fa fa-facebook"></i></a><a href="#" data-animate-hover="pulse" class="external gplus"><i class="fa fa-google-plus"></i></a><a href="#" data-animate-hover="pulse" class="external twitter"><i class="fa fa-twitter"></i></a><a href="#" data-animate-hover="pulse" class="email"><i class="fa fa-envelope"></i></a></p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <!-- similar products-->
+          <section class="products-similar">
+            <div class="row">
+              <div class="col-md-3 col-sm-6">
+                <h3>You may also like these products</h3>
+              </div>
+              <!-- product-->
+              <div class="col-md-3 col-sm-6">
+                <div class="product"> 
+                  <div class="image"><a href="detail.html"><img src="img/product2.jpg" alt="" class="img-responsive"></a>
+                    <div class="quick-view-button"><a href="#" data-toggle="modal" data-target="#product-quick-view-modal" class="btn btn-default btn-sm">Quick view</a></div>
+                  </div>
+                  <div class="text">
+                    <p class="brand"><a href="#"></a></p>
+                    <h3> <a href="detail.html">Fur coat</a></h3>
+                    <p class="price">$143</p>
+                  </div>
+                </div>
+              </div>
+              <!-- /product-->
+              <!-- product-->
+              <div class="col-md-3 col-sm-6">
+                <div class="product"> 
+                  <div class="image"><a href="detail.html"><img src="img/product3.jpg" alt="" class="img-responsive"></a>
+                    <div class="quick-view-button"><a href="#" data-toggle="modal" data-target="#product-quick-view-modal" class="btn btn-default btn-sm">Quick view</a></div>
+                  </div>
+                  <div class="text">
+                    <p class="brand"><a href="#"></a></p>
+                    <h3> <a href="detail.html">Fur coat</a></h3>
+                    <p class="price">$113</p>
+                  </div>
+                </div>
+              </div>
+              <!-- /product-->
+              <!-- product-->
+              <div class="col-md-3 col-sm-6">
+                <div class="product"> 
+                  <div class="image"><a href="detail.html"><img src="img/product1.jpg" alt="" class="img-responsive"></a>
+                    <div class="quick-view-button"><a href="#" data-toggle="modal" data-target="#product-quick-view-modal" class="btn btn-default btn-sm">Quick view</a></div>
+                  </div>
+                  <div class="text">
+                    <p class="brand"><a href="#"></a></p>
+                    <h3> <a href="detail.html">Fur coat</a></h3>
+                    <p class="price">$121</p>
+                  </div>
+                </div>
+              </div>
+              <!-- /product-->
+            </div>
+          </section>
+          <!-- /similar products-->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <!-- recent products-->
+          <section>
+            <div class="row">
+              <div class="col-md-3 col-sm-6">
+                <h3>Products viewed recently</h3>
+              </div>
+              <!-- product-->
+              <div class="col-md-3 col-sm-6">
+                <div class="product"> 
+                  <div class="image"><a href="detail.html"><img src="img/product2.jpg" alt="" class="img-responsive"></a>
+                    <div class="quick-view-button"><a href="#" data-toggle="modal" data-target="#product-quick-view-modal" class="btn btn-default btn-sm">Quick view</a></div>
+                  </div>
+                  <div class="text">
+                    <p class="brand"><a href="#"></a></p>
+                    <h3> <a href="detail.html">Fur coat</a></h3>
+                    <p class="price">$143</p>
+                  </div>
+                </div>
+              </div>
+              <!-- /product-->
+              <!-- product-->
+              <div class="col-md-3 col-sm-6">
+                <div class="product"> 
+                  <div class="image"><a href="detail.html"><img src="img/product3.jpg" alt="" class="img-responsive"></a>
+                    <div class="quick-view-button"><a href="#" data-toggle="modal" data-target="#product-quick-view-modal" class="btn btn-default btn-sm">Quick view</a></div>
+                  </div>
+                  <div class="text">
+                    <p class="brand"><a href="#"></a></p>
+                    <h3> <a href="detail.html">Fur coat</a></h3>
+                    <p class="price">$113</p>
+                  </div>
+                </div>
+              </div>
+              <!-- /product-->
+              <!-- product-->
+              <div class="col-md-3 col-sm-6">
+                <div class="product"> 
+                  <div class="image"><a href="detail.html"><img src="img/product1.jpg" alt="" class="img-responsive"></a>
+                    <div class="quick-view-button"><a href="#" data-toggle="modal" data-target="#product-quick-view-modal" class="btn btn-default btn-sm">Quick view</a></div>
+                  </div>
+                  <div class="text">
+                    <p class="brand"><a href="#"></a></p>
+                    <h3> <a href="detail.html">Fur coat</a></h3>
+                    <p class="price">$121</p>
+                  </div>
+                </div>
+              </div>
+              <!-- /product-->
+            </div>
+          </section>
+          <!-- /recent products-->
+        </div>
+      </div>
+    </div>
+  </div>
+  

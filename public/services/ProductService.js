@@ -3,6 +3,7 @@ function ProductService($http, $location, UserService){
 	'use strict'
 	var categories = [];
 	var products = [];
+	var detailedProduct = null;
 
 	function ForceLogin(){
 		alertify.notify("Login timed out, login again.", "error", 5);
@@ -50,6 +51,21 @@ function ProductService($http, $location, UserService){
 					products.splice(index, 1);
 					self.SetCachedProducts(products);
 				});
+		},
+		SetProductDetail: function(prod) {
+			detailedProduct = prod;
+			localStorage.setItem("Detailed", JSON.stringify(prod));
+		},
+		GetProductDetail: function() {
+			if(detailedProduct != undefined || detailedProduct != null) {
+				return detailedProduct;
+			}else if(!localStorage.Detailed) {
+				return null;
+			}else {
+				var parsedDetailed = JSON.parse(localStorage.getItem("Detailed"));
+				detailedProduct = parsedDetailed;
+				return detailedProduct;
+			} 
 		},
 		GetAllCategories: function(cb) {	
 			var self = this;	
