@@ -17,7 +17,7 @@
 
 
         <div id="main-slider">
-        	<a href="/#/shop/{{HomePage.Featured.Title | withDashes}}" ng-click="HomePage.SelectFeatured()"><div style="background-image: url('http://res.cloudinary.com/dewoxdkgg/image/upload/{{HomePage.Featured.Images[0]}}');" class="item">
+        	<a href="/#/shop/{{HomePage.Featured.Title | withDashes}}" ng-click="HomePage.SelectFeatured()"><div ng-style="{'background-image': 'url({{HomePage.FeaturedImage}})'}" class="item">
         		<!-- <div class="content">
         			<h3>The one and Only</h3>
         			<h1>Hipster E-commerce Theme</h1>
@@ -49,7 +49,7 @@
 		<div class="row">
 			
 			<div ng-repeat="product in HomePage.Products" class="col-sm-6" ng-if="product.Title != 'Leaves in the Wind'" style="white-space: pre-wrap;">
-				<a href="/#/shop/{{product.Title | withDashes}}"><img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{product.Images[0]}}" alt="" class="img-responsive"></a>
+				<a href="" ng-click="HomePage.GoToProductPage(product)"><img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{product.Images[0]}}" alt="" class="img-responsive"></a>
 				<!-- <br ng-if="$index > 0 && ($index + 1) % 2 == 0" /> -->
 			</div>
 			

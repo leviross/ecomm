@@ -1,11 +1,11 @@
-function HomePageController($scope, UserService, $rootScope, ProductService) {
+function HomePageController($scope, UserService, $rootScope, ProductService, $location) {
 
 	this.MyInterval = 5000;
 	this.noWrapSlides = false;
 	this.Products = [];
-	this.Featured = null;
+	
 	var self = this;
-	this.FeaturedImage = "";
+	
 	
 	this.Slides = [{Image: '../images/furn1.jpg', Text: "Image 1"}, {Image: '../images/furn2.jpg', Text: "Image 2"}, {Image: '../images/furn3.jpg', Text: "Image 3"}];
 
@@ -25,6 +25,7 @@ function HomePageController($scope, UserService, $rootScope, ProductService) {
 		for (var i = 0; i < products.length; i++) {
 			if(products[i].Title == "Leaves in the Wind") {
 				self.Featured = products[i];
+				self.FeaturedImage = "http://res.cloudinary.com/dewoxdkgg/image/upload/" + self.Featured.Images[0];
 				// self.FeaturedImage = "background-image: url('http://res.cloudinary.com/dewoxdkgg/image/upload/" + self.Featured.Images[0] + "');";
 				// background-image: url({{HomePage.FeaturedImage}});
 				i = products.length;
@@ -36,12 +37,27 @@ function HomePageController($scope, UserService, $rootScope, ProductService) {
 		ProductService.SetProductDetail(this.Featured);
 	}
 
+	this.GoToProductPage = function(product) {
+		ProductService.SetProductDetail(product);
+
+		function withDashes(title) {
+			return title.replace(/\s+/g, "-");		
+		}
+		var titleWithDashes = withDashes(product.Title);
+		$location.path("/shop/" + titleWithDashes.toLowerCase());
+	}
+	
+
 	// 'http://res.cloudinary.com/dewoxdkgg/image/upload/{{HomePage.Featured.Images[0]}}'
+
+	
+
+	// /#/shop/{{product.Title | withDashes}}
 
 
 
 }
 
-HomePageController.$inject = ['$scope', 'UserService', '$rootScope', 'ProductService'];
+HomePageController.$inject = ['$scope', 'UserService', '$rootScope', 'ProductService', '$location'];
 
 app.controller('HomePageController', HomePageController);
