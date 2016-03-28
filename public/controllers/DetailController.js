@@ -1,8 +1,10 @@
-function DetailController(ProductService, $routeParams) {
+function DetailController(ProductService, $routeParams, SettingsService) {
 
 	var self = this;
 
 	this.Product = ProductService.GetProductDetail();
+	//this.Product.SelectedPrice = 
+	this.Sizes = SettingsService.GetSizes();
 	this.SimilarProducts = [];
 
 	var cachedProducts = ProductService.GetCachedProducts("Products");
@@ -22,8 +24,12 @@ function DetailController(ProductService, $routeParams) {
 		}
 	}	
 
+	this.SelectFeatured = function() {
+		ProductService.SetProductDetail(this.Featured);
+	}
+
 }
 
-DetailController.$inject = ['ProductService', '$routeParams'];
+DetailController.$inject = ['ProductService', '$routeParams', 'SettingsService'];
 
 app.controller('DetailController', DetailController);

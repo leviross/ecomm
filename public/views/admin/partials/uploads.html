@@ -31,23 +31,31 @@
 				</div>
 			</div><br />
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-6">
 					<label class="control-label">Description</label>
-					<textarea class="form-control" rows="3" placeholder="Description..." ng-model="Uploads.Description" ng-minlength="50"></textarea>
+					<textarea class="form-control" rows="4" placeholder="Description..." ng-model="Uploads.Description" ng-minlength="50"></textarea>
 				</div>
 				<div class="col-md-2">
-					<label class="control-label">Size</label>
-					<input type="text" name="size" class="form-control" ng-model="Uploads.Size" placeholder="Size.." />
+					<label class="control-label">Sm Price</label>
+					<input type="text" name="size" class="form-control" ng-model="Uploads.SmallPrice" placeholder="$ Small" />
 				</div>
-				<div class="row">
-					<div class="col-md-2 col-md-offset-8">
-						<button class="btn btn-default" ng-click="Uploads.Cancel()">Cancel</button>
-					</div>
-					<div class="col-md-2">
-						<button type="submit" class="btn btn-primary" ng-disabled="UploadsForm.$invalid">Create</button>
-					</div>
+				<div class="col-md-2">
+					<label class="control-label">Med Price</label>
+					<input type="text" name="size" class="form-control" ng-model="Uploads.MedPrice" placeholder="$ Med" />
 				</div>
-			</div>	   
+				<div class="col-md-2">
+					<label class="control-label">Lg Price</label>
+					<input type="text" name="size" class="form-control" ng-model="Uploads.LargePrice" placeholder="$ Large" />
+				</div>
+			</div>	 
+			<div class="row">
+				<div class="col-md-2 col-md-offset-8">
+					<button class="btn btn-default" ng-click="Uploads.Cancel()">Cancel</button>
+				</div>
+				<div class="col-md-2">
+					<button type="submit" class="btn btn-primary" ng-disabled="UploadsForm.$invalid">Create</button>
+				</div>
+			</div>  
 		</form>		
 	</div>
 </div>

@@ -1,4 +1,6 @@
-function ProductController(ProductService) {
+function ProductController(ProductService, SettingsService) {
+
+	this.Sizes = SettingsService.GetSizes();
 
 	var self = this;
 	var currentProduct = null;
@@ -7,7 +9,7 @@ function ProductController(ProductService) {
 	this.Images = [];
 	var images = [];
 	var imageChange = false;
-	
+
 
 	this.Products = ProductService.GetCachedProducts("Products");
 
@@ -41,8 +43,10 @@ function ProductController(ProductService) {
 		this.currentIndex = index;
 		this.Title = product.Title;
 		this.Description = product.Description;
-		this.Size = product.Size;
-		this.Price = product.Price;
+		this.DefaultSize = product.DefaultSize;
+		this.SmallPrice = product.SmallPrice;
+		this.MedPrice = product.MedPrice;
+		this.LargePrice = product.LargePrice;
 		this.Category = product.Category;
 		this._id = product._id;
 		for (var i = 0; i < product.Images.length; i++) {
@@ -100,6 +104,6 @@ function ProductController(ProductService) {
 
 }
 
-ProductController.$inject = ['ProductService'];
+ProductController.$inject = ['ProductService', 'SettingsService'];
 
 app.controller('ProductController', ProductController);

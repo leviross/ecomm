@@ -1,9 +1,9 @@
-function UploadsController(ProductService, $location) {
+function UploadsController(ProductService, $location, SettingsService) {
 
 	this.Categories = ProductService.GetCachedCategories("Categories");
 
-	this.Sizes = [{Size: "10X16"}, {Size: "12X20"}, {Size: "16X32"}];
-	
+	this.Sizes = SettingsService.GetSizes();
+
 
 	if(this.Categories == null || this.Categories == undefined || this.Categories == "undefined") {
 		ProductService.GetAllCategories(function(dbArray){
@@ -15,9 +15,11 @@ function UploadsController(ProductService, $location) {
 	this.Image2 = "";
 	this.Image3 = "";
 	this.Title = "";
-	this.Price = "";
+	this.SmallPrice = "";
+	this.MedPrice = "";
+	this.LargePrice = "";
 	this.Category = "";
-	this.Size = "";
+	this.DefaultSize = "";
 	this.Images = [];
 	this.Description = "";
 
@@ -32,7 +34,7 @@ function UploadsController(ProductService, $location) {
 				images.push(this.Images[i]);
 			}
 		}
-		var product = {Images: images, Category: this.Category, Price: this.Price, Title: this.Title, Description: this.Description, Size: this.Size};
+		var product = {Images: images, Category: this.Category, SmallPrice: this.SmallPrice, MedPrice: this.MedPrice, LargePrice: this.LargePrice, Title: this.Title, Description: this.Description, DefaultSize: this.DefaultSize};
 		ProductService.AddNewProduct(product, function(result) {
 			$location.path('/admin/products');
 			console.log(result);
@@ -46,5 +48,5 @@ function UploadsController(ProductService, $location) {
 
 }
 
-UploadsController.$inject = ['ProductService', '$location'];
+UploadsController.$inject = ['ProductService', '$location', 'SettingsService'];
 app.controller('UploadsController', UploadsController);
