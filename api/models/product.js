@@ -3,12 +3,14 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 var ProductModel = new mongoose.Schema({
-	Price: Number,
+	SmallPrice: Number,
+	MedPrice: Number,
+	LargePrice: Number,
 	Title: String,
 	Category: String,
 	Images: Array,
 	Description: String,
-	Size: String
+	DefaultSize: String
 
 }, { collection: 'product'} );
 

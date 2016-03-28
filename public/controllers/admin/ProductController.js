@@ -7,6 +7,7 @@ function ProductController(ProductService) {
 	this.Images = [];
 	var images = [];
 	var imageChange = false;
+	
 
 	this.Products = ProductService.GetCachedProducts("Products");
 

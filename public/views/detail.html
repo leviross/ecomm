@@ -14,51 +14,58 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="row product__main">
-        <div class="col-sm-8">
-          <div class="mainImage"><img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{Detail.Product.Images[0]}}" alt="" class="img-responsive"></div>
-          <div class="ribbon sale">
-            <div class="theribbon">SALE</div>
-            <div class="ribbon-background"></div>
+  <!-- <div class="row"> -->
+    <!-- <div class="col-md-12"> -->
+      <div class="product__main">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <div class="mainImage"><img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{Detail.Product.Images[0]}}" alt="" class="img-responsive"></div>
+            <div class="ribbon sale">
+              <div class="theribbon">SALE</div>
+              <div class="ribbon-background"></div>
+            </div>
+            <div class="ribbon new">
+              <div class="theribbon">NEW</div>
+              <div class="ribbon-background"></div>
+            </div>
+            <!-- <div class="row product__thumbs">
+              <div class="col-xs-4"><a href="img/detailbig1.jpg" class="thumb"><img src="img/detailsmall1.jpg" alt="" class="img-responsive"></a></div>
+              <div class="col-xs-4"><a href="img/detailbig2.jpg" class="thumb"><img src="img/detailsmall2.jpg" alt="" class="img-responsive"></a></div>
+              <div class="col-xs-4"><a href="img/detailbig3.jpg" class="thumb"><img src="img/detailsmall3.jpg" alt="" class="img-responsive"></a></div>
+            </div> -->
           </div>
-          <div class="ribbon new">
-            <div class="theribbon">NEW</div>
-            <div class="ribbon-background"></div>
-          </div>
-          <!-- <div class="row product__thumbs">
-            <div class="col-xs-4"><a href="img/detailbig1.jpg" class="thumb"><img src="img/detailsmall1.jpg" alt="" class="img-responsive"></a></div>
-            <div class="col-xs-4"><a href="img/detailbig2.jpg" class="thumb"><img src="img/detailsmall2.jpg" alt="" class="img-responsive"></a></div>
-            <div class="col-xs-4"><a href="img/detailbig3.jpg" class="thumb"><img src="img/detailsmall3.jpg" alt="" class="img-responsive"></a></div>
-          </div> -->
-        </div>
-        <div class="col-sm-4">
-          <form>
-            <p class="price">${{Detail.Product.Price}}</p>
-            <div class="row">
-              <div class="col-md-6 col-md-offset-3">
-                <div class="form-group">
-                  <label for="size">Choose your size</label>
-                  <select id="size" class="form-control">
-                    <option>8 X 12</option>
-                    <option>12 X 18</option>
-                    <option>24 X 36</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="quantity">Quantity</label>
-                  <input type="number" value="1" id="quantity" class="form-control">
+        </div> 
+
+        <div class="row">
+          <div class="col-sm-4">
+            <form>
+              <p class="price">${{Detail.Product.Price}}</p>
+              <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                  <div class="form-group">
+                    <label for="size">Choose your size</label>
+                    <select id="size" class="form-control">
+                      <option>8 X 12</option>
+                      <option>12 X 18</option>
+                      <option>24 X 36</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" value="1" id="quantity" class="form-control">
+                  </div>
                 </div>
               </div>
-            </div>
-            <p class="text-center">
-              <button type="submit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>&nbsp;Add to cart</button>
-              <button type="submit" data-toggle="tooltip" data-placement="top" title="Add to wishlist" class="btn btn-default"><i class="fa fa-heart-o"></i></button>
-            </p>
-          </form>
-          <div class="product__details">
-            <h4>Product details</h4>
+              <p class="text-center">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>&nbsp;Add to cart</button>
+                <button type="submit" data-toggle="tooltip" data-placement="top" title="Add to wishlist" class="btn btn-default"><i class="fa fa-heart-o"></i></button>
+              </p>
+            </form>
+          </div>  
+
+
+          <div class="col-sm-4 product__details">
+            <h4>Product Description</h4>
             <p>{{Detail.Product.Description}}</p>
             <h4>Material & care</h4>
             <ul>
@@ -71,15 +78,17 @@
               <li>Medium 12 X 18 inches</li>
               <li>Large 24 X 36 inches</li>
             </ul>
+          </div>
+          <div class="col-sm-4 product__social social">
             <blockquote>
               <p><em>What I mean by 'abstract' is something which comes to life spontaneously through a gamut of contrasts, plastic at the same time as psychic, and pervades both the picture and the eye of the spectator with conceptions of new and unfamiliar elements... (Marc Chagall).</em></p>
             </blockquote>
-          </div>
-          <div class="product__social social">
             <h4>Show it to your friends</h4>
             <p><a href="#" data-animate-hover="pulse" class="external facebook"><i class="fa fa-facebook"></i></a><a href="#" data-animate-hover="pulse" class="external gplus"><i class="fa fa-google-plus"></i></a><a href="#" data-animate-hover="pulse" class="external twitter"><i class="fa fa-twitter"></i></a><a href="#" data-animate-hover="pulse" class="email"><i class="fa fa-envelope"></i></a></p>
           </div>
         </div>
+            
+
       </div>
       <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
@@ -155,6 +164,6 @@
           </section>
         </div>
       </div> -->
-    </div>
-  </div>
-  
+    <!-- </div> -->
+  <!-- </div> -->
+</div>

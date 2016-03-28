@@ -34,9 +34,11 @@ exports.CreateProduct = function(req, res) {
 		var p = new Product();
 		p.Title = req.body.Title;
 		p.Category = req.body.Category;
-		p.Price = req.body.Price;
+		p.SmallPrice = req.body.SmallPrice;
+		p.MedPrice = req.body.MedPrice;
+		p.LargePrice = req.body.LargePrice;
 		p.Description = req.body.Description;
-		p.Size = req.body.Size;
+		p.DefaultSize = req.body.DefaultSize;
 		p.Images = publicIds;
 
 		p.save(function(err, product) {
@@ -63,9 +65,11 @@ exports.UpdateProduct = function(req, res) {
 				console.log("Images were not updated.");
 				p.Title = req.body.Title;
 				p.Category = req.body.Category;
-				p.Price = req.body.Price;
+				p.SmallPrice = req.body.SmallPrice;
+				p.MedPrice = req.body.MedPrice;
+				p.LargePrice = req.body.LargePrice;
 				p.Description = req.body.Description;
-				p.Size = req.body.Size;
+				p.DefaultSize = req.body.DefaultSize;
 				p.Images = req.body.Images;
 				p.save(function(err, product) {
 					if(err) {
@@ -106,9 +110,11 @@ exports.UpdateProduct = function(req, res) {
 					console.log("Got to final upload and creating object model.");
 					p.Title = req.body.Title;
 					p.Category = req.body.Category;
-					p.Price = req.body.Price;
+					p.SmallPrice = req.body.SmallPrice;
+					p.MedPrice = req.body.MedPrice;
+					p.LargePrice = req.body.LargePrice;
 					p.Description = req.body.Description;
-					p.Size = req.body.Size;
+					p.DefaultSize = req.body.DefaultSize;
 					p.Images = publicIds;
 
 					p.save(function(err, product) {

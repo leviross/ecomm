@@ -2,6 +2,9 @@ function UploadsController(ProductService, $location) {
 
 	this.Categories = ProductService.GetCachedCategories("Categories");
 
+	this.Sizes = [{Size: "10X16"}, {Size: "12X20"}, {Size: "16X32"}];
+	
+
 	if(this.Categories == null || this.Categories == undefined || this.Categories == "undefined") {
 		ProductService.GetAllCategories(function(dbArray){
 			self.Categories = dbArray;
