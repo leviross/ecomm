@@ -15,6 +15,10 @@
           </div>	
         </carousel> -->
 
+				<div class="heading">
+					<h4>Featured Piece</h4>
+				</div>
+
 
         <div id="main-slider">
         	<a href="/#/shop/{{HomePage.Featured.Title | withDashes}}" ng-click="HomePage.SelectFeatured()"><div style="background-image: url('http://res.cloudinary.com/dewoxdkgg/image/upload/{{HomePage.Featured.Images[0]}}')"; class="item">
@@ -47,7 +51,9 @@
 <div class="container">
 	<section>
 		<div class="row">
-			
+			<div class="heading" style="margin-bottom: -10px;">
+				<h4>Most Popular</h4>
+			</div>
 			<div ng-repeat="product in HomePage.Products" class="col-sm-6" ng-if="product.Title != 'Leaves in the Wind'" style="white-space: pre-wrap;">
 				<a href="" ng-click="HomePage.GoToProductPage(product)"><img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{product.Images[0]}}" alt="" class="img-responsive"></a>
 				<!-- <br ng-if="$index > 0 && ($index + 1) % 2 == 0" /> -->
@@ -56,13 +62,13 @@
 		</div>
 	</section>
 	<section>
-		<div class="row">
+		<!-- <div class="row">
 			<div class="col-md-12">
 				<div class="heading">
 					<h4>Trending this month</h4>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<div class="row products">
 			<div class="col-md-3 col-sm-6">
 				<div class="product">

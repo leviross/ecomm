@@ -1,4 +1,4 @@
-function HeaderController($scope, $rootScope, $location, UserService){
+function HeaderController($scope, $rootScope, $location, UserService, ProductService){
 
 	this.Cart = [];
 	var self = this;
@@ -41,10 +41,21 @@ function HeaderController($scope, $rootScope, $location, UserService){
 		});
 		event.target.parentElement.className = 'active';
 	}
+
+	function withDashes(title) {
+		return title.replace(/\s+/g, "-");		
+	}
+
+	this.BackToSelected = function() {
+		ProductService.GetProductDetail(function(product) {
+			$location.path("/shop/" + withDashes(product.Title));
+		});
+		
+	}
     
 
 }
 
-HeaderController.$inject = ['$scope', '$rootScope', '$location', 'UserService'];
+HeaderController.$inject = ['$scope', '$rootScope', '$location', 'UserService', 'ProductService'];
 
 app.controller('HeaderController', HeaderController);

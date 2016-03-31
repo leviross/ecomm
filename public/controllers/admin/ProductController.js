@@ -71,7 +71,7 @@ function ProductController(ProductService, SettingsService) {
 			imageChange = true;
 		}
 
-		var product = {_id: this._id, ImageChange: imageChange, Images: images, Title: this.Title, Description: this.Description, Size: this.Size, Price: this.Price, Category: this.Category};
+		var product = {_id: this._id, ImageChange: imageChange, Images: images, Title: this.Title, Description: this.Description, DefaultSize: this.DefaultSize, SmallPrice: this.SmallPrice, MedPrice: this.MedPrice, LargePrice: this.LargePrice, Category: this.Category};
 		ProductService.UpdateProduct(product, this.currentIndex, function(result) {
 			alertify.notify('Product Updated!', 'success', 5, function(){});
 			self.DisplayMode = 'list';

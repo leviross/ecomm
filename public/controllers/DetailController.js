@@ -1,35 +1,69 @@
-function DetailController(ProductService, $routeParams, SettingsService) {
+function DetailController(ProductService, $routeParams, SettingsService, $rootScope) {
 
 	var self = this;
+	$rootScope.$broadcast("ChooseActiveNav", 1);
 
-	this.Product = ProductService.GetProductDetail();
-	//this.Product.SelectedPrice = 
+	// load the selected product from the service
+	ProductService.GetProductDetail(function(product) {
+		self.Product = product;
+		UpdatePrice(product.DefaultSize, product);
+			
+	});
+
+	function UpdatePrice(size, product) {
+		switch(size) {
+			case "10X16":
+				self.Product.SelectedPrice = product.SmallPrice;
+				break;
+			case "12X20":
+				self.Product.SelectedPrice = product.MedPrice;
+				break;
+			case "16X32":
+				self.Product.SelectedPrice = product.LargePrice;
+				break;	
+		}	
+	}
+
+	this.ChangeSize = function(size) {
+		UpdatePrice(size, self.Product);
+	}
+
+
 	this.Sizes = SettingsService.GetSizes();
 	this.SimilarProducts = [];
 
-	var cachedProducts = ProductService.GetCachedProducts("Products");
-	if(!cachedProducts) {
-		ProductService.GetAllProducts(function(products) {
-			SimilarProducts(products);
-		});
-	}else {
-		SimilarProducts(cachedProducts);
-	}	
+	// on page load, load similar products
+	GetSimilarProducts();
+	function GetSimilarProducts() {
+		var cachedProducts = ProductService.GetCachedProducts("Products");
+		if(!cachedProducts) {
+			ProductService.GetAllProducts(function(products) {
+				SimilarProducts(products);
+			});
+		}else {
+			SimilarProducts(cachedProducts);
+		}	
+	}
+	
 
 	function SimilarProducts(products) {
 		for(var i = 0; i < products.length; i++) {
 			if(products[i].Category == self.Product.Category && products[i].Title != self.Product.Title) {
 				self.SimilarProducts.push(products[i]);
-			}
+			}	
 		}
 	}	
-
-	this.SelectFeatured = function() {
-		ProductService.SetProductDetail(this.Featured);
+	// if similar clicked, set the current product in prod service and rebind 
+	this.SelectSimilar = function(product) {
+		ProductService.SetProductDetail(product);
+		self.Product = product;
+		UpdatePrice(product.DefaultSize, product);
+		this.SimilarProducts = [];
+		GetSimilarProducts();
 	}
 
 }
 
-DetailController.$inject = ['ProductService', '$routeParams', 'SettingsService'];
+DetailController.$inject = ['ProductService', '$routeParams', 'SettingsService', '$rootScope'];
 
 app.controller('DetailController', DetailController);

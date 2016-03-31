@@ -6,7 +6,7 @@
         <li><a href="category.html">Girls</a></li>
         <li>Burton Jacky Shirt</li>
       </ul> -->
-      <div class="row page-top">
+      <div class="row page-top" style="margin-bottom: 0;">
         <div class="col-sm-6 col-sm-offset-3">
           <h1 class="product__heading">{{Detail.Product.Title}}</h1>
           <p class="text-muted">{{Detail.Product.Description}}</p>
@@ -44,7 +44,7 @@
                 <div class="col-md-6 col-md-offset-3">
                   <div class="form-group">
                     <label for="size">Choose your size</label>
-                    <select class="form-control" ng-options="s.Size as s.Size for s in Detail.Sizes" ng-model="Detail.Product.DefaultSize"></select>
+                    <select class="form-control" ng-options="s.Size as s.Size for s in Detail.Sizes" ng-model="Detail.Product.DefaultSize" ng-change="Detail.ChangeSize(Detail.Product.DefaultSize)"></select>
                   </div>
                   <div class="form-group">
                     <label for="quantity">Quantity</label>
@@ -97,13 +97,13 @@
               <!-- product-->
               <div class="col-md-5 col-sm-6" ng-repeat="product in Detail.SimilarProducts | limitTo: 2">
                 <div class="product"> 
-                  <div class="image"><a href="/#/shop/{{product.Title | withDashes}}"><img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{product.Images[0]}}" alt="" class="img-responsive"></a>
+                  <div class="image"><a href="" ng-click="Detail.SelectSimilar(product)"><img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{product.Images[0]}}" alt="" class="img-responsive"></a>
                     <!-- <div class="quick-view-button"><a href="#" data-toggle="modal" data-target="#product-quick-view-modal" class="btn btn-default btn-sm">Quick view</a></div> -->
                   </div>
                   <div class="text">
                     <p class="brand"><a href="#"></a></p>
                     <h3> <a href="detail.html">{{product.Title}}</a></h3>
-                    <p class="price">${{product.Price}}</p>
+                    <p class="price">${{product.MedPrice}}</p>
                   </div>
                 </div>
               </div>

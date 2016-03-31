@@ -56,15 +56,15 @@ function ProductService($http, $location, UserService){
 			detailedProduct = prod;
 			localStorage.setItem("Detailed", JSON.stringify(prod));
 		},
-		GetProductDetail: function() {
+		GetProductDetail: function(cb) {
 			if(detailedProduct != undefined || detailedProduct != null) {
-				return detailedProduct;
+				cb(detailedProduct);
 			}else if(!localStorage.Detailed) {
-				return null;
+				cb(null);
 			}else {
 				var parsedDetailed = JSON.parse(localStorage.getItem("Detailed"));
 				detailedProduct = parsedDetailed;
-				return detailedProduct;
+				cb(detailedProduct);
 			} 
 		},
 		GetAllCategories: function(cb) {	

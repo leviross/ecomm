@@ -42,7 +42,7 @@ function UploadsController(ProductService, $location, SettingsService) {
 	}
 
 	this.Cancel = function() {
-		$location.path('/#/admin/products');
+		$location.path('/admin/products');
 	}
 
 
