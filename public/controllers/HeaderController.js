@@ -1,6 +1,6 @@
-function HeaderController($scope, $rootScope, $location, UserService, ProductService){
+function HeaderController($scope, $rootScope, $location, UserService, ProductService, CartService){
 
-	this.Cart = [];
+	this.Cart = 0;
 	var self = this;
 
 	var sessionUser = sessionStorage.getItem('User');
@@ -11,32 +11,38 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 		this.User = JSON.parse(sessionUser);
 	}
 
+	$scope.$on("UpdateCart", function(event) {
+		var cartLen = CartService.GetCart().length;
+		self.Cart = cartLen;
+		//$(".btn-transparent").css("color", "#4fbfa8");
+	});
+
 	//this.User = UserService.GetLoggedInUser();
 	
-	$scope.$on('UserLoggedIn', function(event, user){
+	$scope.$on('UserLoggedIn', function(event, user) {
 		self.User = user;
 	});
 
-	$scope.$on('ChooseActiveNav', function(event, index){
+	$scope.$on('ChooseActiveNav', function(event, index) {
 		var elemArr = [];
-		$('#navList').children().each(function(index, li){
+		$('#navList').children().each(function(index, li) {
 			$(li).removeClass('active');
 			elemArr.push($(li));
 		});
 		elemArr[index].addClass('active');	
 	});
 
-	this.GoToLogin = function(){
+	this.GoToLogin = function() {
 		$location.path('/login');
 	}
 
-	this.Logout = function(){
+	this.Logout = function() {
 		UserService.Logout();
 		this.User = null;
 	}
 
-	this.ActiveClass = function(event){
-		$('#navList li').each(function(index, li){
+	this.ActiveClass = function(event) {
+		$('#navList li').each(function(index, li) {
 			$(li).removeClass('active');
 		});
 		event.target.parentElement.className = 'active';
@@ -56,6 +62,6 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 
 }
 
-HeaderController.$inject = ['$scope', '$rootScope', '$location', 'UserService', 'ProductService'];
+HeaderController.$inject = ['$scope', '$rootScope', '$location', 'UserService', 'ProductService', 'CartService'];
 
 app.controller('HeaderController', HeaderController);

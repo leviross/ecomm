@@ -1,4 +1,4 @@
-function DetailController(ProductService, $routeParams, SettingsService, $rootScope) {
+function DetailController(ProductService, $routeParams, SettingsService, $rootScope, CartService) {
 
 	var self = this;
 	$rootScope.$broadcast("ChooseActiveNav", 1);
@@ -62,8 +62,13 @@ function DetailController(ProductService, $routeParams, SettingsService, $rootSc
 		GetSimilarProducts();
 	}
 
+	this.AddToCart = function() {
+		CartService.AddToCart(self.Product);
+		$rootScope.$broadcast("UpdateCart");
+	}
+
 }
 
-DetailController.$inject = ['ProductService', '$routeParams', 'SettingsService', '$rootScope'];
+DetailController.$inject = ['ProductService', '$routeParams', 'SettingsService', '$rootScope', 'CartService'];
 
 app.controller('DetailController', DetailController);

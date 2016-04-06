@@ -53,7 +53,7 @@
                 </div>
               </div>
               <p class="text-center">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>&nbsp;Add to cart</button>
+                <button class="btn btn-primary" ng-click="Detail.AddToCart()"><i class="fa fa-shopping-cart"></i>&nbsp;Add to cart</button>
                 <button type="submit" data-toggle="tooltip" data-placement="top" title="Add to wishlist" class="btn btn-default"><i class="fa fa-heart-o"></i></button>
               </p>
             </form>
@@ -92,7 +92,7 @@
           <section class="products-similar">
             <div class="row">
               <div class="col-md-2 col-sm-12">
-                <h3>You may also like these products</h3>
+                <h3>Similar art</h3>
               </div>
               <!-- product-->
               <div class="col-md-5 col-sm-6" ng-repeat="product in Detail.SimilarProducts | limitTo: 2">
