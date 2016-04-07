@@ -28,6 +28,9 @@ app.config(['$routeProvider', function ($routeProvider) {
     }).when('/shop/:title', {
         templateUrl: 'views/detail.html',
         controller: 'DetailController as Detail'
+    }).when('/shopping-cart', {
+        templateUrl: 'views/cart.html',
+        controller: 'CartController as Cart'
     }).otherwise({
       redirectTo: '/'
     });

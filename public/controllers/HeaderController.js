@@ -12,8 +12,10 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 	}
 
 	$scope.$on("UpdateCart", function(event) {
-		var cartLen = CartService.GetCart().length;
-		self.Cart = cartLen;
+		CartService.GetCart(function(cart) {
+			self.Cart = cart.length;
+		});
+		
 		//$(".btn-transparent").css("color", "#4fbfa8");
 	});
 

@@ -7,15 +7,15 @@ function CartService() {
 			cart.push(product);
 			localStorage.setItem("Cart", JSON.stringify(cart));
 		},
-		GetCart: function() {
+		GetCart: function(cb) {
 			if(cart && cart.length !== 0){
-				return cart;
+				cb(cart);
 			}else if(!localStorage.Cart){
-				return null;
+				cb(null);
 			}else if(localStorage.Cart){
 				var parsedCart = JSON.parse(localStorage.getItem("Cart"));
 				cart = parsedCart;
-				return cart;
+				cb(cart);
 			}
 		},
 		UpdatedCart: function(value, index){

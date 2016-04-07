@@ -6,6 +6,7 @@ var ProductModel = new mongoose.Schema({
 	SmallPrice: Number,
 	MedPrice: Number,
 	LargePrice: Number,
+	SelectedPrice: Number,
 	Title: String,
 	Category: String,
 	Images: Array,

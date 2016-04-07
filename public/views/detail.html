@@ -18,7 +18,7 @@
     <!-- <div class="col-md-12"> -->
       <div class="product__main">
         <div class="row">
-          <div class="col-sm-10 col-sm-offset-1">
+          <div class="col-sm-9">
             <div class="mainImage"><img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{Detail.Product.Images[0]}}" alt="" class="img-responsive"></div>
             <div class="ribbon sale">
               <div class="theribbon">SALE</div>
@@ -34,33 +34,25 @@
               <div class="col-xs-4"><a href="img/detailbig3.jpg" class="thumb"><img src="img/detailsmall3.jpg" alt="" class="img-responsive"></a></div>
             </div> -->
           </div>
+          <div class="col-sm-3">
+            <p class="price">${{Detail.Product.SelectedPrice}}</p>
+            <div class="form-group">
+              <label for="size">Choose your size</label>
+              <select class="form-control" ng-options="s.Size as s.Size for s in Detail.Sizes" ng-model="Detail.Product.DefaultSize" ng-change="Detail.ChangeSize(Detail.Product.DefaultSize)"></select>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Quantity</label>
+              <input type="number" value="1" id="quantity" class="form-control">
+            </div>
+            <p class="text-center">
+              <button class="btn btn-primary" ng-click="Detail.AddToCart()"><i class="fa fa-shopping-cart"></i>&nbsp;Add to cart</button>
+              <button type="submit" data-toggle="tooltip" data-placement="top" title="Add to wishlist" class="btn btn-default"><i class="fa fa-heart-o"></i></button>
+            </p>
+          </div>
         </div> 
 
-        <div class="row">
-          <div class="col-sm-4">
-            <form>
-              <p class="price">${{Detail.Product.SelectedPrice}}</p>
-              <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                  <div class="form-group">
-                    <label for="size">Choose your size</label>
-                    <select class="form-control" ng-options="s.Size as s.Size for s in Detail.Sizes" ng-model="Detail.Product.DefaultSize" ng-change="Detail.ChangeSize(Detail.Product.DefaultSize)"></select>
-                  </div>
-                  <div class="form-group">
-                    <label for="quantity">Quantity</label>
-                    <input type="number" value="1" id="quantity" class="form-control">
-                  </div>
-                </div>
-              </div>
-              <p class="text-center">
-                <button class="btn btn-primary" ng-click="Detail.AddToCart()"><i class="fa fa-shopping-cart"></i>&nbsp;Add to cart</button>
-                <button type="submit" data-toggle="tooltip" data-placement="top" title="Add to wishlist" class="btn btn-default"><i class="fa fa-heart-o"></i></button>
-              </p>
-            </form>
-          </div>  
-
-
-          <div class="col-sm-4 product__details">
+        <div class="row"> 
+          <div class="col-sm-6 product__details">
             <h4>Product Description</h4>
             <p>{{Detail.Product.Description}}</p>
             <h4>Material & care</h4>
@@ -75,7 +67,7 @@
               <li>Large 24 X 36 inches</li>
             </ul>
           </div>
-          <div class="col-sm-4 product__social social">
+          <div class="col-sm-6 product__social social">
             <blockquote>
               <p><em>What I mean by 'abstract' is something which comes to life spontaneously through a gamut of contrasts, plastic at the same time as psychic, and pervades both the picture and the eye of the spectator with conceptions of new and unfamiliar elements... (Marc Chagall).</em></p>
             </blockquote>
@@ -87,7 +79,7 @@
 
       </div>
       <div class="row">
-        <div class="col-sm-10 col-sm-offset-1">
+        <div class="col-sm-12">
           <!-- similar products-->
           <section class="products-similar">
             <div class="row">
