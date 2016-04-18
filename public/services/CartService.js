@@ -18,7 +18,7 @@ function CartService() {
 				cb(cart);
 			}
 		},
-		UpdatedCart: function(value, index){
+		UpdatedCart: function(value, index) {
 			cart[index] = value;
 			localStorage.setItem("Cart", JSON.stringify(cart));
 		}

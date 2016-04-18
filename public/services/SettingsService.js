@@ -7,6 +7,9 @@ function SettingsService() {
 
 		GetSizes: function() {
 			return sizes;
+		},
+		WithDashes: function(title) {
+			return title.replace(/\s+/g, "-");
 		}
 	}
 

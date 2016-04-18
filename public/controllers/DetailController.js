@@ -1,4 +1,4 @@
-function DetailController(ProductService, $routeParams, SettingsService, $rootScope, CartService) {
+function DetailController(ProductService, $routeParams, SettingsService, $rootScope, CartService, $location) {
 
 	var self = this;
 	$rootScope.$broadcast("ChooseActiveNav", 1);
@@ -56,10 +56,7 @@ function DetailController(ProductService, $routeParams, SettingsService, $rootSc
 	// if similar clicked, set the current product in prod service and rebind 
 	this.SelectSimilar = function(product) {
 		ProductService.SetProductDetail(product);
-		self.Product = product;
-		UpdatePrice(product.DefaultSize, product);
-		this.SimilarProducts = [];
-		GetSimilarProducts();
+		$location.path("/shop/" + SettingsService.WithDashes(product.Title));
 	}
 
 	this.AddToCart = function() {
@@ -69,6 +66,6 @@ function DetailController(ProductService, $routeParams, SettingsService, $rootSc
 
 }
 
-DetailController.$inject = ['ProductService', '$routeParams', 'SettingsService', '$rootScope', 'CartService'];
+DetailController.$inject = ['ProductService', '$routeParams', 'SettingsService', '$rootScope', 'CartService', '$location'];
 
 app.controller('DetailController', DetailController);

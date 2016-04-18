@@ -26,13 +26,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="product in Cart.Products"> 
-                <td><a href="" ng-click="Cart.GoToProductPage()"><img src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{product.Images[0]}}" alt="White Blouse Armani"></a></td>
+              <tr ng-repeat="product in Cart.Products" style="height: 150px;"> 
+                <td>
+                  <img src="http://res.cloudinary.com/dewoxdkgg/image/upload/h_150,w_250/{{product.Images[0]}}" alt="White Blouse Armani" ng-click="Cart.GoToProductPage()">
+                </td>
                 <td><a href="" ng-click="Cart.GoToProductPage()">{{product.Title}}</a></td>
                 <td><input type="number" value="2" class="form-control"></td>
-                <td>${{product.Price}}.00</td>
+                <td>{{product.Price | currency}}</td>
                 <td>$0.00</td>
-                <td>${{product.Price}}.00</td>
+                <td>{{product.Price | currency}}</td>
                 <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
               </tr>
             </tbody>

@@ -1,4 +1,4 @@
-function HeaderController($scope, $rootScope, $location, UserService, ProductService, CartService){
+function HeaderController($scope, $rootScope, $location, UserService, ProductService, CartService, $timeout, SettingsService){
 
 	this.Cart = 0;
 	var self = this;
@@ -11,12 +11,16 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 		this.User = JSON.parse(sessionUser);
 	}
 
+
 	$scope.$on("UpdateCart", function(event) {
 		CartService.GetCart(function(cart) {
 			self.Cart = cart.length;
-		});
-		
-		//$(".btn-transparent").css("color", "#4fbfa8");
+			var cartButton = $("a.btn-transparent");
+			cartButton.addClass("btn-primary active");
+			$timeout(function() {
+				cartButton.removeClass("btn-primary active");
+			}, 450);
+		});		
 	});
 
 	//this.User = UserService.GetLoggedInUser();
@@ -50,13 +54,9 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 		event.target.parentElement.className = 'active';
 	}
 
-	function withDashes(title) {
-		return title.replace(/\s+/g, "-");		
-	}
-
 	this.BackToSelected = function() {
 		ProductService.GetProductDetail(function(product) {
-			$location.path("/shop/" + withDashes(product.Title));
+			$location.path("/shop/" + SettingsService.WithDashes(product.Title));
 		});
 		
 	}
@@ -64,6 +64,6 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 
 }
 
-HeaderController.$inject = ['$scope', '$rootScope', '$location', 'UserService', 'ProductService', 'CartService'];
+HeaderController.$inject = ['$scope', '$rootScope', '$location', 'UserService', 'ProductService', 'CartService', '$timeout', 'SettingsService'];
 
 app.controller('HeaderController', HeaderController);
