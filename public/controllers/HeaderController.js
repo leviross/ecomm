@@ -11,10 +11,21 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 		this.User = JSON.parse(sessionUser);
 	}
 
+	CartService.GetCart(function(cart) {
+			for(var i = 0; i < cart.length; i++) {
+				self.Cart += cart[i].Quantity;
+			}
+		});		
+
 
 	$scope.$on("UpdateCart", function(event) {
 		CartService.GetCart(function(cart) {
-			self.Cart = cart.length;
+			
+			self.Cart = 0;
+			for(var i = 0; i < cart.length; i++) {
+				self.Cart += cart[i].Quantity;
+			}
+
 			var cartButton = $("a.btn-transparent");
 			cartButton.addClass("btn-primary active");
 			$timeout(function() {
