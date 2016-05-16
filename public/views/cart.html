@@ -18,24 +18,25 @@
           <table class="table">
             <thead>
               <tr>
-                <th colspan="2">Product</th>
-                <th>Quantity</th>
-                <th>Unit price</th>
-                <th>Discount</th>
-                <th colspan="2">Total</th>
+                <th style="width: 40%;">Product</th>
+                <th style="width: 15%;">Quantity</th>
+                <th style="width: 15%;">Unit price</th>
+                <th style="width: 15%;">Discount</th>
+                <th style="width: 15%;">Total</th>
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="product in Cart.Products" style="height: 150px;"> 
+              <tr ng-repeat="item in Cart.Products track by $index" style="height: 150px;"> 
                 <td>
-                  <img src="http://res.cloudinary.com/dewoxdkgg/image/upload/h_150,w_250/{{product.Images[0]}}" alt="White Blouse Armani" ng-click="Cart.GoToProductPage()">
+                  <a href="" ng-click="Cart.GoToProductPage()">
+                  <img style="margin-bottom: 10px;" ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/h_150,w_250/{{item.Product.Images[0]}}" alt="{{item.Product.Title}}" ng-click="Cart.GoToProductPage()" /></a>
+                  <a style="float: left;" href="" ng-click="Cart.GoToProductPage()">{{item.Product.Title}}</a>
                 </td>
-                <td><a href="" ng-click="Cart.GoToProductPage()">{{product.Title}}</a></td>
-                <td><input type="number" value="2" class="form-control"></td>
-                <td>{{product.Price | currency}}</td>
-                <td>$0.00</td>
-                <td>{{product.Price | currency}}</td>
-                <td><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                <td><input value="{{item.Quantity}}" class="form-control"></td>
+                <td>{{item.Product.Price | currency}}</td>
+                <td>-{{item.Product.Discount | currency}}</td>
+                <td>{{item.Product.Total | currency}}</td>
+                <td><a href="" ng-click="Cart.Delete($index)"><i class="fa fa-trash-o"></i></a></td>
               </tr>
             </tbody>
           </table>

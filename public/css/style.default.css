@@ -1416,7 +1416,7 @@ SLIDERS
 #checkout .table tbody tr td img,
 #basket .table tbody tr td img,
 #customer-order .table tbody tr td img {
-  width: 50px;
+  /*width: 50px; Levi removed to make img larger on cart*/
 }
 #checkout .table tfoot,
 #basket .table tfoot,

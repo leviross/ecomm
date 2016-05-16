@@ -19,6 +19,11 @@ function CartController(CartService) {
 		var titleWithDashes = withDashes(product.Title);
 		$location.path("/shop/" + titleWithDashes.toLowerCase());
 	}
+
+	this.Delete = function(index) {
+		this.Products.splice(index, 1);
+		CartService.UpdateCart(null, index);
+	}
 	
 
 

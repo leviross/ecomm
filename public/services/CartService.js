@@ -3,8 +3,8 @@ function CartService() {
 	var cart = [];
 
 	var ServiceObject = {
-		AddToCart: function(product, quantity) {
-			cart.push({Product:product, Quantity: quantity});
+		AddToCart: function(product, quantity, selPrice) {
+			cart.push({Product:product, Quantity: quantity, SelectedPrice: selPrice, Discount: discount});
 			localStorage.setItem("Cart", JSON.stringify(cart));
 		},
 		GetCart: function(cb) {
@@ -19,7 +19,12 @@ function CartService() {
 			}
 		},
 		UpdateCart: function(value, index) {
-			cart[index] = value;
+			if(value == null) {
+				cart.splice(index, 1);
+			}else {
+				cart[index] = value;
+			}
+			
 			localStorage.setItem("Cart", JSON.stringify(cart));
 		}
 	}
