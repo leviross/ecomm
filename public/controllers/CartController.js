@@ -1,4 +1,4 @@
-function CartController(CartService) {
+function CartController(CartService, ProductService, $location, $rootScope) {
 
 	var self = this;
 
@@ -10,26 +10,29 @@ function CartController(CartService) {
 		self.Count = products.length;
 	});
 
-	this.GoToProductPage = function(product) {
-		ProductService.SetProductDetail(product);
+	this.GoToProductPage = function(item) {
+		ProductService.SetProductDetail(item.Product);
 
-		function withDashes(title) {
-			return title.replace(/\s+/g, "-");		
-		}
-		var titleWithDashes = withDashes(product.Title);
+		var titleWithDashes = withDashes(item.Product.Title);
 		$location.path("/shop/" + titleWithDashes.toLowerCase());
 	}
 
 	this.Delete = function(index) {
 		this.Products.splice(index, 1);
 		CartService.UpdateCart(null, index);
+		console.log("CartController Cart Total: ", self.Products.length);
+		$rootScope.$broadcast("UpdateCart");
+	}
+
+	function withDashes(title) {
+		return title.replace(/\s+/g, "-");		
 	}
 	
 
 
 };
 
-CartController.$inject = ['CartService'];
+CartController.$inject = ['CartService', 'ProductService', '$location', '$rootScope'];
 
 app.controller("CartController", CartController);
 

@@ -4,6 +4,7 @@ function DetailController(ProductService, $routeParams, SettingsService, $rootSc
 	$rootScope.$broadcast("ChooseActiveNav", 1);
 	this.Quantity = 1;
 
+
 	// load the selected product from the service
 	ProductService.GetProductDetail(function(product) {
 		self.Product = product;
@@ -61,7 +62,7 @@ function DetailController(ProductService, $routeParams, SettingsService, $rootSc
 	}
 
 	this.AddToCart = function() {
-		CartService.AddToCart(self.Product, self.Quantity);
+		CartService.AddToCart(self.Product, self.Quantity, self.Product.SelectedPrice);
 		$rootScope.$broadcast("UpdateCart");
 	}
 
