@@ -33,9 +33,9 @@
                   <a style="float: left;" href="" ng-click="Cart.GoToProductPage(item)">{{item.Product.Title}}</a>
                 </td>
                 <td><input value="{{item.Quantity}}" class="form-control"></td>
-                <td>{{item.Product.Price | currency}}</td>
-                <td>-{{item.Product.Discount | currency}}</td>
-                <td>{{item.Product.Total | currency}}</td>
+                <td>{{item.Product.SelectedPrice | currency}}</td>
+                <td>{{item.Discount | currency}}</td>
+                <td>{{item.Total | currency}}</td>
                 <td><a href="" ng-click="Cart.Delete($index)"><i class="fa fa-trash-o"></i></a></td>
               </tr>
             </tbody>
@@ -113,19 +113,19 @@
           <tbody>
             <tr>
               <td>Order subtotal</td>
-              <th>$446.00</th>
+              <th>{{Cart.SubTotal | currency}}</th>
             </tr>
             <tr>
               <td>Shipping and handling</td>
-              <th>$10.00</th>
+              <th>{{Cart.Shipping | currency}}</th>
             </tr>
             <tr>
               <td>Tax</td>
-              <th>$0.00</th>
+              <th>{{Cart.Tax}}</th>
             </tr>
             <tr class="total">
               <td>Total</td>
-              <th>$456.00</th>
+              <th>{Cart.GrandTotal | currency}}</th>
             </tr>
           </tbody>
         </table>

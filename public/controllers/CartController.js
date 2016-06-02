@@ -4,10 +4,28 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 
 	this.Count = 0;
 	this.Products = [];
+	this.SubTotal = 0;
+	this.Shipping = 0;
+	this.Tax = 0;
+	this.GrandTotal = 0;
+
 
 	CartService.GetCart(function (products) {
 		self.Products = products;
 		self.Count = products.length;
+
+		for (var i = 0; i < self.Products.length; i++) {
+			if (self.Products[i].Discount != 0) {
+				self.Products[i].Total = (self.Products[i].SelectedPrice * self.Products[i].Quantity) - self.Products[i].Discount;
+				self.SubTotal += self.Products[i].Total;
+			} else {
+				self.Products[i].Total = self.Products[i].SelectedPrice * self.Products[i].Quantity;
+				self.SubTotal += self.Products[i].Total;
+			}
+		}
+
+		console.log(self.Products);
+
 	});
 
 	this.GoToProductPage = function(item) {
@@ -27,6 +45,8 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 	function withDashes(title) {
 		return title.replace(/\s+/g, "-");		
 	}
+
+
 	
 
 
