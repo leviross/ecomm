@@ -6,7 +6,8 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 	this.Products = [];
 	this.SubTotal = 0;
 	this.Shipping = 0;
-	this.Tax = 0;
+	this.Tax = 0.096;
+	self.TaxTotal = 0;
 	this.GrandTotal = 0;
 
 
@@ -22,7 +23,11 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 				self.Products[i].Total = self.Products[i].SelectedPrice * self.Products[i].Quantity;
 				self.SubTotal += self.Products[i].Total;
 			}
+
 		}
+
+		self.GrandTotal = self.SubTotal + self.Shipping;
+		self.TaxTotal = self.GrandTotal * self.Tax;
 
 		console.log(self.Products);
 

@@ -120,12 +120,12 @@
               <th>{{Cart.Shipping | currency}}</th>
             </tr>
             <tr>
-              <td>Tax</td>
-              <th>{{Cart.Tax}}</th>
+              <td>(WA State) Tax</td>
+              <th>{{Cart.Tax | currency}}</th>
             </tr>
             <tr class="total">
               <td>Total</td>
-              <th>{Cart.GrandTotal | currency}}</th>
+              <th>{{Cart.GrandTotal | currency}}</th>
             </tr>
           </tbody>
         </table>
