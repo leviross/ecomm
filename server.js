@@ -56,7 +56,7 @@ router.get('*', function(req, res) {
 
 app.use('/', router);
 
-var port = process.env.PORT || 3030; 
+var port = process.env.PORT; 
 
 app.listen(port);
 console.log("Listening on port 3030...");
