@@ -25,7 +25,7 @@ function ProductService($http, $location, UserService){
 		},
 		GetAllProducts: function(cb) {
 			var self = this;
-			return $http.get('http://localhost:4000/api/products')
+			return $http.get('/api/products')
 				.then(function(result) {
 					cb(result.data);
 					self.SetCachedProducts(result.data);
