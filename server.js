@@ -66,44 +66,44 @@ mongoose.connect(uri, function(err){
 });
 
 // users
-router.route('api/users/:token')
+router.route('/api/users/:token')
 	.post(UserController.CreateNewUser)
 	.get(UserController.GetAllUsers);
 
-router.route('api/users/:id/:token')
+router.route('/api/users/:id/:token')
 	.put(UserController.UpdateUser)
 	.delete(UserController.DeleteUser);	
 		
-router.route('api/users/reset-password/:email')
+router.route('/api/users/reset-password/:email')
 	.put(UserController.ResetPassword);	
 
-router.route('api/login')
+router.route('/api/login')
 	.post(UserController.Login);	
 
 //orders
-router.route('api/orders')
+router.route('/api/orders')
 	.get(jwtauth, UserController.GetUserOrders);
 
 // categories
-router.route('api/categories')
+router.route('/api/categories')
 	.get(CategoryController.GetAllCategories);
 
-router.route('api/categories/:token')
+router.route('/api/categories/:token')
 	.post(CategoryController.CreateNewCategory);
 	
-router.route('api/categories/:id/:token')
+router.route('/api/categories/:id/:token')
 	.put(CategoryController.UpdateCategory)
 	.delete(CategoryController.DeleteCategory);	
 
-router.route('api/categories/:id')
+router.route('/api/categories/:id')
 	.get(CategoryController.GetCategoryById);	
 
 // products 	
-router.route('api/products')
+router.route('/api/products')
 	.post(ProductController.CreateProduct)
 	.get(ProductController.GetAllProducts);
 
-router.route('api/products/:id')
+router.route('/api/products/:id')
 	.get(ProductController.GetProductById)
 	.put(ProductController.UpdateProduct)
 	.delete(ProductController.DeleteProduct);
