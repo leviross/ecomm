@@ -98,10 +98,13 @@ router.route('/api/categories/:id/:token')
 router.route('/api/categories/:id')
 	.get(CategoryController.GetCategoryById);	
 
-// products 	
-router.route('/api/products')
-	.post(ProductController.CreateProduct)
-	.get(ProductController.GetAllProducts);
+// products 
+router.get('/api/products', ProductController.GetAllProducts);
+router.post('/api/products', ProductController.CreateProduct);
+	
+// router.route('/api/products')
+// 	.post(ProductController.CreateProduct)
+// 	.get(ProductController.GetAllProducts);
 
 router.route('/api/products/:id')
 	.get(ProductController.GetProductById)
