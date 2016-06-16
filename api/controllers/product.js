@@ -137,6 +137,7 @@ exports.UpdateProduct = function(req, res) {
 }
 
 exports.GetAllProducts = function(req, res) {
+	console.log("GOT TO CONTROLLER FN");
 	Product.find({}, function(error, products) {
 		if(error) {
 			console.log("Error finding all products:\n", error);

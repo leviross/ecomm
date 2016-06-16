@@ -101,17 +101,7 @@ router.route('/api/categories/:id')
 	.get(CategoryController.GetCategoryById);	
 
 // products 
-router.get('/api/products', function(req, res) {
-	Product.find({}, function(error, products) {
-		if(error) {
-			console.log("Error finding all products:\n", error);
-			res.send("Error finding all products:\n" + error);
-		}else {
-			res.json(products);
-		}
-		
-	});
-});
+router.get('/api/products', ProductController.GetAllProducts);
 router.post('/api/products', ProductController.CreateProduct);
 
 // router.route('/api/products')
