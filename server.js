@@ -11,6 +11,8 @@ var OrderController = require('./api/controllers/order');
 var UserController = require('./api/controllers/user');
 var ProductController = require('./api/controllers/product');
 var CategoryController = require('./api/controllers/category');
+var Product = require('./api/models/product');
+var cloudinary = require('cloudinary');
 
 var mongoose = require('mongoose');
 var uri = process.env.MONGOOSE_URI;
@@ -99,9 +101,19 @@ router.route('/api/categories/:id')
 	.get(CategoryController.GetCategoryById);	
 
 // products 
-router.get('/api/products', ProductController.GetAllProducts);
+router.get('/api/products', function(req, res) {
+	Product.find({}, function(error, products) {
+		if(error) {
+			console.log("Error finding all products:\n", error);
+			res.send("Error finding all products:\n" + error);
+		}else {
+			res.json(products);
+		}
+		
+	});
+});
 router.post('/api/products', ProductController.CreateProduct);
-	
+
 // router.route('/api/products')
 // 	.post(ProductController.CreateProduct)
 // 	.get(ProductController.GetAllProducts);
