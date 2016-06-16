@@ -1,16 +1,31 @@
 var express = require('express');
+require('dotenv').load();
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var cors = require('cors');
+
+var morgan = require('morgan');
+var jwtauth = require('./api/my_modules/jwtauth');
+
+var OrderController = require('./api/controllers/order');
+var UserController = require('./api/controllers/user');
+var ProductController = require('./api/controllers/product');
+var CategoryController = require('./api/controllers/category');
+
+var mongoose = require('mongoose');
+var uri = process.env.MONGOOSE_URI;
+
 var router = express.Router();
 var app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
+app.use(bodyParser.json({type: 'application/vnd.api+json', limit: '50mb'}));
+
+app.use(morgan('dev'));
+
 app.use(express.static(__dirname + '/public'));
 
-app.use(bodyParser.json());
-app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 
 var sessionOpts = {
 	saveUninitialized: true, // saved new sessions
@@ -46,6 +61,53 @@ function authenticate() {
 		});
 }
 
+mongoose.connect(uri, function(err){
+	if(err) console.log("Mongoose Connection Error\n", err);
+});
+
+// users
+router.route('api/users/:token')
+	.post(UserController.CreateNewUser)
+	.get(UserController.GetAllUsers);
+
+router.route('api/users/:id/:token')
+	.put(UserController.UpdateUser)
+	.delete(UserController.DeleteUser);	
+		
+router.route('api/users/reset-password/:email')
+	.put(UserController.ResetPassword);	
+
+router.route('api/login')
+	.post(UserController.Login);	
+
+//orders
+router.route('api/orders')
+	.get(jwtauth, UserController.GetUserOrders);
+
+// categories
+router.route('api/categories')
+	.get(CategoryController.GetAllCategories);
+
+router.route('api/categories/:token')
+	.post(CategoryController.CreateNewCategory);
+	
+router.route('api/categories/:id/:token')
+	.put(CategoryController.UpdateCategory)
+	.delete(CategoryController.DeleteCategory);	
+
+router.route('api/categories/:id')
+	.get(CategoryController.GetCategoryById);	
+
+// products 	
+router.route('api/products')
+	.post(ProductController.CreateProduct)
+	.get(ProductController.GetAllProducts);
+
+router.route('api/products/:id')
+	.get(ProductController.GetProductById)
+	.put(ProductController.UpdateProduct)
+	.delete(ProductController.DeleteProduct);
+
 
 
 router.get('*', function(req, res) {
@@ -60,6 +122,7 @@ var port = process.env.PORT;
 
 app.listen(port);
 console.log("Listening on port 3030...");
+
 
 
 
