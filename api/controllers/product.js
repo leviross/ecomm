@@ -140,7 +140,7 @@ exports.GetAllProducts = function(req, res) {
 	console.log("GOT TO CONTROLLER FN");
 	Product.find({}, function(error, products) {
 		if(error) {
-			console.log("Error finding all products:\n", error);
+			console.log("ERROR FINDING PRODUCTS OR SOME OTHER SERVER ERROR!!:\n", error);
 			res.send("Error finding all products:\n" + error);
 		}else {
 			res.json(products);
