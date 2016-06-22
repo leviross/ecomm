@@ -16,7 +16,7 @@ function UserService($http, $location){
 		GetAllUsers: function(cb){
 			var self = this;
 			var token = sessionStorage.getItem('Token');
-			return $http.get('http://localhost:4000/api/users/' + token)
+			return $http.get('/api/users/' + token)
 				.then(function(result){
 					if(result.data.Error){
 						ForceLogin();
@@ -31,7 +31,7 @@ function UserService($http, $location){
 		},
 		CreateNewUser: function(userObj, cb){
 			var token = sessionStorage.getItem('Token');
-			return $http.post('http://localhost:4000/api/users/' + token, userObj)
+			return $http.post('/api/users/' + token, userObj)
 				.then(function(result){
 					if(result.data.Error){
 						ForceLogin();
@@ -45,7 +45,7 @@ function UserService($http, $location){
 		},
 		UpdateUser: function(userObj, cb){
 			var token = sessionStorage.getItem('Token');
-			return $http.put('http://localhost:4000/api/users/' + userObj._id + '/' + token, userObj)
+			return $http.put('/api/users/' + userObj._id + '/' + token, userObj)
 				.then(function(result){
 					if(result.data.Error){
 						ForceLogin();
@@ -59,7 +59,7 @@ function UserService($http, $location){
 		},
 		DeleteUser: function(id, cb){
 			var token = sessionStorage.getItem('Token');
-			return $http.delete('http://localhost:4000/api/users/' + id + '/' + token)
+			return $http.delete('/api/users/' + id + '/' + token)
 				.then(function(result){
 					if(result.data.Error){
 						ForceLogin();
@@ -73,7 +73,7 @@ function UserService($http, $location){
 		},
 		ResetPassword: function(email, cb){
 			// no token needed here as this is the password reset link when logged out
-			return $http.put('http://localhost:4000/api/users/reset-password/' + email)
+			return $http.put('/api/users/reset-password/' + email)
 				.then(function(result){
 					cb(result.data);
 				}, function(err){

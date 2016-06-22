@@ -1,8 +1,7 @@
 var app = angular.module('EcommApp', ['ngRoute', 'ui.bootstrap', 'ValidationModule']);
 
 
-app.config(['$routeProvider', function ($routeProvider) {
-
+app.config(['$routeProvider', function ($routeProvider) {    
 
     $routeProvider.when('/', {
         templateUrl: 'views/homepage.html',
@@ -36,6 +35,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     });
 
     //TODO: put the route logic functions here to make sure 
+    
 
 }]);    
    
@@ -43,11 +43,12 @@ app.run(function ($rootScope, $http, $location) {
     //Run blocks are used as a main method, it executes after services have been configured 
     // and the injector has been created
     console.log('app.run');
+    
 });
 
 angular.module('EcommApp')
 .controller('MasterController', ['$rootScope', '$location', '$scope', function ($rootScope, $location, $scope) {
-
+    //console.log("Master Ctrl always runnin...");
 
 }]);
 

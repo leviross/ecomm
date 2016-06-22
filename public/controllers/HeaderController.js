@@ -12,11 +12,16 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 	}
 
 	CartService.GetCart(function(cart) {
-			for(var i = 0; i < cart.length; i++) {
-				self.Cart += cart[i].Quantity;
-			}
-		});		
+		for(var i = 0; i < cart.length; i++) {
+			self.Cart += cart[i].Quantity;
+		}
+	});		
 
+	// Find the current location of app and then assign which li to make active
+	console.log("Header Ctrl always runnin...");
+	scope.$on('$locationChangeSuccess', function(event) {
+		
+	});
 
 	$scope.$on("UpdateCart", function(event) {
 		CartService.GetCart(function(cart) {

@@ -15,7 +15,7 @@ function ProductService($http, $location, UserService){
 		AddNewProduct: function(product, cb) {
 			var self = this;
 			var token = sessionStorage.getItem('Token');//deal with this later, sending the token...
-			return $http.post('http://localhost:4000/api/products', product)
+			return $http.post('/api/products', product)
 				.then(function(result){
 					cb(result.data);
 					self.AddCachedProducts(result.data);
@@ -35,7 +35,7 @@ function ProductService($http, $location, UserService){
 		},
 		UpdateProduct: function(product, index, cb) {
 			var self = this;
-			return $http.put('http://localhost:4000/api/products/' + product._id, product)
+			return $http.put('/api/products/' + product._id, product)
 				.then(function(result) {
 					cb(result.data);
 					self.UpdatedCachedProducts("Products", result.data, index);
@@ -45,7 +45,7 @@ function ProductService($http, $location, UserService){
 		},
 		DeleteProduct: function(id, index, cb) {
 			var self = this;
-			return $http.delete('http://localhost:4000/api/products/' + id)
+			return $http.delete('/api/products/' + id)
 				.then(function(result) {
 					cb(result.data);
 					products.splice(index, 1);
@@ -69,7 +69,7 @@ function ProductService($http, $location, UserService){
 		},
 		GetAllCategories: function(cb) {	
 			var self = this;	
-			return $http.get('http://localhost:4000/api/categories')
+			return $http.get('/api/categories')
 				.then(function(result){
 					cb(result.data);
 					self.SetCachedCategories("Categories", result.data);
@@ -126,7 +126,7 @@ function ProductService($http, $location, UserService){
 		CreateNewCategory: function(category, cb) {
 			var self = this;
 			var token = sessionStorage.getItem('Token');
-			return $http.post('http://localhost:4000/api/categories/' + token, category)
+			return $http.post('/api/categories/' + token, category)
 				.then(function(result){
 					if(result.data.Error){
 						ForceLogin();
@@ -142,7 +142,7 @@ function ProductService($http, $location, UserService){
 		UpdateCategory: function(category, index, cb) { 
 			var self = this;
 			var token = sessionStorage.getItem('Token');
-			return $http.put('http://localhost:4000/api/categories/' + category._id + '/' + token, category)
+			return $http.put('/api/categories/' + category._id + '/' + token, category)
 				.then(function(result){
 					if(result.data.Error){
 						ForceLogin();
@@ -157,7 +157,7 @@ function ProductService($http, $location, UserService){
 		},
 		DeleteCategory: function(id, cb) {
 			var token = sessionStorage.getItem('Token');
-			return $http.delete('http://localhost:4000/api/categories/' + id + '/' + token)
+			return $http.delete('/api/categories/' + id + '/' + token)
 				.then(function(result){
 					if(result.data.Error){
 						ForceLogin();

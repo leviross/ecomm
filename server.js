@@ -125,8 +125,8 @@ app.use('/', router);
 
 var port = process.env.PORT; 
 
-app.listen(port);
-console.log("Listening on port 3030...");
+app.listen(3030);
+console.log("Listening on port " + process.env.PORT + "...");
 
 
 
