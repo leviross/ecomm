@@ -27,10 +27,10 @@
           </div>
           <div id="navigation" class="collapse navbar-collapse">
             <ul ng-click="Header.ActiveClass($event)" id="navList" class="nav navbar-nav">
-              <li class="loopClass active"><a href="/#/">Home</a></li>
-              <li class="loopClass"><a href="" ng-click="Header.BackToSelected()">Shop</a></li>
-              <li class="loopClass"><a href="/#/shopping-cart">Cart</a></li>
-              <li class="loopClass"><a href="text.html">About</a></li>
+              <li id="home" class="loopClass active"><a href="/#/">Home</a></li>
+              <li id="shop" class="loopClass"><a href="" ng-click="Header.BackToSelected()">Shop</a></li>
+              <li id="shopping-cart" class="loopClass"><a href="/#/shopping-cart">Cart</a></li>
+              <li id="about" class="loopClass"><a href="text.html">About</a></li>
               <!--<li class="loopClass dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Brands <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="index.html">Decorex</a></li>
@@ -42,10 +42,10 @@
                   <li><a href="contact.html">Hello</a></li>
                 </ul>
               </li>-->
-              <li class="loopClass"><a href="contact.html">Contact</a></li>
-              <li class="loopClass" ng-hide="Header.User"><a href="/#/login">Login</a></li>
-              <li class="loopClass" ng-hide="Header.User"><a href="/#/register">Register</a></li>
-              <li class="loopClass" ng-show="Header.User" class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle">{{Header.User.FirstName}} <b class="caret"></b></a>
+              <li id="contact" class="loopClass"><a href="contact.html">Contact</a></li>
+              <li id="login" class="loopClass" ng-hide="Header.User"><a href="/#/login">Login</a></li>
+              <li id="register" class="loopClass" ng-hide="Header.User"><a href="/#/register">Register</a></li>
+              <li id="user" class="loopClass" ng-show="Header.User" class="dropdown"><a href="" data-toggle="dropdown" class="dropdown-toggle">{{Header.User.FirstName}} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="">My Account</a></li>
                   <li><a href="">My Orders</a></li>

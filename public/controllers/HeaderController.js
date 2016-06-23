@@ -19,9 +19,7 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 
 	// Find the current location of app and then assign which li to make active
 	console.log("Header Ctrl always runnin...");
-	scope.$on('$locationChangeSuccess', function(event) {
-		
-	});
+	
 
 	$scope.$on("UpdateCart", function(event) {
 		CartService.GetCart(function(cart) {
@@ -45,14 +43,14 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 		self.User = user;
 	});
 
-	$scope.$on('ChooseActiveNav', function(event, index) {
-		var elemArr = [];
-		$('#navList').children().each(function(index, li) {
-			$(li).removeClass('active');
-			elemArr.push($(li));
-		});
-		elemArr[index].addClass('active');	
-	});
+	// $scope.$on('ChooseActiveNav', function(event, index) {
+	// 	var elemArr = [];
+	// 	$('#navList').children().each(function(index, li) {
+	// 		$(li).removeClass('active');
+	// 		elemArr.push($(li));
+	// 	});
+	// 	elemArr[index].addClass('active');	
+	// });
 
 	this.GoToLogin = function() {
 		$location.path('/login');
