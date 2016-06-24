@@ -46,7 +46,6 @@ app.run(function ($rootScope, $http, $location) {
 
     console.log('app.run');
 
-    //SetActiveNav();
 
     $rootScope.$on("$locationChangeStart", function(event, next, current) { 
         // handle route changes    
@@ -61,8 +60,7 @@ app.run(function ($rootScope, $http, $location) {
 
         if (domain[1] == "") return;
 
-        var navListLen = $('#navList').children().length;
-
+        // var navListLen = $('#navList').children().length;
 
         $('#navList').children().each(function(index, li) {
             //console.log($(li).attr("id"));
