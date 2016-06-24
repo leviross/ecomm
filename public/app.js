@@ -42,34 +42,41 @@ app.config(['$routeProvider', function ($routeProvider) {
 app.run(function ($rootScope, $http, $location) {
     //Run blocks are used as a main method, it executes after services have been configured 
     // and the injector has been created
+    
+
     console.log('app.run');
+
     //SetActiveNav();
+
     $rootScope.$on("$locationChangeStart", function(event, next, current) { 
         // handle route changes    
-        //alert("route changed!!"); 
-        //console.log($location);
-        SetActiveNav();
-
+        setTimeout(function() {
+            SetActiveNav();
+        }, 400); 
 
     });
+
     function SetActiveNav() {
-
         var domain = $location.path().toLowerCase().split("/", 2);
-        if (domain[1] == "") return;
-        $(document).ready(function() {
-            $('#navList').children().each(function(index, li) {
-                //console.log($(li).attr("id"));
-                var id = $(li).attr("id");
-                
-                if (domain[1] == id) {
-                    $(li).addClass('active');
-                } else {
-                    $(li).removeClass('active');
-                }
 
-            });
-        
-		});
+        if (domain[1] == "") return;
+
+        var navListLen = $('#navList').children().length;
+
+
+        $('#navList').children().each(function(index, li) {
+            //console.log($(li).attr("id"));
+            var id = $(li).attr("id");
+            
+            if (domain[1] == id) {
+                $(li).addClass('active');
+                localStorage.setItem("page", id);
+            } else {
+                $(li).removeClass('active');
+            }
+
+        });
+	
     }
     
 });
