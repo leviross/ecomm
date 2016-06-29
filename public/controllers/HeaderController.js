@@ -12,8 +12,10 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 	}
 
 	CartService.GetCart(function(cart) {
-		for(var i = 0; i < cart.length; i++) {
-			self.Cart += cart[i].Quantity;
+		if (cart != null) {
+			for(var i = 0; i < cart.length; i++) {
+				self.Cart += cart[i].Quantity;
+			}
 		}
 	});		
 

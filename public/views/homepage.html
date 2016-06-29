@@ -1,53 +1,50 @@
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
 
-    	<!-- <carousel interval="MyInterval">
-    		<div>
-          
-          	<slide ng-repeat="slide in Slides" active="slide.active">
-			
-            	<div class="carousel-caption">
-              		<h1 class="carousel-text">{{slide.Text}}</h1>
-            	</div>
-          	
-          	</slide>
-          </div>	
-        </carousel> -->
+    <!-- <carousel interval="MyInterval">
+      <div>
+        <slide ng-repeat="slide in Slides" active="slide.active">
+          <div class="carousel-caption">
+              <h1 class="carousel-text">{{slide.Text}}</h1>
+          </div>
+        </slide>
+      </div>	
+    </carousel> -->
 
-				<div class="heading">
-					<h4>Featured Piece</h4>
-				</div>
+    <div class="heading">
+      <h4>Featured Piece</h4>
+    </div>
 
+    <div class="col-sm-12" id="main-slider">
+      <a href="" ng-click="HomePage.GoToProductPage()">
+        <img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{HomePage.Featured.Images[0]}}" alt="" class="img-responsive">
+        <!--<div style="background-image: url('http://res.cloudinary.com/dewoxdkgg/image/upload/{{HomePage.Featured.Images[0]}}')"; class="item">
+           <div class="content">
+            <h3>The one and Only</h3>
+            <h1>Hipster E-commerce Theme</h1>
+            <p><img src="../images/logo-white-small.png" alt="" class="img-responsive"></p>
+          </div> 
+        </div>-->
+      </a>  
+      <!-- <div style="background-image: url('../images/slider2.jpg');" class="item">
+          <div class="content">
+            <h3>10 Pages Included</h3>
+            <h3>Fully Responsive</h3>
+            <h3>Based on Bootstrap 3.3</h3>
+            <h3>Less files included in the download</h3>
+          </div>
+      </div>
+      <div style="background-image: url('../images/slider3.jpg');" class="item">
+          <div class="content"> 
+            <h3>And much more!</h3>
+            <p><img src="../images/logo-white-small.png" alt="" class="img-responsive"></p>
+          </div>
+        </div> -->
+    </div>
+    <!-- /#main-slider-->
 
-        <div id="main-slider">
-        	<a href="/#/shop/{{HomePage.Featured.Title | withDashes}}" ng-click="HomePage.SelectFeatured()"><div style="background-image: url('http://res.cloudinary.com/dewoxdkgg/image/upload/{{HomePage.Featured.Images[0]}}')"; class="item">
-        		<!-- <div class="content">
-        			<h3>The one and Only</h3>
-        			<h1>Hipster E-commerce Theme</h1>
-        			<p><img src="../images/logo-white-small.png" alt="" class="img-responsive"></p>
-        		</div> -->
-        	</div></a>
-			<!-- <div style="background-image: url('../images/slider2.jpg');" class="item">
-  				<div class="content">
-		        <h3>10 Pages Included</h3>
-		        <h3>Fully Responsive</h3>
-		        <h3>Based on Bootstrap 3.3</h3>
-		        <h3>Less files included in the download</h3>
-  				</div>
-			</div>
-			<div style="background-image: url('../images/slider3.jpg');" class="item">
-  				<div class="content"> 
-		        <h3>And much more!</h3>
-		        <p><img src="../images/logo-white-small.png" alt="" class="img-responsive"></p>
-  				</div>
-  			</div> -->
-  		</div>
-  		<!-- /#main-slider-->
-
-  	</div>
   </div>
- </div>
+</div>
 <div class="container">
 	<section>
 		<div class="row">
@@ -58,10 +55,9 @@
 				<a href="" ng-click="HomePage.GoToProductPage(product)"><img ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/{{product.Images[0]}}" alt="" class="img-responsive"></a>
 				<!-- <br ng-if="$index > 0 && ($index + 1) % 2 == 0" /> -->
 			</div>
-			
 		</div>
 	</section>
-	<section>
+	<!--<section>-->
 		<!-- <div class="row">
 			<div class="col-md-12">
 				<div class="heading">
@@ -69,7 +65,7 @@
 				</div>
 			</div>
 		</div> -->
-		<div class="row products">
+		<!--<div class="row products">
 			<div class="col-md-3 col-sm-6">
 				<div class="product">
 					<div class="image"><a href="#"><img src="../images/product2.jpg" alt="" class="img-responsive"></a>
@@ -115,7 +111,7 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</section>-->
 	<section>
 		<div class="row">
 			<div class="col-md-12">
@@ -145,4 +141,4 @@
 		</div>
 	</section>
 	<!-- Modal html was right here, then I moved it to its own file -->	
-</div>
+  </div>

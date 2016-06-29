@@ -1,21 +1,21 @@
 function RegisterController($scope, ValidationService, $http, $location){
 
-	$scope.CheckFirstName = function(){
+	this.CheckFirstName = function(){
 		if($scope.FirstName !== ""){
         	$scope.FirstName = ValidationService.CapitalizeName($scope.FirstName);
 		}
     }
 
-    $scope.CheckLastName = function(){
+    this.CheckLastName = function(){
     	if($scope.LastName !== ""){
         	$scope.LastName = ValidationService.CapitalizeName($scope.LastName);
     	}
     }
 
-    $scope.Register = function(){
+    this.Register = function(){
         var SignUpData = {Email: $scope.Email, FirstName: $scope.FirstName, LastName: $scope.LastName, Password: $scope.Password};
 
-        $http.post('http://localhost:4000/api/users', SignUpData)
+        return $http.post('/api/users', SignUpData)
             .then(function(retval){
                 if(retval.data.Created){
 	        		alertify.notify('Welcome to HipsterLand! Please login.', 'success', 5, function(){});

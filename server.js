@@ -13,6 +13,7 @@ var ProductController = require('./api/controllers/product');
 var CategoryController = require('./api/controllers/category');
 var Product = require('./api/models/product');
 var cloudinary = require('cloudinary');
+var User = require('./api/models/user');
 
 var mongoose = require('mongoose');
 var uri = process.env.MONGOOSE_URI;
@@ -21,8 +22,11 @@ var router = express.Router();
 var app = express();
 
 app.use(cors());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
-app.use(bodyParser.json({type: 'application/vnd.api+json', limit: '50mb'}));
+//app.use(bodyParser.json({type: 'application/vnd.api+json', limit: '50mb'})); this failed
+
+
 
 app.use(morgan('dev'));
 
@@ -37,6 +41,7 @@ var sessionOpts = {
 }
 
 app.use(session(sessionOpts));
+app.use('/', router);
 
 var UniqueTokenStrategy = require('passport-unique-token').Strategy;
 
@@ -49,18 +54,16 @@ router.post('/authenticate', function(req, res) {
 	//user authenticated and can be found in req.user
 });
 
-var User = require('./api/models/user');
 
 function authenticate() {
+	passport.authenticate('token', function(err, user, info) {
+		if(err) return next(err);
 
-		passport.authenticate('token', function(err, user, info) {
-			if(err) return next(err);
-
-			if(!user) res.status(401).json({message: "Incorrect token credentials"});
-		
-			req.user = user;
-			next();
-		});
+		if(!user) res.status(401).json({message: "Incorrect token credentials"});
+	
+		req.user = user;
+		next();
+	});
 }
 
 mongoose.connect(uri, function(err){
@@ -78,6 +81,8 @@ router.route('/api/users/:id/:token')
 		
 router.route('/api/users/reset-password/:email')
 	.put(UserController.ResetPassword);	
+
+router.post('/api/users', UserController.RegisterNewUser);	
 
 router.route('/api/login')
 	.post(UserController.Login);	
@@ -121,7 +126,7 @@ router.get('*', function(req, res) {
 
 
 
-app.use('/', router);
+
 
 var port = process.env.PORT; 
 

@@ -48,6 +48,24 @@ exports.CreateNewUser = function(req, res){
 	});
 }
 
+exports.RegisterNewUser = function(req, res) {
+	console.log("REGISTER NEW USER!", req);
+	var u = new User();
+	u.FirstName = req.body.FirstName;
+	u.LastName = req.body.LastName;
+	u.Email = req.body.Email;
+	u.Password = Hash(req.body.Password);
+	u.IsAdmin = true;
+	
+	u.IsEmployee = false;
+	
+	u.save(function(err, user){
+		if(err) console.log("Error Creating New User.");
+		console.log("New User Created:\n", user);
+		res.json({Created: true, User: user});
+	});
+}
+
 function Hash(pass){
 	return Bcrypt.hashSync(pass, 10); 
 }

@@ -3,7 +3,8 @@ function HomePageController($scope, UserService, $rootScope, ProductService, $lo
 	this.MyInterval = 5000;
 	this.noWrapSlides = false;
 	this.Products = [];
-	
+	this.Featured = null;
+
 	var self = this;
 	
 	
@@ -33,27 +34,22 @@ function HomePageController($scope, UserService, $rootScope, ProductService, $lo
 		}
 	});
 
-	this.SelectFeatured = function() {
-		ProductService.SetProductDetail(this.Featured);
-	}
-
 	this.GoToProductPage = function(product) {
-		ProductService.SetProductDetail(product);
-
-		function withDashes(title) {
-			return title.replace(/\s+/g, "-");		
+		if (!product) {
+			product = this.Featured;
 		}
+		ProductService.SetProductDetail(product);
 		var titleWithDashes = withDashes(product.Title);
 		$location.path("/shop/" + titleWithDashes.toLowerCase());
+	}
+
+	function withDashes(title) {
+		return title.replace(/\s+/g, "-");		
 	}
 	
 
 	// 'http://res.cloudinary.com/dewoxdkgg/image/upload/{{HomePage.Featured.Images[0]}}'
-
-	
-
 	// /#/shop/{{product.Title | withDashes}}
-
 
 
 }

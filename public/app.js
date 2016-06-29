@@ -82,7 +82,7 @@ app.run(function ($rootScope, $http, $location) {
 angular.module('EcommApp')
 .controller('MasterController', ['$rootScope', '$location', '$scope', function ($rootScope, $location, $scope) {
     //console.log("Master Ctrl always runnin...");
-
+    //# sourceMappingURL=angular.min.js.map - This came from the angular.min.js file, it was causing errors and was commented out to begin with. 
 }]);
 
 
