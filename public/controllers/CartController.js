@@ -41,10 +41,12 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 	}
 
 	this.Delete = function(index) {
-		this.Products.splice(index, 1);
-		CartService.UpdateCart(null, index);
+		//this.Products.splice(index, 1);
+		CartService.UpdateCart(null, index, function(cart) {
+			this.Products = cart;
+		});
 		console.log("CartController Cart Total: ", self.Products.length);
-		$rootScope.$broadcast("UpdateCart");
+		//$rootScope.$broadcast("UpdateCart");
 	}
 
 	function withDashes(title) {

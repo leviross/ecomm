@@ -3,6 +3,7 @@ function CartService() {
 	var cart = [];
 
 	var ServiceObject = {
+
 		AddToCart: function(product, quantity, selPrice) {
 			cart.push({Product:product, Quantity: quantity, SelectedPrice: selPrice, Discount: 0});
 			localStorage.setItem("Cart", JSON.stringify(cart));
@@ -18,15 +19,18 @@ function CartService() {
 				cb(cart);
 			}
 		},
-		UpdateCart: function(value, index) {
+		UpdateCart: function(value, index, cb) {
 			if(value == null) {
 				cart.splice(index, 1);
+				cb(cart);
 			}else {
 				cart[index] = value;
+				cb(cart);
 			}
 			console.log("CartService Cart Total: ", cart.length);
 			localStorage.setItem("Cart", JSON.stringify(cart));
 		}
+
 	}
 
 	return ServiceObject;
