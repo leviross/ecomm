@@ -1,18 +1,20 @@
 function HeaderController($scope, $rootScope, $location, UserService, ProductService, CartService, $timeout, SettingsService){
 
-	this.Cart = 0;
+	'use strict'
+	
 	var self = this;
+	self.Cart = 0;
 
 	var sessionUser = sessionStorage.getItem('User');
 
 	if(sessionUser == "" || sessionUser == "undefined"){
-		this.User = null;
+		self.User = null;
 	}else{
-		this.User = JSON.parse(sessionUser);
+		self.User = JSON.parse(sessionUser);
 	}
 
 	CartService.GetCart(function(cart) {
-		if (cart != null) {
+		if (cart != null && cart instanceof Array) {
 			for(var i = 0; i < cart.length; i++) {
 				self.Cart += cart[i].Quantity;
 			}
@@ -24,13 +26,16 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 	
 
 	$scope.$on("UpdateCart", function(event) {
+		self.Cart = 0;
 		CartService.GetCart(function(cart) {
-			
-			self.Cart = 0;
-			for(var i = 0; i < cart.length; i++) {
-				self.Cart += cart[i].Quantity;
+			if (cart != null && cart instanceof Array) {
+				for(var i = 0; i < cart.length; i++) {
+					self.Cart += cart[i].Quantity;
+				}
+			} else {
+				self.Cart = 0;
 			}
-
+			
 			var cartButton = $("a.btn-transparent");
 			cartButton.addClass("btn-primary active");
 			$timeout(function() {
@@ -39,7 +44,7 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 		});		
 	});
 
-	//this.User = UserService.GetLoggedInUser();
+	//self.User = UserService.GetLoggedInUser();
 	
 	$scope.$on('UserLoggedIn', function(event, user) {
 		self.User = user;
@@ -54,23 +59,23 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 	// 	elemArr[index].addClass('active');	
 	// });
 
-	this.GoToLogin = function() {
+	self.GoToLogin = function() {
 		$location.path('/login');
 	}
 
-	this.Logout = function() {
+	self.Logout = function() {
 		UserService.Logout();
-		this.User = null;
+		self.User = null;
 	}
 
-	this.ActiveClass = function(event) {
+	self.ActiveClass = function(event) {
 		$('#navList li').each(function(index, li) {
 			$(li).removeClass('active');
 		});
 		event.target.parentElement.className = 'active';
 	}
 
-	this.BackToSelected = function() {
+	self.BackToSelected = function() {
 		ProductService.GetProductDetail(function(product) {
 			$location.path("/shop/" + SettingsService.WithDashes(product.Title));
 		});

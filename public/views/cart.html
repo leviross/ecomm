@@ -26,13 +26,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="item in Cart.Products track by $index" style="height: 150px;"> 
+              <tr ng-repeat="item in Cart.Items track by $index" style="height: 150px;"> 
                 <td>
                   <a href="" ng-click="Cart.GoToProductPage(item)">
                   <img style="margin-bottom: 10px;" ng-src="http://res.cloudinary.com/dewoxdkgg/image/upload/h_150,w_250/{{item.Product.Images[0]}}" alt="{{item.Product.Title}}" /></a>
                   <a style="float: left;" href="" ng-click="Cart.GoToProductPage(item)">{{item.Product.Title}}</a>
                 </td>
-                <td><input value="{{item.Quantity}}" class="form-control"></td>
+                <td><input type="number" ng-model="item.Quantity" class="form-control"></td>
                 <td>{{item.Product.SelectedPrice | currency}}</td>
                 <td>{{item.Discount | currency}}</td>
                 <td>{{item.Total | currency}}</td>

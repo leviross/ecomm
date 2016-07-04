@@ -4,8 +4,8 @@ function CartService() {
 
 	var ServiceObject = {
 
-		AddToCart: function(product, quantity, selPrice) {
-			cart.push({Product:product, Quantity: quantity, SelectedPrice: selPrice, Discount: 0});
+		AddToCart: function(product, quantity) {
+			cart.push({Product:product, Quantity: quantity, Discount: 0});
 			localStorage.setItem("Cart", JSON.stringify(cart));
 		},
 		GetCart: function(cb) {
@@ -22,13 +22,15 @@ function CartService() {
 		UpdateCart: function(value, index, cb) {
 			if(value == null) {
 				cart.splice(index, 1);
+				localStorage.setItem("Cart", JSON.stringify(cart));
 				cb(cart);
 			}else {
 				cart[index] = value;
+				localStorage.setItem("Cart", JSON.stringify(cart));
 				cb(cart);
 			}
 			console.log("CartService Cart Total: ", cart.length);
-			localStorage.setItem("Cart", JSON.stringify(cart));
+			
 		}
 
 	}

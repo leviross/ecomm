@@ -4,6 +4,9 @@ function DetailController(ProductService, $routeParams, SettingsService, $rootSc
 	$rootScope.$broadcast("ChooseActiveNav", 1);
 	this.Quantity = 1;
 
+	this.Sizes = SettingsService.GetSizes();
+	this.SimilarProducts = [];
+
 
 	// load the selected product from the service
 	ProductService.GetProductDetail(function(product) {
@@ -31,11 +34,9 @@ function DetailController(ProductService, $routeParams, SettingsService, $rootSc
 	}
 
 
-	this.Sizes = SettingsService.GetSizes();
-	this.SimilarProducts = [];
-
 	// on page load, load similar products
 	GetSimilarProducts();
+	
 	function GetSimilarProducts() {
 		var cachedProducts = ProductService.GetCachedProducts("Products");
 		if(!cachedProducts) {
@@ -62,7 +63,7 @@ function DetailController(ProductService, $routeParams, SettingsService, $rootSc
 	}
 
 	this.AddToCart = function() {
-		CartService.AddToCart(self.Product, self.Quantity, self.Product.SelectedPrice);
+		CartService.AddToCart(self.Product, self.Quantity);
 		$rootScope.$broadcast("UpdateCart");
 	}
 
