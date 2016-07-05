@@ -26,18 +26,8 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 	
 
 	$scope.$on("UpdateCart", function(event) {
-		self.Cart = 0;
-		CartService.GetCart(function(cart) {
-			if (cart != null && cart instanceof Array) {
-				for(var i = 0; i < cart.length; i++) {
-					self.Cart += cart[i].Quantity;
-				}
-			} else {
-				self.Cart = 0;
-			}
-			
-			self.Highlight();
-		});		
+		self.Cart = CartService.Count();
+		self.Highlight();
 	});
 
 	self.Highlight = function() {

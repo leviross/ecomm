@@ -10,6 +10,7 @@ cloudinary.config({
 exports.CreateProduct = function(req, res) {
 
 	var publicIds = [];
+	UploadImages(0);
 
 	function UploadImages(i) {
 		if(i < req.body.Images.length) {
@@ -27,7 +28,7 @@ exports.CreateProduct = function(req, res) {
 			});	
 		}
 	}
-	UploadImages(0);
+	
 
 	function SaveProduct() {
 		console.log("Got to final upload and creating object model.");

@@ -46,23 +46,32 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 	}
 
 	function CalculateTotals() {
-		self.Count = 0;
-		self.SubTotal = 0;
-		for (var i = 0; i < self.Items.length; i++) {
-			if (self.Items[i].Discount != 0) {
-				self.Items[i].Total = (self.Items[i].Product.SelectedPrice * self.Items[i].Quantity) - self.Items[i].Discount;
-				self.SubTotal += self.Items[i].Total;
-				self.Count += self.Items[i].Quantity;
-			} else {
-				self.Items[i].Total = self.Items[i].Product.SelectedPrice * self.Items[i].Quantity;
-				self.SubTotal += self.Items[i].Total;
-				self.Count += self.Items[i].Quantity;
-			}
-		}
 
-		self.GrandTotal = self.SubTotal + self.Shipping;
-		self.TaxTotal = self.GrandTotal * self.Tax;
+
+		// self.Count = 0;
+		// self.SubTotal = 0;
+		// for (var i = 0; i < self.Items.length; i++) {
+		// 	if (self.Items[i].Discount != 0) {
+		// 		self.Items[i].Total = (self.Items[i].Product.SelectedPrice * self.Items[i].Quantity) - self.Items[i].Discount;
+		// 		self.SubTotal += self.Items[i].Total;
+		// 		self.Count += self.Items[i].Quantity;
+		// 	} else {
+		// 		self.Items[i].Total = self.Items[i].Product.SelectedPrice * self.Items[i].Quantity;
+		// 		self.SubTotal += self.Items[i].Total;
+		// 		self.Count += self.Items[i].Quantity;
+		// 	}
+		// }
+
+		// self.GrandTotal = self.SubTotal + self.Shipping;
+		// self.TaxTotal = self.GrandTotal * self.Tax;
 		$rootScope.$broadcast("UpdateCart");
+
+		self.Count = CartService.Count();
+		self.SubTotal = CartService.SubTotal();
+		self.TaxTotal = CartService.TaxTotal();
+		self.GrandTotal = CartService.GrandTotal();
+
+
 	}
 
 	self.UpdateCart = function() {
