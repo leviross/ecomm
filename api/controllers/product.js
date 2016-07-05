@@ -175,9 +175,3 @@ exports.DeleteProduct = function(req, res){
 		
 	});
 }
-
-
-
-
-
-

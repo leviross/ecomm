@@ -105,6 +105,7 @@ router.route('/api/categories/:id/:token')
 router.route('/api/categories/:id')
 	.get(CategoryController.GetCategoryById);	
 
+
 // products 
 router.get('/api/products', ProductController.GetAllProducts);
 router.post('/api/products', ProductController.CreateProduct);
@@ -113,15 +114,19 @@ router.post('/api/products', ProductController.CreateProduct);
 // 	.post(ProductController.CreateProduct)
 // 	.get(ProductController.GetAllProducts);
 
-router.route('/api/products/:id')
-	.get(ProductController.GetProductById)
-	.put(ProductController.UpdateProduct)
-	.delete(ProductController.DeleteProduct);
+router.get('/api/products/:id', ProductController.GetProductById);
+router.put('/api/products/:id', ProductController.UpdateProduct);
+router.delete('/api/products/:id', ProductController.DeleteProduct)
+
+// router.route('/api/products/:id')
+// 	.get(ProductController.GetProductById)
+// 	.put(ProductController.UpdateProduct)
+// 	.delete(ProductController.DeleteProduct);
 
 
 
 router.get('*', function(req, res) {
-	res.sendfile('./public/index.html');
+	res.sendFile('index.html', {root: __dirname + '/public'});
 });
 
 
@@ -130,7 +135,7 @@ router.get('*', function(req, res) {
 
 var port = process.env.PORT; 
 
-app.listen(port);
+app.listen(3030);
 console.log("Listening on port " + process.env.PORT + "...");
 
 

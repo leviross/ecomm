@@ -36,13 +36,17 @@ function HeaderController($scope, $rootScope, $location, UserService, ProductSer
 				self.Cart = 0;
 			}
 			
-			var cartButton = $("a.btn-transparent");
+			self.Highlight();
+		});		
+	});
+
+	self.Highlight = function() {
+		var cartButton = $("a.btn-transparent");
 			cartButton.addClass("btn-primary active");
 			$timeout(function() {
 				cartButton.removeClass("btn-primary active");
 			}, 450);
-		});		
-	});
+	}
 
 	//self.User = UserService.GetLoggedInUser();
 	

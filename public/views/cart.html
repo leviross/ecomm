@@ -40,12 +40,13 @@
               </tr>
             </tbody>
           </table>
+          <p class="text-muted text-center" style="color: red;" ng-if="Cart.CheckOutClicked">Cart is empty!</p>
         </div>
         <div class="box-footer">
           <div class="pull-left"><a href="category.html" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a></div>
           <div class="pull-right">
             <button class="btn btn-default" ng-click="Cart.UpdateCart()"><i class="fa fa-refresh"></i> Update cart</button>
-            <button type="submit" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i></button>
+            <button class="btn btn-primary" ng-click="Cart.CheckOut()">Proceed to checkout <i class="fa fa-chevron-right"></i></button>
           </div>
         </div>
       </form>

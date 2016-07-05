@@ -12,7 +12,7 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 	self.GrandTotal = 0;
 	self.ChangedQuant = 0;
 	self.ChangedIndex = -1;
-
+	self.CheckOutClicked = false;
 	
 
 	// On page load, get the cart array from cart service and set count
@@ -70,6 +70,14 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 		// counterpart in quantity. If there is a diff, then make adjustments...
 
 		CalculateTotals();
+	}
+
+	self.CheckOut = function() {
+		if (self.Count == 0) {
+			self.CheckOutClicked = true;
+		} else {
+			$location.path("checkout");
+		}
 	}
 
 	self.UpdateQuantity = function(index) {
