@@ -1,17 +1,20 @@
 var Product = require('../models/product');
 var cloudinary = require('cloudinary');
 
+// Cloudinary configuration
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
     api_key: process.env.CLOUDINARY_KEY,
     api_secret: process.env.CLOUDINARY_SECRET
 });
 
+// Product creation
 exports.CreateProduct = function(req, res) {
 
 	var publicIds = [];
 	UploadImages(0);
 
+	// TODO: Do type checking for request body properties and handle...
 	function UploadImages(i) {
 		if(i < req.body.Images.length) {
 			cloudinary.v2.uploader.upload(req.body.Images[i], function(error, result) {
@@ -20,7 +23,6 @@ exports.CreateProduct = function(req, res) {
 					res.send("Error uploading to cloudinary:\n" + error);
 				}else{
 					publicIds.push(result.public_id);
-					console.log("i is: ", i);
 					console.log("Public Ids Array: ", publicIds);
 					UploadImages(i+1);
 					if(i == req.body.Images.length-1) SaveProduct();
@@ -29,7 +31,8 @@ exports.CreateProduct = function(req, res) {
 		}
 	}
 	
-
+	// After uploading all images to cloudinary, then we finally come and create an instance of the Product class 
+	// and save it. 
 	function SaveProduct() {
 		console.log("Got to final upload and creating object model.");
 		var p = new Product();
