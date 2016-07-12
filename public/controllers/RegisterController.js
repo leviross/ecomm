@@ -18,7 +18,7 @@ function RegisterController($scope, ValidationService, $http, $location){
         return $http.post('/api/users', SignUpData)
             .then(function(retval){
                 if(retval.data.Created){
-	        		alertify.notify('Welcome to HipsterLand! Please login.', 'success', 5, function(){});
+	        		alertify.notify('Welcome to Sefira Creative! Please login.', 'success', 5, function(){});
 	        		$scope.RegistrationForm.$setPristine();
 	    			$location.path('/login');
 	        	}else{
