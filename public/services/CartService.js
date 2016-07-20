@@ -8,8 +8,9 @@ function CartService() {
 	var shipping = 0;
 	var taxTotal = 0;
 
-	function CalculateTotals() {
-		count, subTotal = 0;
+	function CalculateTotals(cb) {
+		count = 0; 
+		subTotal = 0;
 
 		for (var i = 0; i < cart.length; i++) {
 			if (cart[i].Discount != 0) {
@@ -25,6 +26,10 @@ function CartService() {
 
 		grandTotal = subTotal + shipping;
 		taxTotal = grandTotal * waTax;
+
+		if (typeof cb == 'function') {
+			cb(cart);
+		}
 	}
 
 	var ServiceObject = {
@@ -42,38 +47,66 @@ function CartService() {
 			return grandTotal; 
 		},
 
-		AddToCart: function(product, quantity) {
-			
-			cart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});
+		AddToCart: function(product, quantity, cb) {
 
-			
+			var sameProd = false;
 
-			localStorage.setItem("Cart", JSON.stringify(cart));
+			for (var i = 0; i < cart.length; i ++) {
+				if (product._id == cart[i].Product._id) {
+					cart[i].Quantity += quantity;
+					sameProd = true;
+				}
+			}
+			if (sameProd == false) {
+				cart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});
+			} 			
+
+			CalculateTotals(function(cart) {
+				localStorage.setItem("Cart", JSON.stringify(cart));
+				cb(cart);
+			});			
 
 		},
 		GetCart: function(cb) {
-			if(cart && cart.length !== 0) {
-				CalculateTotals();
-				cb(cart);
-			}else if(cart.length == 0 && !localStorage.Cart) {
-				cb(null);
-			}else if(localStorage.Cart) {
+
+			var parsedCart = JSON.parse(localStorage.getItem("Cart"));
+
+			if (cart && cart.length !== 0) {
+				
+				CalculateTotals(function(cart) {
+					localStorage.setItem("Cart", JSON.stringify(cart));
+					cb(cart);
+				});				
+
+			} else if (parsedCart instanceof Array && parsedCart.length != 0) {
 				var parsedCart = JSON.parse(localStorage.getItem("Cart"));
 				cart = parsedCart;
-				CalculateTotals();
-				cb(cart);
+				CalculateTotals(function(cart) {
+					localStorage.setItem("Cart", JSON.stringify(cart));
+					cb(cart);
+				});
+
+			} else {
+				cb(null);
 			}
+
 		},
 		UpdateCart: function(value, index, cb) {
+			
 			if(value == null) {
-				cart.splice(index, 1);
-				localStorage.setItem("Cart", JSON.stringify(cart));
-				cb(cart);
+				cart.splice(index, 1);								
 			}else {
-				cart[index] = value;
+				cart[index].Product = value;
+				// figure out how to assign these values	
+				// cart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});		
+			}
+
+			CalculateTotals(function(cart) {
 				localStorage.setItem("Cart", JSON.stringify(cart));
 				cb(cart);
-			}
+			});
+
+
 			console.log("CartService Cart Total: ", cart.length);
 			
 		}

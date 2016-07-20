@@ -5,6 +5,8 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 	var self = this;
 	self.Count = 0;
 	self.Items = [];
+	self.serviceCopy = {Cart: []}
+
 	self.SubTotal = 0;
 	self.Shipping = 0;
 	self.Tax = 0.096;
@@ -16,16 +18,16 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 	
 
 	// On page load, get the cart array from cart service and set count
-	CartService.GetCart(function (items) {
+	CartService.GetCart(function(items) {
+
 		if (items == null) {
 			self.Items = [];
 		} else {
 			self.Items = items;
+			self.serviceCopy.Cart = items;
 			CalculateTotals();
 		}
-		
-		//self.Count = items.length;
-		//console.log(self.Items);
+
 	});
 
 	self.GoToProductPage = function(item) {
@@ -47,23 +49,6 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 
 	function CalculateTotals() {
 
-
-		// self.Count = 0;
-		// self.SubTotal = 0;
-		// for (var i = 0; i < self.Items.length; i++) {
-		// 	if (self.Items[i].Discount != 0) {
-		// 		self.Items[i].Total = (self.Items[i].Product.SelectedPrice * self.Items[i].Quantity) - self.Items[i].Discount;
-		// 		self.SubTotal += self.Items[i].Total;
-		// 		self.Count += self.Items[i].Quantity;
-		// 	} else {
-		// 		self.Items[i].Total = self.Items[i].Product.SelectedPrice * self.Items[i].Quantity;
-		// 		self.SubTotal += self.Items[i].Total;
-		// 		self.Count += self.Items[i].Quantity;
-		// 	}
-		// }
-
-		// self.GrandTotal = self.SubTotal + self.Shipping;
-		// self.TaxTotal = self.GrandTotal * self.Tax;
 		$rootScope.$broadcast("UpdateCart");
 
 		self.Count = CartService.Count();
@@ -71,14 +56,31 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 		self.TaxTotal = CartService.TaxTotal();
 		self.GrandTotal = CartService.GrandTotal();
 
-
 	}
 
 	self.UpdateCart = function() {
 		// go through self.Items and see if any quantity of any product doesn't match its service 
 		// counterpart in quantity. If there is a diff, then make adjustments...
+		var counter = 0;
+		if (self.Items.length == 0) {
+			return alert("Your cart is empty!");
+		}
+		var parsedCart = JSON.parse(localStorage.getItem("Cart"));
 
-		CalculateTotals();
+		for (var i = 0; i < self.Items.length; i ++) {
+
+			if (self.Items[i].Quantity != parsedCart[i].Quantity) {
+				counter++;
+				CalculateTotals();
+				// CartService.UpdateCart(self.Items[i], i, function(cart) {
+				// 	//self.serviceCart = cart;
+				// 	counter++;
+				// 	CalculateTotals();
+				// });
+			} 
+		}
+		if (counter == 0) alert("You didn't update anything!");
+		
 	}
 
 	self.CheckOut = function() {

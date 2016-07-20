@@ -63,8 +63,10 @@ function DetailController(ProductService, $routeParams, SettingsService, $rootSc
 	}
 
 	this.AddToCart = function() {
-		CartService.AddToCart(self.Product, self.Quantity);
-		$rootScope.$broadcast("UpdateCart");
+		CartService.AddToCart(self.Product, self.Quantity, function(cart) {
+			$rootScope.$broadcast("UpdateCart");
+		});
+		
 	}
 
 }
