@@ -5,7 +5,6 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 	var self = this;
 	self.Count = 0;
 	self.Items = [];
-	self.serviceCopy = {Cart: []}
 
 	self.SubTotal = 0;
 	self.Shipping = 0;
@@ -24,7 +23,6 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 			self.Items = [];
 		} else {
 			self.Items = items;
-			self.serviceCopy.Cart = items;
 			CalculateTotals();
 		}
 
@@ -62,23 +60,26 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 		// go through self.Items and see if any quantity of any product doesn't match its service 
 		// counterpart in quantity. If there is a diff, then make adjustments...
 		var counter = 0;
+
+		var cartCopy = CartService.CartCopy();
+
 		if (self.Items.length == 0) {
 			return alert("Your cart is empty!");
 		}
-		var parsedCart = JSON.parse(localStorage.getItem("Cart"));
+		var cachedCart = JSON.parse(localStorage.getItem("Cart"));
 
 		for (var i = 0; i < self.Items.length; i ++) {
 
-			if (self.Items[i].Quantity != parsedCart[i].Quantity) {
-				counter++;
-				CalculateTotals();
-				// CartService.UpdateCart(self.Items[i], i, function(cart) {
-				// 	//self.serviceCart = cart;
-				// 	counter++;
-				// 	CalculateTotals();
-				// });
+			if (self.Items[i].Quantity != cachedCart[i].Quantity) {
+				
+				CartService.UpdateCart(self.Items[i], i, function(cart) {
+					//self.serviceCart = cart;
+					counter++;
+					CalculateTotals();
+				});
 			} 
 		}
+
 		if (counter == 0) alert("You didn't update anything!");
 		
 	}

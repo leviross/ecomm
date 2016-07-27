@@ -8,6 +8,8 @@ function CartService() {
 	var shipping = 0;
 	var taxTotal = 0;
 
+	var cartCopy = [];
+
 	function CalculateTotals(cb) {
 		count = 0; 
 		subTotal = 0;
@@ -22,6 +24,7 @@ function CartService() {
 				subTotal += cart[i].Total;
 				count += cart[i].Quantity;
 			}
+			
 		}
 
 		grandTotal = subTotal + shipping;
@@ -30,6 +33,8 @@ function CartService() {
 		if (typeof cb == 'function') {
 			cb(cart);
 		}
+
+		localStorage.setItem("Cart", JSON.stringify(cart));
 	}
 
 	var ServiceObject = {
@@ -59,13 +64,19 @@ function CartService() {
 			}
 			if (sameProd == false) {
 				cart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});
+				
 			} 			
 
 			CalculateTotals(function(cart) {
-				localStorage.setItem("Cart", JSON.stringify(cart));
+				// localStorage.setItem("Cart", JSON.stringify(cart));
 				cb(cart);
-			});			
+			});	
 
+			cartCopy = cart;		
+
+		},
+		CartCopy: function() {
+			return cartCopy;
 		},
 		GetCart: function(cb) {
 
@@ -74,15 +85,18 @@ function CartService() {
 			if (cart && cart.length !== 0) {
 				
 				CalculateTotals(function(cart) {
-					localStorage.setItem("Cart", JSON.stringify(cart));
+					// localStorage.setItem("Cart", JSON.stringify(cart));
 					cb(cart);
 				});				
 
 			} else if (parsedCart instanceof Array && parsedCart.length != 0) {
 				var parsedCart = JSON.parse(localStorage.getItem("Cart"));
+
 				cart = parsedCart;
+				
+
 				CalculateTotals(function(cart) {
-					localStorage.setItem("Cart", JSON.stringify(cart));
+					// localStorage.setItem("Cart", JSON.stringify(cart));
 					cb(cart);
 				});
 
@@ -90,24 +104,26 @@ function CartService() {
 				cb(null);
 			}
 
+			cartCopy = parsedCart;
+
 		},
 		UpdateCart: function(value, index, cb) {
 			
 			if(value == null) {
-				cart.splice(index, 1);								
+				cart.splice(index, 1);	
+
 			}else {
-				cart[index].Product = value;
+				cart[index].Product = value.Product;
 				// figure out how to assign these values	
 				// cart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});		
 			}
 
 			CalculateTotals(function(cart) {
-				localStorage.setItem("Cart", JSON.stringify(cart));
+				cartCopy = cart;
 				cb(cart);
 			});
 
-
-			console.log("CartService Cart Total: ", cart.length);
+			
 			
 		}
 
