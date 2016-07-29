@@ -37,6 +37,13 @@ function CartService() {
 		localStorage.setItem("Cart", JSON.stringify(cart));
 	}
 
+	function CreateCopyCart(servCart) {
+		if (!servCart instanceof Array) return false;
+		for (var i = 0; i < servCart.length; i ++) {
+			cartCopy.push(servCart[i]);
+		}
+	}
+
 	var ServiceObject = {
 
 		SubTotal: function() { 
@@ -68,11 +75,12 @@ function CartService() {
 			} 			
 
 			CalculateTotals(function(cart) {
-				// localStorage.setItem("Cart", JSON.stringify(cart));
-				cb(cart);
+				if (typeof cb == 'function') {
+					cb(cart);
+				}
 			});	
 
-			cartCopy = cart;		
+					
 
 		},
 		CartCopy: function() {
@@ -85,26 +93,28 @@ function CartService() {
 			if (cart && cart.length !== 0) {
 				
 				CalculateTotals(function(cart) {
-					// localStorage.setItem("Cart", JSON.stringify(cart));
 					cb(cart);
+					CreateCopyCart(cart);
 				});				
 
-			} else if (parsedCart instanceof Array && parsedCart.length != 0) {
-				var parsedCart = JSON.parse(localStorage.getItem("Cart"));
+			} else if (parsedCart instanceof Array && parsedCart.length !== 0) {
 
-				cart = parsedCart;
-				
+				cart = parsedCart;				
 
 				CalculateTotals(function(cart) {
-					// localStorage.setItem("Cart", JSON.stringify(cart));
-					cb(cart);
+					if (typeof cb == 'function') {
+						cb(cart);
+					}
+					CreateCopyCart(cart);
 				});
 
 			} else {
-				cb(null);
+				if (typeof cb == 'function') {
+					cb(null);
+				}
 			}
 
-			cartCopy = parsedCart;
+			
 
 		},
 		UpdateCart: function(value, index, cb) {
@@ -119,7 +129,7 @@ function CartService() {
 			}
 
 			CalculateTotals(function(cart) {
-				cartCopy = cart;
+				CreateCopyCart(cart);
 				cb(cart);
 			});
 

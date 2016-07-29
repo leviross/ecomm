@@ -12,7 +12,7 @@ function DetailController(ProductService, $routeParams, SettingsService, $rootSc
 	ProductService.GetProductDetail(function(product) {
 		self.Product = product;
 		UpdatePrice(product.DefaultSize, product);
-			
+		$('html, body').animate({scrollTop:0}, 'slow');
 	});
 
 	function UpdatePrice(size, product) {

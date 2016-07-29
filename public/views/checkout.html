@@ -2,17 +2,17 @@
   <!-- <div class="col-md-12">
     <ul class="breadcrumb">
       <li><a href="index.html">Home</a></li>
-      <li>Checkout - Address </li>
+      <li>CheckOut - Address </li>
     </ul>
   </div> -->
   <div class="row page-top">
     <div class="col-sm-6 col-sm-offset-3">
-      <h1>Checkout - Address</h1>
+      <h1>CheckOut - Address</h1>
     </div>
   </div>
-  <div id="checkout" class="col-md-9">
+  <div id="CheckOut" class="col-md-9">
     <div class="box">
-      <form name="CheckoutForm">
+      <form name="CheckOut.CheckOutForm" novalidate>
         <ul class="nav nav-pills nav-justified">
           <li class="active"><a href="#"><i class="fa fa-map-marker"></i><br>Address</a></li>
           <li class="disabled"><a href="#"><i class="fa fa-truck"></i><br>Delivery Method</a></li>
@@ -24,13 +24,13 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="firstname">Firstname</label>
-                <input type="text" id="firstname" class="form-control">
+                <input type="text" name="FirstName" id="FirstName" class="form-control" ng-blur="CheckOut.Capitalize('FirstName')" ng-model="CheckOut.CheckOutObj.FirstName">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="lastname">Lastname</label>
-                <input type="text" id="lastname" class="form-control">
+                <input type="text" name="LastName" id="LastName" class="form-control" ng-blur="CheckOut.Capitalize('LastName')" ng-model="CheckOut.CheckOutObj.LastName">
               </div>
             </div>
           </div>
@@ -38,13 +38,13 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="Company">Company</label>
-                <input type="text" id="Company" class="form-control">
+                <input type="text" name="Company" id="Company" class="form-control" ng-blur="CheckOut.Capitalize('Company')" ng-model="CheckOut.CheckOutObj.Company">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="Street">Street</label>
-                <input type="text" id="Street" class="form-control">
+                <input type="text" name="Street" id="Street" class="form-control" ng-blur="CheckOut.Capitalize('Street')" ng-model="CheckOut.CheckOutObj.Street">
               </div>
             </div>
           </div>
@@ -52,37 +52,40 @@
             <div class="col-sm-6 col-md-3">
               <div class="form-group">
                 <label for="City">City</label>
-                <input type="text" id="City" class="form-control">
+                <input type="text" name="City" id="City" class="form-control" ng-blur="CheckOut.Capitalize('City')" ng-model="CheckOut.CheckOutObj.City">
               </div>
             </div>
             <div class="col-sm-6 col-md-3">
               <div class="form-group">
                 <label for="ZIP">ZIP</label>
-                <input type="text" id="ZIP" class="form-control">
+                <input type="text" name="Zip" id="Zip" class="form-control" ng-model="CheckOut.CheckOutObj.Zip">
               </div>
             </div>
             <div class="col-sm-6 col-md-3">
               <div class="form-group">
                 <label for="State">State</label>
-                <input type="text" id="State" class="form-control">
+                <input type="text" name="State" id="State" class="form-control" ng-blur="CheckOut.Capitalize('State')" ng-model="CheckOut.CheckOutObj.State" ng-minlength="2" ng-maxlength="2">
+                <div class="messages" ng-show="!CheckOut.CheckOutForm.email.$valid && !CheckOut.CheckOutForm.State.$pristine">Enter 2 letter state code.</div>
               </div>
             </div>
             <div class="col-sm-6 col-md-3">
               <div class="form-group">
                 <label for="Country">Country</label>
-                <input type="text" id="Country" class="form-control">
+                <input type="text" name="Country" id="Country" class="form-control" ng-blur="CheckOut.Capitalize('Country')" ng-model="CheckOut.CheckOutObj.Country">
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="Telephone">Telephone</label>
-                <input type="text" id="Telephone" class="form-control">
+                <input type="text" name="Telephone" id="Telephone" class="form-control" ng-blur="CheckOut.ParsePhone()" ng-model="CheckOut.CheckOutObj.Phone" ng-minlength="10">
+                <div class="messages" ng-show="!CheckOut.CheckOutForm.Phone.$valid && !CheckOut.CheckOutForm.Phone.$pristine">Must be 10 digit phone #.</div>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="form-group">
                 <label for="Email">Email</label>
-                <input type="text" id="Email" class="form-control">
+                <input type="email" name="Email" id="Email" class="form-control" ng-minlength="7">
+                <div class="messages" ng-show="!CheckOut.CheckOutForm.Email.$valid && !CheckOut.CheckOutForm.Email.$pristine">Must be a valid email.</div>
               </div>
             </div>
           </div>
@@ -106,20 +109,24 @@
         <table class="table">
           <tbody>
             <tr>
+              <td>Number of Items</td>
+              <th>{{CheckOut.CheckOutObj.Count}}</th>
+            </tr>
+            <tr>
               <td>Order subtotal</td>
-              <th>{{Checkout.SubTotal | currency}}</th>
+              <th>{{CheckOut.CheckOutObj.SubTotal | currency}}</th>
             </tr>
             <tr>
               <td>Shipping and handling</td>
-              <th>{{Checkout.Shipping | currency}}</th>
+              <th>{{CheckOut.CheckOutObj.Shipping | currency}}</th>
             </tr>
             <tr>
               <td>(WA State) Tax</td>
-              <th>{{Checkout.TaxTotal | currency}}</th>
+              <th>{{CheckOut.CheckOutObj.TaxTotal | currency}}</th>
             </tr>
             <tr class="total">
               <td>Total</td>
-              <th>{{Checkout.GrandTotal | currency}}</th>
+              <th>{{CheckOut.CheckOutObj.GrandTotal | currency}}</th>
             </tr>
           </tbody>
         </table>

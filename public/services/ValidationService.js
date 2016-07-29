@@ -1,16 +1,19 @@
 function ValidationService(){
 
-	String.prototype.capitalize = function(){
+	String.prototype.capitalize = function() {
         return this.toLowerCase().replace(/\b\w/g, function(m){
             return m.toUpperCase();
         });
 	}
+
+}
 
 	var ServiceObject = {
 			
         CapitalizeName: function(name){
             return name.capitalize();
         }
+        
 	}
 
     return ServiceObject;
