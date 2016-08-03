@@ -1,7 +1,7 @@
 function DetailController(ProductService, $routeParams, SettingsService, $rootScope, CartService, $location) {
 
 	var self = this;
-	$rootScope.$broadcast("ChooseActiveNav", 1);
+	// $rootScope.$broadcast("ChooseActiveNav", 1);
 	this.Quantity = 1;
 
 	this.Sizes = SettingsService.GetSizes();

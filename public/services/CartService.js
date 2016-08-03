@@ -8,7 +8,6 @@ function CartService() {
 	var shipping = 0;
 	var taxTotal = 0;
 
-	var cartCopy = [];
 
 	function CalculateTotals(cb) {
 		count = 0; 
@@ -33,16 +32,9 @@ function CartService() {
 		if (typeof cb == 'function') {
 			cb(cart);
 		}
-
 		localStorage.setItem("Cart", JSON.stringify(cart));
 	}
 
-	function CreateCopyCart(servCart) {
-		if (!servCart instanceof Array) return false;
-		for (var i = 0; i < servCart.length; i ++) {
-			cartCopy.push(servCart[i]);
-		}
-	}
 
 	var ServiceObject = {
 
@@ -80,24 +72,23 @@ function CartService() {
 				}
 			});	
 
-					
+				
 
 		},
-		CartCopy: function() {
-			return cartCopy;
-		},
+
 		GetCart: function(cb) {
 
-			var parsedCart = JSON.parse(localStorage.getItem("Cart"));
+			
 
 			if (cart && cart.length !== 0) {
 				
 				CalculateTotals(function(cart) {
 					cb(cart);
-					CreateCopyCart(cart);
+					//CreateCopyCart(cart);
 				});				
 
-			} else if (parsedCart instanceof Array && parsedCart.length !== 0) {
+			} else if (cart.length == 0 && localStorage.getItem("Cart")) {
+				var parsedCart = JSON.parse(localStorage.getItem("Cart"));
 
 				cart = parsedCart;				
 
@@ -105,7 +96,7 @@ function CartService() {
 					if (typeof cb == 'function') {
 						cb(cart);
 					}
-					CreateCopyCart(cart);
+					//CreateCopyCart(cart);
 				});
 
 			} else {
@@ -123,13 +114,15 @@ function CartService() {
 				cart.splice(index, 1);	
 
 			}else {
-				cart[index].Product = value.Product;
+				//cart[index].Product = value.Product;
+				cart = angular.copy(value);
+
 				// figure out how to assign these values	
 				// cart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});		
 			}
 
 			CalculateTotals(function(cart) {
-				CreateCopyCart(cart);
+				//CreateCopyCart(cart);
 				cb(cart);
 			});
 

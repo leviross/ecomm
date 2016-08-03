@@ -1,10 +1,11 @@
-function CartController(CartService, ProductService, $location, $rootScope) {
+	function CartController(CartService, ProductService, $location, $rootScope) {
 
 	'use strict'
 
 	var self = this;
 	self.Count = 0;
 	self.Items = [];
+	self.ItemsCopy = [];
 
 	self.SubTotal = 0;
 	self.Shipping = 0;
@@ -17,16 +18,23 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 	
 
 	// On page load, get the cart array from cart service and set count
-	CartService.GetCart(function(items) {
+	GetServCart();
 
-		if (items == null) {
-			self.Items = [];
-		} else {
-			self.Items = items;
-			CalculateTotals();
-		}
+	function GetServCart() {
 
-	});
+		CartService.GetCart(function(items) {
+
+			if (items == null) {
+				self.Items = [];
+			} else {
+				self.Items = angular.copy(items);
+				self.ItemsCopy = angular.copy(items);
+				CalculateTotals();
+			}
+
+		});
+	}
+
 
 	self.GoToProductPage = function(item) {
 		ProductService.SetProductDetail(item.Product);
@@ -37,7 +45,7 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 
 	self.Delete = function(index) {
 		CartService.UpdateCart(null, index, function(cart) {
-			self.Items = cart;
+			self.Items = angular.copy(items);
 			//self.Count = self.Items.length;
 			//$rootScope.$broadcast("UpdateCart");
 			CalculateTotals();
@@ -61,20 +69,22 @@ function CartController(CartService, ProductService, $location, $rootScope) {
 		// counterpart in quantity. If there is a diff, then make adjustments...
 		var counter = 0;
 
-		var cartCopy = CartService.CartCopy();
-
 		if (self.Items.length == 0) {
 			return alert("Your cart is empty!");
-		}
-		var cachedCart = JSON.parse(localStorage.getItem("Cart"));
+		} 
+
+		
 
 		for (var i = 0; i < self.Items.length; i ++) {
-
-			if (self.Items[i].Quantity != cachedCart[i].Quantity) {
-				
-				CartService.UpdateCart(self.Items[i], i, function(cart) {
+			if (self.Items[i].Quantity < 1) {
+				GetServCart();
+				return alert("You can not enter in less than 1.");
+			} else if (self.Items[i].Quantity != self.ItemsCopy[i].Quantity) {
+				self.Items[i].Total = self.Items[i].Quantity * self.Items[i].Product.SelectedPrice - self.Items[i].Discount;
+				CartService.UpdateCart(self.Items, i, function(cart) {
 					//self.serviceCart = cart;
 					counter++;
+					self.ItemsCopy = angular.copy(cart);
 					CalculateTotals();
 				});
 			} 
