@@ -12,6 +12,8 @@ function CheckoutController(CartService, ProductService, $location, $rootScope, 
 	self.CheckOutObj.Tax = 0.096;
 	self.CheckOutObj.TaxTotal = 0;
 	self.CheckOutObj.GrandTotal = 0;
+	self.CheckOutObj.Country = "USA";
+	self.CheckOutObj.Page = "Address";
 
 
 	Init();
@@ -30,7 +32,7 @@ function CheckoutController(CartService, ProductService, $location, $rootScope, 
 		if (field == undefined){ 
 			return;
 		} else if (field == "State" && self.CheckOutObj.State.length == 2) {
-			self.CheckOutObj.State = ValidationService.Capitalize(self.CheckOutObj.State);
+			self.CheckOutObj.State = self.CheckOutObj.State.toUpperCase();
 		} else {
 			self.CheckOutObj[field] = ValidationService.Capitalize(self.CheckOutObj[field]);
 		}
@@ -50,6 +52,7 @@ function CheckoutController(CartService, ProductService, $location, $rootScope, 
 				}
 			}
 			self.CheckOutObj.Phone = output;
+			self.CheckOutForm.Phone.$setPristine();
 		}
 	}
 

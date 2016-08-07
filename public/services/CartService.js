@@ -1,66 +1,73 @@
 function CartService() {
 
-	var servCart = [];
-	var subTotal = 0;
-	var count = 0;
-	var grandTotal = 0; 
+	'use strict'
+
+	var PrivServObj = {};
+
+	PrivServObj.servCart = [];
+	PrivServObj.subTotal = 0;
+	PrivServObj.count = 0;
+	PrivServObj.grandTotal = 0; 
 	const waTax = 0.096;
-	var shipping = 0;
-	var taxTotal = 0;
+	PrivServObj.shipping = 0;
+	PrivServObj.taxTotal = 0;
 
 
 	function CalculateTotals(cb) {
-		count = 0; 
-		subTotal = 0;
+		PrivServObj.count = 0; 
+		PrivServObj.subTotal = 0;
 
-		for (var i = 0; i < servCart.length; i++) {
-			if (servCart[i].Discount != 0) {
-				servCart[i].Total = (servCart[i].Product.SelectedPrice * servCart[i].Quantity) - servCart[i].Discount;
-				subTotal += servCart[i].Total;
-				count += servCart[i].Quantity;
+		for (var i = 0; i < PrivServObj.servCart.length; i++) {
+			if (PrivServObj.servCart[i].Discount != 0) {
+				PrivServObj.servCart[i].Total = (PrivServObj.servCart[i].Product.SelectedPrice * PrivServObj.servCart[i].Quantity) - PrivServObj.servCart[i].Discount;
+				PrivServObj.subTotal += PrivServObj.servCart[i].Total;
+				PrivServObj.count += PrivServObj.servCart[i].Quantity;
 			} else {
-				servCart[i].Total = servCart[i].Product.SelectedPrice * servCart[i].Quantity;
-				subTotal += servCart[i].Total;
-				count += servCart[i].Quantity;
+				PrivServObj.servCart[i].Total = PrivServObj.servCart[i].Product.SelectedPrice * PrivServObj.servCart[i].Quantity;
+				PrivServObj.subTotal += PrivServObj.servCart[i].Total;
+				PrivServObj.count += PrivServObj.servCart[i].Quantity;
 			}
 			
 		}
 
-		grandTotal = subTotal + shipping;
-		taxTotal = grandTotal * waTax;
+		PrivServObj.grandTotal = PrivServObj.subTotal + PrivServObj.shipping;
+		PrivServObj.taxTotal = PrivServObj.grandTotal * waTax;
 
-		if (typeof cb == 'function') { cb(servCart); }
-		localStorage.setItem("Cart", JSON.stringify(servCart));
+		if (typeof cb == 'function') { cb(PrivServObj.servCart); }
+		localStorage.setItem("Cart", JSON.stringify(PrivServObj.servCart));
 	}
 
 
 	var ServiceObject = {
 
 		SubTotal: function() { 
-			return subTotal;
+			return PrivServObj.subTotal;
 		},
 		Count: function() { 
-			return count; 
+			return PrivServObj.count; 
 		},
 		TaxTotal: function() { 
-			return taxTotal; 
+			return PrivServObj.taxTotal; 
 		},
 		GrandTotal: function() { 
-			return grandTotal; 
+			return PrivServObj.grandTotal; 
+		},
+		Shipping: function() {
+			return PrivServObj.shipping;
 		},
 
 		AddToCart: function(product, quantity, cb) {
 
 			var sameProd = false;
 
-			for (var i = 0; i < servCart.length; i ++) {
-				if (product._id == servCart[i].Product._id) {
-					servCart[i].Quantity += quantity;
+			for (var i = 0; i < PrivServObj.servCart.length; i ++) {
+				if (product._id == PrivServObj.servCart[i].Product._id) {
+					PrivServObj.servCart[i].Quantity += quantity;
 					sameProd = true;
 				}
 			}
 			if (sameProd == false) {
-				servCart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});
+				PrivServObj.servCart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});
 			} 			
 
 			CalculateTotals(function(servCart) {
@@ -72,16 +79,16 @@ function CartService() {
 
 		GetCart: function(cb) {
 
-			if (servCart && servCart.length !== 0) {
+			if (PrivServObj.servCart && PrivServObj.servCart.length !== 0) {
 				
 				CalculateTotals(function(servCart) {
 					if (typeof cb == 'function') { cb(servCart); }
 				});				
 
-			} else if (servCart.length == 0 && localStorage.getItem("Cart")) {
+			} else if (PrivServObj.servCart.length == 0 && localStorage.getItem("Cart")) {
 				var parsedservCart = JSON.parse(localStorage.getItem("Cart"));
 
-				servCart = parsedservCart;				
+				PrivServObj.servCart = parsedservCart;				
 
 				CalculateTotals(function(servCart) {
 					if (typeof cb == 'function') { cb(servCart); }
@@ -96,10 +103,10 @@ function CartService() {
 		UpdateCart: function(ctrlCart, index, cb) {
 			
 			if(ctrlCart == null) {
-				servCart.splice(index, 1);	
+				PrivServObj.servCart.splice(index, 1);	
 
 			}else if (ctrlCart instanceof Array) {
-				servCart = angular.copy(ctrlCart);		
+				PrivServObj.servCart = angular.copy(ctrlCart);		
 			}
 
 			CalculateTotals(function(servCart) {

@@ -3,18 +3,21 @@
 	'use strict'
 
 	var self = this;
-	self.Count = 0;
-	self.Items = [];
-	self.ItemsCopy = [];
+	self.CartObj = {};
 
-	self.SubTotal = 0;
-	self.Shipping = 0;
-	self.Tax = 0.096;
-	self.TaxTotal = 0;
-	self.GrandTotal = 0;
-	self.ChangedQuant = 0;
-	self.ChangedIndex = -1;
-	self.CheckOutClicked = false;
+
+	self.CartObj.Count = 0;
+	self.CartObj.Items = [];
+	self.CartObj.ItemsCopy = [];
+
+	self.CartObj.SubTotal = 0;
+	self.CartObj.Shipping = 0;
+	self.CartObj.Tax = 0.096;
+	self.CartObj.TaxTotal = 0;
+	self.CartObj.GrandTotal = 0;
+	self.CartObj.ChangedQuant = 0;
+	self.CartObj.ChangedIndex = -1;
+	self.CartObj.CheckOutClicked = false;
 	
 
 	// On page load, get the cart array from cart service and set count
@@ -25,10 +28,10 @@
 		CartService.GetCart(function(servCart) {
 
 			if (servCart == null) {
-				self.Items = [];
+				self.CartObj.Items = [];
 			} else {
-				self.Items = angular.copy(servCart);
-				self.ItemsCopy = angular.copy(servCart);
+				self.CartObj.Items = angular.copy(servCart);
+				self.CartObj.ItemsCopy = angular.copy(servCart);
 				CalculateTotals();
 			}
 
@@ -45,7 +48,7 @@
 
 	self.Delete = function(index) {
 		CartService.UpdateCart(null, index, function(servCart) {
-			self.Items = angular.copy(servCart);
+			self.CartObj.Items = angular.copy(servCart);
 			CalculateTotals();
 		});
 	}
@@ -54,10 +57,10 @@
 
 		$rootScope.$broadcast("UpdateCart");
 
-		self.Count = CartService.Count();
-		self.SubTotal = CartService.SubTotal();
-		self.TaxTotal = CartService.TaxTotal();
-		self.GrandTotal = CartService.GrandTotal();
+		self.CartObj.Count = CartService.Count();
+		self.CartObj.SubTotal = CartService.SubTotal();
+		self.CartObj.TaxTotal = CartService.TaxTotal();
+		self.CartObj.GrandTotal = CartService.GrandTotal();
 
 	}
 
@@ -66,21 +69,21 @@
 		// counterpart in quantity. If there is a diff, then make adjustments...
 		var counter = 0;
 
-		if (self.Items.length == 0) {
+		if (self.CartObj.Items.length == 0) {
 			return alert("Your cart is empty!");
 		} 
 		
 
-		for (var i = 0; i < self.Items.length; i ++) {
-			if (self.Items[i].Quantity < 1) {
+		for (var i = 0; i < self.CartObj.Items.length; i ++) {
+			if (self.CartObj.Items[i].Quantity < 1) {
 				GetServCart();
 				return alert("You can not enter in less than 1.");
-			} else if (self.Items[i].Quantity != self.ItemsCopy[i].Quantity) {
-				self.Items[i].Total = self.Items[i].Quantity * self.Items[i].Product.SelectedPrice - self.Items[i].Discount;
-				CartService.UpdateCart(self.Items, i, function(cart) {
+			} else if (self.CartObj.Items[i].Quantity != self.CartObj.ItemsCopy[i].Quantity) {
+				self.CartObj.Items[i].Total = self.CartObj.Items[i].Quantity * self.CartObj.Items[i].Product.SelectedPrice - self.CartObj.Items[i].Discount;
+				CartService.UpdateCart(self.CartObj.Items, i, function(cart) {
 					//self.serviceCart = cart;
 					counter++;
-					self.ItemsCopy = angular.copy(cart);
+					self.CartObj.ItemsCopy = angular.copy(cart);
 					CalculateTotals();
 				});
 			} 
@@ -91,9 +94,9 @@
 	}
 
 	self.CheckOut = function() {
-		if (self.Count == 0) {
-			self.CheckOutClicked = true;
-		} else if (self.Count > 0) {
+		if (self.CartObj.Count == 0) {
+			self.CartObj.CheckOutClicked = true;
+		} else if (self.CartObj.Count > 0) {
 			$location.path("checkout");
 		}
 	}
