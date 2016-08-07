@@ -102,11 +102,11 @@
         }
 
         $scope.CheckFirstName = function(){
-            $scope.Register.FirstName = ValidationService.CapitalizeName($scope.Register.FirstName);
+            $scope.Register.FirstName = ValidationService.Capitalize($scope.Register.FirstName);
         }
 
         $scope.CheckLastName = function(){
-            $scope.Register.LastName = ValidationService.CapitalizeName($scope.Register.LastName);
+            $scope.Register.LastName = ValidationService.Capitalize($scope.Register.LastName);
         }
 
         $scope.SignUp = function(){

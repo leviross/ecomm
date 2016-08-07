@@ -1,10 +1,10 @@
 function CartService() {
 
-	var cart = [];
+	var servCart = [];
 	var subTotal = 0;
 	var count = 0;
 	var grandTotal = 0; 
-	var waTax = 0.096;
+	const waTax = 0.096;
 	var shipping = 0;
 	var taxTotal = 0;
 
@@ -13,15 +13,15 @@ function CartService() {
 		count = 0; 
 		subTotal = 0;
 
-		for (var i = 0; i < cart.length; i++) {
-			if (cart[i].Discount != 0) {
-				cart[i].Total = (cart[i].Product.SelectedPrice * cart[i].Quantity) - cart[i].Discount;
-				subTotal += cart[i].Total;
-				count += cart[i].Quantity;
+		for (var i = 0; i < servCart.length; i++) {
+			if (servCart[i].Discount != 0) {
+				servCart[i].Total = (servCart[i].Product.SelectedPrice * servCart[i].Quantity) - servCart[i].Discount;
+				subTotal += servCart[i].Total;
+				count += servCart[i].Quantity;
 			} else {
-				cart[i].Total = cart[i].Product.SelectedPrice * cart[i].Quantity;
-				subTotal += cart[i].Total;
-				count += cart[i].Quantity;
+				servCart[i].Total = servCart[i].Product.SelectedPrice * servCart[i].Quantity;
+				subTotal += servCart[i].Total;
+				count += servCart[i].Quantity;
 			}
 			
 		}
@@ -29,10 +29,8 @@ function CartService() {
 		grandTotal = subTotal + shipping;
 		taxTotal = grandTotal * waTax;
 
-		if (typeof cb == 'function') {
-			cb(cart);
-		}
-		localStorage.setItem("Cart", JSON.stringify(cart));
+		if (typeof cb == 'function') { cb(servCart); }
+		localStorage.setItem("Cart", JSON.stringify(servCart));
 	}
 
 
@@ -55,77 +53,58 @@ function CartService() {
 
 			var sameProd = false;
 
-			for (var i = 0; i < cart.length; i ++) {
-				if (product._id == cart[i].Product._id) {
-					cart[i].Quantity += quantity;
+			for (var i = 0; i < servCart.length; i ++) {
+				if (product._id == servCart[i].Product._id) {
+					servCart[i].Quantity += quantity;
 					sameProd = true;
 				}
 			}
 			if (sameProd == false) {
-				cart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});
-				
+				servCart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});
 			} 			
 
-			CalculateTotals(function(cart) {
-				if (typeof cb == 'function') {
-					cb(cart);
-				}
+			CalculateTotals(function(servCart) {
+				if (typeof cb == 'function') { cb(servCart); }
 			});	
-
 				
 
 		},
 
 		GetCart: function(cb) {
 
-			
-
-			if (cart && cart.length !== 0) {
+			if (servCart && servCart.length !== 0) {
 				
-				CalculateTotals(function(cart) {
-					cb(cart);
-					//CreateCopyCart(cart);
+				CalculateTotals(function(servCart) {
+					if (typeof cb == 'function') { cb(servCart); }
 				});				
 
-			} else if (cart.length == 0 && localStorage.getItem("Cart")) {
-				var parsedCart = JSON.parse(localStorage.getItem("Cart"));
+			} else if (servCart.length == 0 && localStorage.getItem("Cart")) {
+				var parsedservCart = JSON.parse(localStorage.getItem("Cart"));
 
-				cart = parsedCart;				
+				servCart = parsedservCart;				
 
-				CalculateTotals(function(cart) {
-					if (typeof cb == 'function') {
-						cb(cart);
-					}
-					//CreateCopyCart(cart);
+				CalculateTotals(function(servCart) {
+					if (typeof cb == 'function') { cb(servCart); }
 				});
 
 			} else {
-				if (typeof cb == 'function') {
-					cb(null);
-				}
+				if (typeof cb == 'function') { cb(null); }
 			}
-
 			
 
 		},
-		UpdateCart: function(value, index, cb) {
+		UpdateCart: function(ctrlCart, index, cb) {
 			
-			if(value == null) {
-				cart.splice(index, 1);	
+			if(ctrlCart == null) {
+				servCart.splice(index, 1);	
 
-			}else {
-				//cart[index].Product = value.Product;
-				cart = angular.copy(value);
-
-				// figure out how to assign these values	
-				// cart.push({Product:product, Quantity: quantity, Discount: 0, Total: 0});		
+			}else if (ctrlCart instanceof Array) {
+				servCart = angular.copy(ctrlCart);		
 			}
 
-			CalculateTotals(function(cart) {
-				//CreateCopyCart(cart);
-				cb(cart);
+			CalculateTotals(function(servCart) {
+				if (typeof cb == 'function') { cb(servCart); }
 			});
-
 			
 			
 		}

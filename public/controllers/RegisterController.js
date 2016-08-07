@@ -2,13 +2,13 @@ function RegisterController($scope, ValidationService, $http, $location){
 
 	this.CheckFirstName = function(){
 		if($scope.FirstName !== ""){
-        	$scope.FirstName = ValidationService.CapitalizeName($scope.FirstName);
+        	$scope.FirstName = ValidationService.Capitalize($scope.FirstName);
 		}
     }
 
     this.CheckLastName = function(){
     	if($scope.LastName !== ""){
-        	$scope.LastName = ValidationService.CapitalizeName($scope.LastName);
+        	$scope.LastName = ValidationService.Capitalize($scope.LastName);
     	}
     }
 

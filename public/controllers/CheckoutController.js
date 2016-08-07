@@ -3,24 +3,26 @@ function CheckoutController(CartService, ProductService, $location, $rootScope, 
 	'use strict'
 
 	var self = this;
+	
+	self.CheckOutObj = {};
 
 	self.Items = [];
-	self.SubTotal = 0;
-	self.Shipping = 0;
-	self.Tax = 0.096;
-	self.TaxTotal = 0;
-	self.GrandTotal = 0;
+	self.CheckOutObj.SubTotal = 0;
+	self.CheckOutObj.Shipping = 0;
+	self.CheckOutObj.Tax = 0.096;
+	self.CheckOutObj.TaxTotal = 0;
+	self.CheckOutObj.GrandTotal = 0;
 
-	self.CheckOutObj = {};
 
 	Init();
 
 	function Init() {
-		CartService.GetCart(function(cart) {
+		CartService.GetCart(function(servCart) {
 			self.CheckOutObj.SubTotal = CartService.SubTotal();
 			self.CheckOutObj.TaxTotal = CartService.TaxTotal();
 			self.CheckOutObj.GrandTotal = CartService.GrandTotal();
 			self.CheckOutObj.Count = CartService.Count();
+			self.CheckOutObj.Shipping = CartService.Shipping();
 		});
 	}
 
@@ -28,9 +30,9 @@ function CheckoutController(CartService, ProductService, $location, $rootScope, 
 		if (field == undefined){ 
 			return;
 		} else if (field == "State" && self.CheckOutObj.State.length == 2) {
-			self.CheckOutObj.State = ValidationService.CapitalizeName(self.CheckOutObj.State);
+			self.CheckOutObj.State = ValidationService.Capitalize(self.CheckOutObj.State);
 		} else {
-			self.CheckOutObj[field] = ValidationService.CapitalizeName(self.CheckOutObj[field]);
+			self.CheckOutObj[field] = ValidationService.Capitalize(self.CheckOutObj[field]);
 		}
 
 	}

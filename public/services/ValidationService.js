@@ -10,7 +10,7 @@ function ValidationService(){
 
 	var ServiceObject = {
 			
-        CapitalizeName: function(name){
+        Capitalize: function(name){
             return name.capitalize();
         }
         

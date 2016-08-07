@@ -22,13 +22,13 @@
 
 	function GetServCart() {
 
-		CartService.GetCart(function(items) {
+		CartService.GetCart(function(servCart) {
 
-			if (items == null) {
+			if (servCart == null) {
 				self.Items = [];
 			} else {
-				self.Items = angular.copy(items);
-				self.ItemsCopy = angular.copy(items);
+				self.Items = angular.copy(servCart);
+				self.ItemsCopy = angular.copy(servCart);
 				CalculateTotals();
 			}
 
@@ -44,13 +44,10 @@
 	}
 
 	self.Delete = function(index) {
-		CartService.UpdateCart(null, index, function(cart) {
-			self.Items = angular.copy(items);
-			//self.Count = self.Items.length;
-			//$rootScope.$broadcast("UpdateCart");
+		CartService.UpdateCart(null, index, function(servCart) {
+			self.Items = angular.copy(servCart);
 			CalculateTotals();
 		});
-		console.log("CartController Cart Total: ", self.Items.length);
 	}
 
 	function CalculateTotals() {
@@ -72,7 +69,6 @@
 		if (self.Items.length == 0) {
 			return alert("Your cart is empty!");
 		} 
-
 		
 
 		for (var i = 0; i < self.Items.length; i ++) {
@@ -97,14 +93,11 @@
 	self.CheckOut = function() {
 		if (self.Count == 0) {
 			self.CheckOutClicked = true;
-		} else {
+		} else if (self.Count > 0) {
 			$location.path("checkout");
 		}
 	}
 
-	self.UpdateQuantity = function(index) {
-		self.ChangedIndex = index;
-	}
 
 	function withDashes(title) {
 		return title.replace(/\s+/g, "-");		

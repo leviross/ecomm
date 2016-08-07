@@ -9,7 +9,7 @@ validationModule.factory('ValidationService', [function(){
 
 	return {
 			
-        CapitalizeName: function(name){
+        Capitalize: function(name){
             return name.capitalize();
         }
 	}

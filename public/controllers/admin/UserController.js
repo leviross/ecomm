@@ -38,12 +38,12 @@ function UserController($scope, UserService, ValidationService, $location){
 
 	this.CheckFirstName = function(){
 		if(this.FirstName != "" && this.FirstName != undefined){
-			this.FirstName = ValidationService.CapitalizeName(this.FirstName);
+			this.FirstName = ValidationService.Capitalize(this.FirstName);
 		}
 	}
 	this.CheckLastName = function(){
 		if(this.LastName != "" && this.LastName != undefined){
-			this.LastName = ValidationService.CapitalizeName(this.LastName);
+			this.LastName = ValidationService.Capitalize(this.LastName);
 		}
 	}
 
