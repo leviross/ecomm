@@ -30,8 +30,11 @@ app.config(['$routeProvider', function ($routeProvider) {
     }).when('/shopping-cart', {
         templateUrl: 'views/cart.html',
         controller: 'CartController as Cart'
-    }).when('/checkout', {
-        templateUrl: 'views/checkout.html',
+    }).when('/checkout/address', {
+        templateUrl: 'views/checkout/address.html',
+        controller: 'CheckoutController as CheckOut'
+    }).when('/checkout/payment', {
+        templateUrl: 'views/checkout/payment.html',
         controller: 'CheckoutController as CheckOut'
     }).otherwise({
       redirectTo: '/home'

@@ -4,14 +4,19 @@ function CheckoutController(CartService, ProductService, $location, $rootScope, 
 
 	var self = this;
 	
+	self.CartObj = {};
 	self.CheckOutObj = {};
 
+
 	self.Items = [];
-	self.CheckOutObj.SubTotal = 0;
-	self.CheckOutObj.Shipping = 0;
-	self.CheckOutObj.Tax = 0.096;
-	self.CheckOutObj.TaxTotal = 0;
-	self.CheckOutObj.GrandTotal = 0;
+
+	self.CartObj.SubTotal = 0;
+	self.CartObj.Shipping = 0;
+	self.CartObj.Tax = 0.096;
+	self.CartObj.TaxTotal = 0;
+	self.CartObj.GrandTotal = 0;
+
+
 	self.CheckOutObj.Country = "USA";
 	self.CheckOutObj.Page = "Address";
 
@@ -20,16 +25,20 @@ function CheckoutController(CartService, ProductService, $location, $rootScope, 
 
 	function Init() {
 		CartService.GetCart(function(servCart) {
-			self.CheckOutObj.SubTotal = CartService.SubTotal();
-			self.CheckOutObj.TaxTotal = CartService.TaxTotal();
-			self.CheckOutObj.GrandTotal = CartService.GrandTotal();
-			self.CheckOutObj.Count = CartService.Count();
-			self.CheckOutObj.Shipping = CartService.Shipping();
+			self.CartObj.SubTotal = CartService.SubTotal();
+			self.CartObj.TaxTotal = CartService.TaxTotal();
+			self.CartObj.GrandTotal = CartService.GrandTotal();
+			self.CartObj.Count = CartService.Count();
+			self.CartObj.Shipping = CartService.Shipping();
+		});
+
+		CartService.GetCheckOut(function(servCheckOut) {
+			if (servCheckOut) self.CheckOutObj = angular.copy(servCheckOut); 
 		});
 	}
 
 	self.Capitalize = function(field) {
-		if (field == undefined){ 
+		if (field == undefined || self.CheckOutObj[field] == undefined) { 
 			return;
 		} else if (field == "State" && self.CheckOutObj.State.length == 2) {
 			self.CheckOutObj.State = self.CheckOutObj.State.toUpperCase();
@@ -40,6 +49,8 @@ function CheckoutController(CartService, ProductService, $location, $rootScope, 
 	}
 
 	self.ParsePhone = function() {
+		if (self.CheckOutObj.Phone == undefined || !self.CheckOutObj.Phone instanceof String) return;
+		 
 		var digits = self.CheckOutObj.Phone.replace(/\D/g, "");
 		
 		var output = "";
@@ -57,7 +68,10 @@ function CheckoutController(CartService, ProductService, $location, $rootScope, 
 	}
 
 
-
+	self.SaveCheckOut = function() {
+		CartService.SaveCheckOut(self.CheckOutObj);
+		$location.path("/checkout/payment");
+	}
 
 
 

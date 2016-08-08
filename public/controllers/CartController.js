@@ -93,13 +93,13 @@
 		
 	}
 
-	self.CheckOut = function() {
-		if (self.CartObj.Count == 0) {
-			self.CartObj.CheckOutClicked = true;
-		} else if (self.CartObj.Count > 0) {
-			$location.path("checkout");
-		}
-	}
+	// self.CheckOut = function() {
+	// 	if (self.CartObj.Count == 0) {
+	// 		self.CartObj.CheckOutClicked = true;
+	// 	} else if (self.CartObj.Count > 0) {
+	// 		$location.path("checkout/address");
+	// 	}
+	// }
 
 
 	function withDashes(title) {
