@@ -20,6 +20,8 @@ function CheckoutController(CartService, ProductService, $location, $rootScope, 
 	self.CheckOutObj.Country = "USA";
 	self.CheckOutObj.Page = "Address";
 
+	$('html, body').animate({scrollTop:0}, 'slow');
+
 
 	Init();
 

@@ -110,23 +110,23 @@
           <tbody>
             <tr>
               <td>Number of Items</td>
-              <th>{{CheckOut.CheckOutObj.Count}}</th>
+              <th>{{CheckOut.CartObj.Count}}</th>
             </tr>
             <tr>
               <td>Order subtotal</td>
-              <th>{{CheckOut.CheckOutObj.SubTotal | currency}}</th>
+              <th>{{CheckOut.CartObj.SubTotal | currency}}</th>
             </tr>
             <tr>
               <td>Shipping and handling</td>
-              <th>{{CheckOut.CheckOutObj.Shipping | currency}}</th>
+              <th>{{CheckOut.CartObj.Shipping}}</th>
             </tr>
             <tr>
               <td>(WA State) Tax</td>
-              <th>{{CheckOut.CheckOutObj.TaxTotal | currency}}</th>
+              <th>{{CheckOut.CartObj.TaxTotal | currency}}</th>
             </tr>
             <tr class="total">
               <td>Total</td>
-              <th>{{CheckOut.CheckOutObj.GrandTotal | currency}}</th>
+              <th>{{CheckOut.CartObj.GrandTotal | currency}}</th>
             </tr>
           </tbody>
         </table>

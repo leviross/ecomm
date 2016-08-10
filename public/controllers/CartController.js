@@ -11,7 +11,7 @@
 	self.CartObj.ItemsCopy = [];
 
 	self.CartObj.SubTotal = 0;
-	self.CartObj.Shipping = 0;
+	self.CartObj.Shipping = "FREE UPS GROUND!";
 	self.CartObj.Tax = 0.096;
 	self.CartObj.TaxTotal = 0;
 	self.CartObj.GrandTotal = 0;

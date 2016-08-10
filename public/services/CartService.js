@@ -10,7 +10,7 @@ function CartService() {
 	PrivCartObj.count = 0;
 	PrivCartObj.grandTotal = 0; 
 	const waTax = 0.096;
-	PrivCartObj.shipping = 0;
+	PrivCartObj.shipping = "FREE UPS GROUND!";
 	PrivCartObj.taxTotal = 0;
 
 	
@@ -33,8 +33,8 @@ function CartService() {
 			}
 			
 		}
-
-		PrivCartObj.grandTotal = PrivCartObj.subTotal + PrivCartObj.shipping;
+		// TODO: Calculate grand total and subtotal based on discounts per item.
+		PrivCartObj.grandTotal = PrivCartObj.subTotal;
 		PrivCartObj.taxTotal = PrivCartObj.grandTotal * waTax;
 
 		if (typeof cb == 'function') { cb(PrivCartObj.servCart); }
