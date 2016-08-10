@@ -1,5 +1,5 @@
 var express = require('express');
-require('dotenv').config({silent:true}).load();
+require('dotenv').load();
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var cors = require('cors');
