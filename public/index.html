@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" ng-app="EcommApp">
 <head>
     <meta charset="utf-8">
@@ -53,6 +53,9 @@
             <div>
                 <div ng-include src=" ' views/header.html ' "></div>
             </div>    
+    
+            <div class="col-sm-2 col-sm-offset-10" ng-click="FollowMe()"><button class="btn btn-primary follow-me">Follow Me</button></div>
+
             <!-- main window -->
             <div data-ng-view=""></div>
             <div>

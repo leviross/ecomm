@@ -2,3 +2,10 @@
 node_modules
 .vscode/
 .DS_Store
+.vs/
+bin/
+ecomm.njsproj
+npm-debug.log
+obj/
+typings/
+ecomm.sln

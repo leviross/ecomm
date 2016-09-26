@@ -1,5 +1,5 @@
 var User = require('../models/user');
-var Bcrypt = require('bcrypt');
+//var Bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 var tokenSecret = process.env.TOKEN_SECRET;
 var sendgrid  = require('sendgrid')(process.env.SENDGRID_API_KEY);

@@ -36,6 +36,8 @@ app.config(['$routeProvider', function ($routeProvider) {
     }).when('/checkout/payment', {
         templateUrl: 'views/checkout/payment.html',
         controller: 'CheckoutController as CheckOut'
+    }).when('/code-samples', {
+        templateUrl: 'views/code.html'
     }).otherwise({
       redirectTo: '/home'
     });
@@ -86,9 +88,36 @@ app.run(function ($rootScope, $http, $location) {
 });
 
 angular.module('EcommApp')
-.controller('MasterController', ['$rootScope', '$location', '$scope', function ($rootScope, $location, $scope) {
+.controller('MasterController', ['$rootScope', '$location', '$scope', '$window', function ($rootScope, $location, $scope, $window) {
     //console.log("Master Ctrl always runnin...");
     //# sourceMappingURL=angular.min.js.map - This came from the angular.min.js file, it was causing errors and was commented out to begin with. 
+
+    $scope.FollowMe = function () {
+        console.log($location.url());
+
+        switch ($location.url()) {
+            case "/home":
+                $location.path("/shop/besieged-by-time"); 
+                break;
+            case "/shop/besieged-by-time":
+                $location.path("/register");
+                break;
+            case "/register":
+                $location.path("/code-samples");
+                break;
+            case "/code-samples":
+                //window.location = "http://leviross.com";
+                window.location = "http://localhost:3000";
+                //var newTab = window.open("http://localhost:3000");
+                //newTab.THISISMYTESTPROPERTY = "Testing 123";
+            default:
+                $location.path("/home");
+        }
+            
+
+    }
+
+
 }]);
 
 
