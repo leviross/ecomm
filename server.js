@@ -139,7 +139,7 @@ router.get('*', function(req, res) {
 
 var port = process.env.PORT; 
 
-app.listen(3030);
+app.listen(port);
 console.log("Listening on port " + process.env.PORT + "...");
 
 
