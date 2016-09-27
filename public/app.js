@@ -38,6 +38,8 @@ app.config(['$routeProvider', function ($routeProvider) {
         controller: 'CheckoutController as CheckOut'
     }).when('/code-samples', {
         templateUrl: 'views/code.html'
+    }).when('/microsoft', {
+        templateUrl: 'views/microsoft.html'
     }).otherwise({
       redirectTo: '/home'
     });

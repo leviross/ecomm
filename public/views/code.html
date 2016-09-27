@@ -1,7 +1,8 @@
 ﻿<div class="container">
     <div class="col-sm-12">
         <div class="row page-top"><h1>Code Samples</h1></div>
-            <pre><code>// Product creation router handler
+            <h5>Node.js Product create handler</h5>
+            <pre><code>
 exports.CreateProduct = function(req, res) {
 	var publicIds = [];
 	UploadImages(0);
@@ -38,7 +39,7 @@ exports.CreateProduct = function(req, res) {
 		p.save(function(err, product) {
 			if(err) {
 				console.log("Error saving the new product:\n", err);
-				res.send("Error saving the new product:\n" + err);
+				res.send(err);
 			}else {
 				console.log(product);
 				res.json(product);
@@ -48,9 +49,39 @@ exports.CreateProduct = function(req, res) {
 	}
 }
 
-</code></pre>
-
-        <pre><code>// Angular Product service
+            </code></pre>
+            <h5>C# Coding Challenge</h5>
+            <pre><code>
+/*
+Write a method that returns the largest N numbers from a list of integers.
+Please consider the performance and efficiency of your solution.
+We have provided one simple test case to help you get started.
+*/
+using System;
+using System.Collections;
+class App
+{
+    static void Main(string[] args)
+    {
+        // I had to change some of the types to match them to function signature. 
+        List<int> listOfIntegers = new List<int>(new int[] { 1, 2, 3, 54, 5, 6, 8, 7, 10, 1, 99 });
+        Console.WriteLine(FindTopN(listOfIntegers, 5));
+        Console.ReadLine();
+    }
+    // I would have loved make the max time complexity O(n) linear, but we are forced to sort the list which uses either an insertion sort,
+    // heap sort or quicksort behind the scenes which on average will be O(n log n). 
+    static private IEnumerable<int> FindTopN(List<int> list, int n)
+    {
+        IEnumerable<int> topNEnum;
+        list.Sort();
+        List<int> topN = list.GetRange(list.Count - n, n);
+        topNEnum = topN;
+        return topNEnum;
+    }
+}
+            </code></pre>
+            <h5>Angular Product service</h5>
+            <pre><code>
 function ProductService($http, $location, UserService){
 	'use strict'
 	var categories = [];
@@ -223,7 +254,8 @@ function ProductService($http, $location, UserService){
 	return ServiceObject;
 };
 ProductService.$inject = ['$http', '$location', 'UserService'];
-app.factory('ProductService', ProductService);</code></pre>
+app.factory('ProductService', ProductService);
+                </code></pre>
         
     </div>
 </div>
