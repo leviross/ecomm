@@ -108,10 +108,11 @@ angular.module('EcommApp')
                 $location.path("/code-samples");
                 break;
             case "/code-samples":
-                window.location = "http://leviross.com";
-                // window.location = "http://localhost:3000";
-                //var newTab = window.open("http://localhost:3000");
-                //newTab.THISISMYTESTPROPERTY = "Testing 123";
+                $location.path("/microsoft");
+                break;
+            case "/microsoft":
+                // window.location = "http://leviross.com#contact";
+                window.location = "http://levi-ross.herokuapp.com/";
             default:
                 $location.path("/home");
         }

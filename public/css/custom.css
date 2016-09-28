@@ -5,6 +5,10 @@
 	border-color: #78FA89;
 } */
 
+ul.codePage {
+    font-size: 20px;
+}
+
 .follow-me {
     position: fixed; 
     z-index: 1; 
