@@ -111,8 +111,8 @@ angular.module('EcommApp')
                 $location.path("/microsoft");
                 break;
             case "/microsoft":
-                // window.location = "http://leviross.com#contact";
-                window.location = "http://levi-ross.herokuapp.com/";
+                window.location = "http://leviross.com#contact";
+                // window.location = "http://levi-ross.herokuapp.com/";
             default:
                 $location.path("/home");
         }
