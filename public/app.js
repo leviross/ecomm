@@ -113,6 +113,7 @@ angular.module('EcommApp')
             case "/microsoft":
                 window.location = "http://leviross.com#contact";
                 // window.location = "http://levi-ross.herokuapp.com/";
+                // Random Comment!
             default:
                 $location.path("/home");
         }
