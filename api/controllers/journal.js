@@ -21,5 +21,13 @@ exports.CreateEntry = function (req, res) {
 }
 
 exports.GetAllEntries = function(req, res) {
-
+    Journal.find({}, function (error, entries) {
+        if (error) {
+            console.log("ERROR FINDING ENTRIES OR SOME OTHER SERVER ERROR!!:\n", error);
+            res.send("Error finding all entries:\n" + error);
+        } else {
+            res.json(entries);
+        } 
+    })
 }
+

@@ -3,26 +3,26 @@
     'use strict'
 
     var self = this;
-    Init();
-
-    function Init() {
-        self.ShowForm = false;
-        self.GetAllEntries();
-    }
+    
     
 
     this.Days = [{ Name: 'Sunday' }, { Name: 'Monday' }, { Name: 'Tuesday' }, { Name: 'Wednesday' }, { Name: 'Thursday' }, { Name: 'Friday' }, { Name: 'Shabbat' }];
 
     this.FeelingEmotions = [{ Name: 'Happy' }, { Name: 'Sad' }, { Name: 'Excited' }, { Name: 'Afraid' }, { Name: 'Angry' }];
 
-    this.GetAllEntries = function() {
+    var GetAllEntries = function() {
         return $http.get('/api/journal')
             .then(function (result) {
+                console.log(result)
                 self.Entries = result.data;
             }, function(error) {
                 alert("error");
             });
 
+    }
+
+    this.ToggleForm = function () {
+        self.ShowForm = !self.ShowForm;
     }
 
     this.ShowEntryForm = function () {
@@ -47,6 +47,13 @@
                 console.log("Error getting all users:\n", err);
                 
             });
+    }
+
+    Init();
+
+    function Init() {
+        self.ShowForm = false;
+        GetAllEntries();
     }
 
 

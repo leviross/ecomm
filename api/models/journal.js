@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
 var JournalModel = new mongoose.Schema({
-    Date: Date,
+    Date: String,
     Day: String,
     Entry: String,
     BodyFeeling: String,
