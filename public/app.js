@@ -40,6 +40,9 @@ app.config(['$routeProvider', function ($routeProvider) {
         templateUrl: 'views/code.html'
     }).when('/microsoft', {
         templateUrl: 'views/microsoft.html'
+    }).when('/journal', {
+        templateUrl: 'views/journal.html',
+        controller: 'JournalController as Journal'
     }).otherwise({
       redirectTo: '/home'
     });

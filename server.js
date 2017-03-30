@@ -11,13 +11,14 @@ var jwtauth = require('./api/my_modules/jwtauth');
 var OrderController = require('./api/controllers/order');
 var UserController = require('./api/controllers/user');
 var ProductController = require('./api/controllers/product');
+var JournalController = require('./api/controllers/journal');
 var CategoryController = require('./api/controllers/category');
 var Product = require('./api/models/product');
 var cloudinary = require('cloudinary');
 var User = require('./api/models/user');
 
 var mongoose = require('mongoose');
-var uri = process.env.MONGOOSE_URI;
+var uri = process.env.MONGOOSE_URI || "mongodb://leviross:hh5762@ds045704.mlab.com:45704/ecomm";
 
 var router = express.Router();
 var app = express();
@@ -27,12 +28,8 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}));
 //app.use(bodyParser.json({type: 'application/vnd.api+json', limit: '50mb'})); this failed
 
-
-
 app.use(morgan('dev'));
-
 app.use(express.static(__dirname + '/public'));
-
 
 var sessionOpts = {
 	saveUninitialized: true, // saved new sessions
@@ -41,19 +38,9 @@ var sessionOpts = {
 	cookie : { secure: false, httpOnly: true, maxAge: 2419200000 } // more config
 }
 
-
-
 // app.use(session(sessionOpts));
 app.use('/', router);
-
-
-
 var UniqueTokenStrategy = require('passport-unique-token').Strategy;
-
-// router.get('/', function(req, res) {
-	
-// 	res.send("I LOVE SEFIRA!!!!   PEACE TO THE WORLD:)");
-// });
 router.post('/authenticate', function(req, res) {
 	console.log(req.body);
 	//user authenticated and can be found in req.user
@@ -74,6 +61,11 @@ function authenticate() {
 mongoose.connect(uri, function(err){
 	if(err) console.log("Mongoose Connection Error\n", err);
 });
+
+// journal
+router.route('/api/journal')
+    .get(JournalController.GetAllEntries)
+    .post(JournalController.CreateEntry);
 
 // users
 router.route('/api/users/:token')
@@ -138,9 +130,9 @@ router.get('*', function(req, res) {
 
 
 
-var port = process.env.PORT; 
+var port = process.env.PORT || 3030;
 
-app.listen(port || 3030);
+app.listen(port);
 console.log("Listening on port " + port + "...");
 
 
