@@ -138,9 +138,9 @@ router.get('*', function(req, res) {
 
 
 
-var port = process.env.PORT; 
+var port = process.env.PORT || 3030;
 
-app.listen(port || 3030);
+app.listen(port);
 console.log("Listening on port " + port + "...");
 
 
